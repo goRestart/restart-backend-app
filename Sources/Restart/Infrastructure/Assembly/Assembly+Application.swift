@@ -1,5 +1,6 @@
 import ServiceLocator
 import Vapor
+import Restart
 
 extension Assembly {
 
@@ -12,7 +13,7 @@ extension Assembly {
         return droplet
     }
 
-    func getApplication() -> Application {
+    public func getApplication() -> Application {
         return Application(
             droplet: getDroplet(),
             router: getRouter()

@@ -6,9 +6,9 @@ private struct Path {
     static let suggestion = "suggestion"
 }
 
-struct SuggestionRouteCollection: RouteCollection {
+public struct SuggestionRouteCollection: RouteCollection {
 
-    typealias Wrapped = HTTP.Responder
+    public typealias Wrapped = HTTP.Responder
 
     private let suggestionController: SuggestionController
 
@@ -16,7 +16,7 @@ struct SuggestionRouteCollection: RouteCollection {
         self.suggestionController = suggestionController
     }
 
-    func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
+    public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
         builder.get(Path.suggestion) { request in
             return try self.suggestionController.get(request)
         }

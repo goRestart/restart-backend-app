@@ -1,6 +1,5 @@
 import Vapor
 import HTTP
-import Restart
 import JSON
 
 private struct Params {
@@ -9,12 +8,12 @@ private struct Params {
     static let platform = "platform"
 }
 
-struct SuggestionController {
+public struct SuggestionController {
 
     private let getSuggestionsWithQuery: GetSuggestionsWithQuery
     private let addSuggestion: AddSuggestion
 
-    init(getSuggestionsWithQuery: GetSuggestionsWithQuery,
+    public init(getSuggestionsWithQuery: GetSuggestionsWithQuery,
          addSuggestion: AddSuggestion)
     {
         self.getSuggestionsWithQuery = getSuggestionsWithQuery

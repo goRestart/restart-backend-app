@@ -1,11 +1,11 @@
 import Vapor
 
-struct Router {
+public struct Router {
 
     private let droplet: Droplet
     private let suggestionRouteCollection: SuggestionRouteCollection
 
-    init(droplet: Droplet,
+    public init(droplet: Droplet,
          suggestionRouteCollection: SuggestionRouteCollection)
     {
         self.droplet = droplet
