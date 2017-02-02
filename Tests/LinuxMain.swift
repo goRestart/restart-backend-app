@@ -2,5 +2,8 @@ import XCTest
 @testable import RestartTests
 
 XCTMain([
-     /*testCase(restart_service_product_suggestion_coreTests.allTests),*/
+     testCase(GetSuggestionsWithQuerySpec.allTests),
+     testCase(AddSuggestionSpec.allTests),
+     testCase(SuggestionDiskDataSourceSpec.allTests),
+     testCase(SuggestionDiskModelToDomainMapperSpec.allTests)
 ])
