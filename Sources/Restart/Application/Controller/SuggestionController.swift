@@ -24,7 +24,8 @@ public struct SuggestionController {
         guard let query = request.data[Params.query]?.string else {
             throw Abort.custom(status: .badRequest, message: "Invalid request, missing query parameter")
         }
-        return try getSuggestionsWithQuery.get(query).makeJSON()
+        let suggestions = try? getSuggestionsWithQuery.get(query).makeNode()
+        return try JSON(node: suggestions)
     }
 
     func add(_ request: Request) throws -> ResponseRepresentable {
