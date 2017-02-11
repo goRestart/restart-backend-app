@@ -1,5 +1,4 @@
 import ServiceLocator
-import Restart
 
 extension Assembly {
 

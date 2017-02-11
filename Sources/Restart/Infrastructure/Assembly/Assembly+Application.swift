@@ -1,6 +1,5 @@
 import ServiceLocator
 import Vapor
-import Restart
 
 extension Assembly {
 
