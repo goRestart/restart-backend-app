@@ -30,7 +30,7 @@ class AddSuggestionSpec: XCTestCase {
     }
 
     func testShould_add_suggestion_if_its_valid() {
-        try? sut.add(suggestion: "Tomb Raider", platform: .pc)
+        try! sut.add(suggestion: "Tomb Raider", platform: .pc)
 
         let suggestions = getSuggestionsWithQuery.get("Tomb Raider")
 

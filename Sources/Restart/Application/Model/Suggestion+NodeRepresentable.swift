@@ -1,4 +1,3 @@
-import Restart
 import Node
 
 private struct JSONFields {

@@ -1,6 +1,5 @@
 import Vapor
 import Fluent
-import Restart
 
 extension Application {
 
