@@ -1,6 +1,6 @@
 import Foundation
 
-enum UserStatus {
+public enum UserStatus {
     case Enabled
     case Disabled
 }

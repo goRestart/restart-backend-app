@@ -1,5 +1,5 @@
 import Foundation
 
-struct Locale {
+public struct Locale {
     let language: String?
 }

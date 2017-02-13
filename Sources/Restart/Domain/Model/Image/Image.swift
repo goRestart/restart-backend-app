@@ -1,13 +1,13 @@
 import Foundation
 
-enum ImageSize {
+public enum ImageSize {
     case small
     case medium
     case big
     case original
 }
 
-struct Image {
+public struct Image {
     let url: URL?
     let size: ImageSize
     let width: Double

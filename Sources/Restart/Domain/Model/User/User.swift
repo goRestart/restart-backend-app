@@ -1,6 +1,6 @@
 import Foundation
 
-struct User {
+public struct User {
     let identifier: String
     let userName: String
     let firstName: String?
