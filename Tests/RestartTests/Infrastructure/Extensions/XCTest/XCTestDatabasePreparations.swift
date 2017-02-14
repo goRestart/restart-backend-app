@@ -24,7 +24,6 @@ class XCTestDatabasePreparations: XCTestCase {
     }
 
     func prepare(_ model: Model.Type) {
-
         drop.preparations.append(model.self)
         model.database = memoryDatabase
     }
