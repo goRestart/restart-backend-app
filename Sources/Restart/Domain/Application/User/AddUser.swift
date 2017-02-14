@@ -4,7 +4,7 @@ public struct AddUser {
 
     private let userRepository: UserRepositoryProtocol
 
-    init(userRepository: UserRepositoryProtocol) {
+    public init(userRepository: UserRepositoryProtocol) {
         self.userRepository = userRepository
     }
 
