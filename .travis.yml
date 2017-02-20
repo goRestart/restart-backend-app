@@ -5,6 +5,6 @@ language: generic
 sudo: required
 dist: trusty
 osx_image: xcode8
-script:
-  - eval "$(curl -sL ci.restrt.tech/travis)"
+install:
+  - eval "$(curl -sL https://ci.restrt.tech/travis_mysql)"
   - eval "$(curl -sL https://swift.vapor.sh/codecov)"
