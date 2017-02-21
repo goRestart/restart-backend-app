@@ -13,8 +13,8 @@ public struct Application {
         self.router = router
     }
 
-    public func run() {
-        prepare(droplet)
+    public func run() throws {
+        try prepare(droplet)
         router.route()
         droplet.run()
     }
