@@ -3,4 +3,9 @@ import ServiceLocator
 import Restart
 
 let application = Dependency().getApplication()
-application.run()
+
+do {
+    try application.run()
+} catch {
+    print(error)
+}

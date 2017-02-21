@@ -4,8 +4,12 @@ import VaporMySQL
 
 extension Application {
 
-    func prepare(_ droplet: Droplet) {
-        try? droplet.addProvider(VaporMySQL.Provider)
-        droplet.preparations.append(SuggestionDiskModel.self)
+    func prepare(_ droplet: Droplet) throws {
+
+        try droplet.addProvider(VaporMySQL.Provider.self)
+
+        droplet.preparations = [
+            SuggestionDiskModel.self
+        ]
     }
 }
