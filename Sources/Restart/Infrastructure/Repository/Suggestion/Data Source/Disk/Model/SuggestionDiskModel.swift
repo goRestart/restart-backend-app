@@ -16,6 +16,10 @@ extension SuggestionDiskModel {
 
 public final class SuggestionDiskModel: Model {
 
+    public static var entity: String {
+        return Database.name
+    }
+
     public var id: Node?
     var value: String
     var platform: Int
@@ -44,10 +48,10 @@ public final class SuggestionDiskModel: Model {
     // MARK: - Preparations 
 
     public static func prepare(_ database: Fluent.Database) throws {
-        try database.create(Database.name) { suggestions in
-            suggestions.id(Field.identifier, optional: false, unique: true, default: nil)
-            suggestions.string(Field.value)
-            suggestions.int(Field.platform)
+        try database.create(Database.name) { builder in
+            builder.id(Field.identifier, optional: false, unique: true, default: nil)
+            builder.string(Field.value)
+            builder.int(Field.platform)
         }
     }
 
