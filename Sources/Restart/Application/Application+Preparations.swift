@@ -1,14 +1,15 @@
 import Vapor
 import Fluent
+import VaporMySQL
 
 extension Application {
 
-    func prepare(_ droplet: Droplet) {
+    func prepare(_ droplet: Droplet) throws {
 
-        let memoryDriver = MemoryDriver()
-        let memoryDatabase = Database(memoryDriver)
+        try droplet.addProvider(VaporMySQL.Provider.self)
 
-        droplet.database = memoryDatabase
-        droplet.preparations.append(SuggestionDiskModel.self)
+        droplet.preparations = [
+            SuggestionDiskModel.self
+        ]
     }
 }
