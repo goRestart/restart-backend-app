@@ -13,27 +13,30 @@ public struct AddUserTask {
     }
 
     func execute(_ request: AddUserRequest) throws -> User {
-        if !emailValidator.validate(input: request.email) {
+        let email = request.email.lowercased()
+        let userName = request.userName.lowercased()
+
+        if !emailValidator.validate(input: email) {
             throw AddUserError.invalidEmail
         }
 
-        if let _ = try UserDiskModel.query().filter(UserDiskModel.Field.username, request.userName).first() {
+        if let _ = try UserDiskModel.query().filter(UserDiskModel.Field.username, userName).first() {
             throw AddUserError.userNameIsAlreadyInUse
         }
 
-        if let _ = try UserDiskModel.query().filter(UserDiskModel.Field.email, request.email).first() {
+        if let _ = try UserDiskModel.query().filter(UserDiskModel.Field.email, email).first() {
             throw AddUserError.emailIsAlreadyInUse
         }
 
         let password = passwordHasher.hash(
-            userName: request.userName,
+            userName: userName,
             password: request.password
         )
 
         var user = UserDiskModel(
             id: Identifier.make().value,
-            username: request.userName,
-            email: request.email,
+            username: userName,
+            email: email,
             password: password
         )
 
@@ -45,12 +48,12 @@ public struct AddUserTask {
 
         return User(
             identifier: user.id!.string!,
-            userName: request.userName,
+            userName: userName,
             firstName: nil,
             lastName: nil,
             description: nil,
             profileImage: nil,
-            email: request.email,
+            email: email,
             location: nil,
             status: .Enabled,
             locale: nil,
