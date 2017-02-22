@@ -8,5 +8,11 @@ extension Assembly {
             addSuggestion: getAddSuggestion()
         )
     }
+
+    func getUserController() -> UserController {
+        return UserController(
+            addUser: getAddUser()
+        )
+    }
 }
 
