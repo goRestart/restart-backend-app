@@ -15,6 +15,7 @@ public struct AddUserTask {
     func execute(_ request: AddUserRequest) throws -> User {
         let email = request.email.lowercased()
         let userName = request.userName.lowercased()
+        let password = request.password.lowercased()
 
         if !emailValidator.validate(input: email) {
             throw AddUserError.invalidEmail
@@ -28,16 +29,16 @@ public struct AddUserTask {
             throw AddUserError.emailIsAlreadyInUse
         }
 
-        let password = passwordHasher.hash(
+        let hashedPassword = passwordHasher.hash(
             userName: userName,
-            password: request.password
+            password: password
         )
 
         var user = UserDiskModel(
             id: Identifier.make().value,
             username: userName,
             email: email,
-            password: password
+            password: hashedPassword
         )
 
         do {
