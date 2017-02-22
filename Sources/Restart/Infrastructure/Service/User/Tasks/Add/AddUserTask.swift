@@ -1,6 +1,6 @@
 import Foundation
 
-struct AdduserTask {
+public struct AddUserTask {
 
     private let emailValidator: EmailValidator
     private let passwordHasher: PasswordHasher

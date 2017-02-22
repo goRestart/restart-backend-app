@@ -1,14 +1,14 @@
 import Foundation
 
-struct UserService {
+public struct UserService {
 
-    private let addUserTask: AdduserTask
+    private let addUserTask: AddUserTask
 
-    init(addUserTask: AdduserTask) {
+    public init(addUserTask: AddUserTask) {
         self.addUserTask = addUserTask
     }
 
-    func add(_ request: AddUserRequest) throws {
-        try addUserTask.execute(request)
+    func add(_ request: AddUserRequest) throws -> User {
+        return try addUserTask.execute(request)
     }
 }

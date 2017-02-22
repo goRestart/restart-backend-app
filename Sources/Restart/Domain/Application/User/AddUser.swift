@@ -2,14 +2,14 @@ import Foundation
 
 public struct AddUser {
 
-    private let userRepository: UserRepositoryProtocol
+    private let userService: UserService
 
-    public init(userRepository: UserRepositoryProtocol) {
-        self.userRepository = userRepository
+    public init(userService: UserService) {
+        self.userService = userService
     }
 
     @discardableResult
     func add(with request: AddUserRequest) throws -> User {
-        return try userRepository.add(with: request)
+        return try userService.add(request)
     }
 }
