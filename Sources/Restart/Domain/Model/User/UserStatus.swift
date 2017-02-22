@@ -1,6 +1,6 @@
 import Foundation
 
-public enum UserStatus {
-    case Enabled
-    case Disabled
+public enum UserStatus: Int {
+    case Disabled = 0
+    case Enabled = 1
 }
