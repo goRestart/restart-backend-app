@@ -9,7 +9,11 @@ extension Application {
         try droplet.addProvider(VaporMySQL.Provider.self)
 
         droplet.preparations = [
-            SuggestionDiskModel.self
+            SuggestionDiskModel.self,
+            UserDiskModel.self,
+            ImageDiskModel.self,
+            LocationDiskModel.self,
+            LocaleDiskModel.self
         ]
     }
 }
