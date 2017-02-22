@@ -6,8 +6,8 @@ public struct User {
     let firstName: String?
     let lastName: String?
     let description: String?
-    let image: Image?
-    let sex: Sex = .Unknown
+    let profileImage: Image?
+    let gender: Gender = .unknown
     let email: String
     let location: Location
     let status: UserStatus
