@@ -5,5 +5,6 @@ XCTMain([
      testCase(GetSuggestionsWithQuerySpec.allTests),
      testCase(AddSuggestionSpec.allTests),
      testCase(SuggestionDiskDataSourceSpec.allTests),
-     testCase(SuggestionDiskModelToDomainMapperSpec.allTests)
+     testCase(SuggestionDiskModelToDomainMapperSpec.allTests),
+     testCase(EmailValidatorSpec.allTests)
 ])
