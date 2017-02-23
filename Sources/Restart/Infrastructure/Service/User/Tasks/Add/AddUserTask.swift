@@ -3,12 +3,15 @@ import Foundation
 public struct AddUserTask {
 
     private let emailValidator: EmailValidator
+    private let verifyFieldTask: VerifyFieldTask
     private let passwordHasher: PasswordHasher
 
     init(emailValidator: EmailValidator,
+         verifyFieldTask: VerifyFieldTask,
          passwordHasher: PasswordHasher)
     {
         self.emailValidator = emailValidator
+        self.verifyFieldTask = verifyFieldTask
         self.passwordHasher = passwordHasher
     }
 
@@ -21,13 +24,8 @@ public struct AddUserTask {
             throw AddUserError.invalidEmail
         }
 
-        if let _ = try UserDiskModel.query().filter(UserDiskModel.Field.username, userName).first() {
-            throw AddUserError.userNameIsAlreadyInUse
-        }
-
-        if let _ = try UserDiskModel.query().filter(UserDiskModel.Field.email, email).first() {
-            throw AddUserError.emailIsAlreadyInUse
-        }
+        try verifyFieldTask.execute(.username(userName))
+        try verifyFieldTask.execute(.email(email))
 
         let hashedPassword = passwordHasher.hash(
             userName: userName,
