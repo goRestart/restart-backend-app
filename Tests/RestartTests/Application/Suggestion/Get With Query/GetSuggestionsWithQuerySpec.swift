@@ -42,7 +42,6 @@ class GetSuggestionsWithQuerySpec: XCTestCase {
         XCTAssertEqual(1, suggestions.count)
     }
 
-
     // MARK: - Helper
 
     private func givenThereAreZeroSuggestions() {
