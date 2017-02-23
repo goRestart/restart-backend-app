@@ -6,7 +6,7 @@ enum Field {
 }
 
 struct VerifyFieldTask {
-
+    
     func execute(_ field: Field) throws {
         switch field {
         case .username(let value):
