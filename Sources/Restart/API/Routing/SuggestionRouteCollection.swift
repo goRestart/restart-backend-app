@@ -18,11 +18,11 @@ public struct SuggestionRouteCollection: RouteCollection {
 
     public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
         builder.get(Path.suggestion) { request in
-            return try self.suggestionController.get(request)
+            return "todo"
         }
 
         builder.post(Path.suggestion) { request in
-            return try self.suggestionController.add(request)
+            return "todo"
         }
     }
 }

@@ -10,7 +10,7 @@ private struct Params {
 
 public struct SuggestionController {
 
-    private let getSuggestionsWithQuery: GetSuggestionsWithQuery
+    /*private let getSuggestionsWithQuery: GetSuggestionsWithQuery
     private let addSuggestion: AddSuggestion
 
     public init(getSuggestionsWithQuery: GetSuggestionsWithQuery,
@@ -48,5 +48,5 @@ public struct SuggestionController {
             defaultPlatform = platform
         }
         return defaultPlatform
-    }
+    }*/
 }
