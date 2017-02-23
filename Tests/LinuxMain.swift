@@ -6,5 +6,6 @@ XCTMain([
      testCase(AddSuggestionSpec.allTests),
      testCase(SuggestionDiskDataSourceSpec.allTests),
      testCase(SuggestionDiskModelToDomainMapperSpec.allTests),
-     testCase(EmailValidatorSpec.allTests)
+     testCase(EmailValidatorSpec.allTests),
+     testCase(PasswordHasherSpec.allTests)
 ])
