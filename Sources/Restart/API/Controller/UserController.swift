@@ -42,6 +42,6 @@ public struct UserController {
             throw ServerError.error
         }
 
-        return try Response(status: .created, json: JSON("ok"))
+        return SuccessfullyCreated.response
     }
 }
