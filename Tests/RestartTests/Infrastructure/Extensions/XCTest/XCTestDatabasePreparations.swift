@@ -1,6 +1,6 @@
 import XCTest
-@testable import Fluent
-@testable import Vapor
+import Fluent
+import Vapor
 
 class XCTestDatabasePreparations: XCTestCase {
 
@@ -23,8 +23,15 @@ class XCTestDatabasePreparations: XCTestCase {
         super.tearDown()
     }
 
+    func prepare(_ models: [Model.Type]) {
+        drop.preparations = models
+
+        models.forEach { model in
+            model.database = memoryDatabase
+        }
+    }
+
     func prepare(_ model: Model.Type) {
-        drop.preparations.append(model.self)
-        model.database = memoryDatabase
+        prepare([model])
     }
 }
