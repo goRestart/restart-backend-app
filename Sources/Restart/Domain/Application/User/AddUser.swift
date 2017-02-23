@@ -8,7 +8,6 @@ public struct AddUser {
         self.userService = userService
     }
 
-    @discardableResult
     func add(with request: AddUserRequest) throws {
         return try userService.add(request)
     }

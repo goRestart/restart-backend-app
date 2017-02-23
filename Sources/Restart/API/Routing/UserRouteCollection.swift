@@ -17,7 +17,6 @@ public struct UserRouteCollection: RouteCollection {
     }
 
     public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
-
         builder.post(Path.user) { request in
             return try self.userController.post(request)
         }
