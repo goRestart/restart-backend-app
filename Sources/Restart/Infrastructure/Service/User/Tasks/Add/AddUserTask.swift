@@ -12,7 +12,7 @@ public struct AddUserTask {
         self.passwordHasher = passwordHasher
     }
 
-    func execute(_ request: AddUserRequest) throws -> User {
+    func execute(_ request: AddUserRequest) throws {
         let email = request.email.lowercased()
         let userName = request.userName.lowercased()
         let password = request.password.lowercased()
@@ -46,22 +46,5 @@ public struct AddUserTask {
         } catch {
             throw AddUserError.unknown
         }
-
-        return User(
-            identifier: user.id!.string!,
-            userName: userName,
-            firstName: nil,
-            lastName: nil,
-            description: nil,
-            profileImage: nil,
-            email: email,
-            location: nil,
-            status: .Enabled,
-            locale: nil,
-            applicationVersion: nil,
-            birtdate: nil,
-            createdAt: Date(),
-            updatedAt: Date()
-        )
     }
 }

@@ -9,7 +9,7 @@ public struct AddUser {
     }
 
     @discardableResult
-    func add(with request: AddUserRequest) throws -> User {
+    func add(with request: AddUserRequest) throws {
         return try userService.add(request)
     }
 }

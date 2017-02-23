@@ -8,7 +8,7 @@ public struct UserService {
         self.addUserTask = addUserTask
     }
 
-    func add(_ request: AddUserRequest) throws -> User {
+    func add(_ request: AddUserRequest) throws {
         return try addUserTask.execute(request)
     }
 }
