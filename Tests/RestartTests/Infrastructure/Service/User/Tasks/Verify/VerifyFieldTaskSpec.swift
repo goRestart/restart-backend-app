@@ -8,7 +8,7 @@ class VerifyFieldTaskSpec: XCTestDatabasePreparations {
         ("testShould_throw_when_email_is_duplicated", testShould_throw_when_email_is_duplicated)
     ]
 
-    var sut: VerifyFieldTask!
+    private var sut: VerifyFieldTask!
 
     private let testEmail = "hi@restart.net"
     private let testUserName = "restart"

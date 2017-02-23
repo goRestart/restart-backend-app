@@ -14,5 +14,6 @@ XCTMain([
 
      testCase(EmailValidatorSpec.allTests),
      testCase(PasswordHasherSpec.allTests),
-     testCase(VerifyFieldTaskSpec.allTests)
+     testCase(VerifyFieldTaskSpec.allTests),
+     testCase(AddUserTaskSpec.allTests)
 ])
