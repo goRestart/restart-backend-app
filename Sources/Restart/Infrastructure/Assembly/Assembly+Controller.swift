@@ -9,6 +9,7 @@ extension Assembly {
     func getUserController() -> UserController {
         return UserController(
             checkIfUserNameIsAvailable: getCheckIfUserNameIsAvailable(),
+            checkIfEmailIsAvailable: getCheckIfEmailIsAvailable(),
             addUser: getAddUser()
         )
     }

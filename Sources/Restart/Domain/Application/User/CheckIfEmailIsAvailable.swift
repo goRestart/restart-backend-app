@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CheckIfEmailNameIsAvailable {
+public struct CheckIfEmailIsAvailable {
 
     private let userService: UserService
 
