@@ -12,7 +12,8 @@ extension Application {
             UserDiskModel.self,
             ImageDiskModel.self,
             LocationDiskModel.self,
-            LocaleDiskModel.self
+            LocaleDiskModel.self,
+            ApiKeyDiskModel.self
         ]
     }
 }
