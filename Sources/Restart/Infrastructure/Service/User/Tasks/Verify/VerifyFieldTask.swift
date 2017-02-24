@@ -1,13 +1,13 @@
 import Foundation
 
-enum Field {
+public enum FieldToVerify {
     case username(String)
     case email(String)
 }
 
-struct VerifyFieldTask {
+public struct VerifyFieldTask {
     
-    func execute(_ field: Field) throws {
+    func execute(_ field: FieldToVerify) throws {
         switch field {
         case .username(let value):
             if let _ = try UserDiskModel.query().filter(UserDiskModel.Field.username, value).first() {
