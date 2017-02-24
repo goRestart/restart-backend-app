@@ -11,12 +11,15 @@ private struct UserParameters {
 public struct UserController {
 
     private let checkIfUserNameIsAvailable: CheckIfUserNameIsAvailable
+    private let checkIfEmailIsAvailable: CheckIfEmailIsAvailable
     private let addUser: AddUser
 
     init(checkIfUserNameIsAvailable: CheckIfUserNameIsAvailable,
+         checkIfEmailIsAvailable: CheckIfEmailIsAvailable,
          addUser: AddUser)
     {
         self.checkIfUserNameIsAvailable = checkIfUserNameIsAvailable
+        self.checkIfEmailIsAvailable = checkIfEmailIsAvailable
         self.addUser = addUser
     }
 
@@ -55,6 +58,13 @@ public struct UserController {
                 throw UserNameIsAlreadyInUse.error
             }
             return AvailableUsername.response
+        }
+
+        if let email = request.data[UserParameters.email]?.string {
+            if !checkIfEmailIsAvailable.isAvailable(email) {
+                throw EmailIsAlreadyInUse.error
+            }
+            return AvailableEmail.response
         }
 
         throw MissingParameters.error

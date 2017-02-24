@@ -15,4 +15,10 @@ extension Assembly {
             userService: getUserService()
         )
     }
+
+    func getCheckIfEmailIsAvailable() -> CheckIfEmailIsAvailable {
+        return CheckIfEmailIsAvailable(
+            userService: getUserService()
+        )
+    }
 }
