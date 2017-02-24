@@ -1,16 +1,12 @@
 import ServiceLocator
 
+// MARK: - User
+
 extension Assembly {
 
-    func getAddSuggestion() -> AddSuggestion {
-        return AddSuggestion(
-            suggestionRepository: getSuggestionRepository()
-        )
-    }
-
-    func getSuggestionsWithQuery() -> GetSuggestionsWithQuery {
-        return GetSuggestionsWithQuery(
-            suggestionRepository: getSuggestionRepository()
+    func getAddUser() -> AddUser {
+        return AddUser(
+            userService: getUserService()
         )
     }
 }

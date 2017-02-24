@@ -2,8 +2,10 @@ import XCTest
 @testable import RestartTests
 
 XCTMain([
-     testCase(GetSuggestionsWithQuerySpec.allTests),
-     testCase(AddSuggestionSpec.allTests),
-     testCase(SuggestionDiskDataSourceSpec.allTests),
-     testCase(SuggestionDiskModelToDomainMapperSpec.allTests)
+     /* User */
+
+     testCase(EmailValidatorSpec.allTests),
+     testCase(PasswordHasherSpec.allTests),
+     testCase(VerifyFieldTaskSpec.allTests),
+     testCase(AddUserTaskSpec.allTests)
 ])

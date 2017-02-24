@@ -1,6 +1,6 @@
 import Foundation
 
-struct Coordinate {
+public struct Coordinate {
     let latitude: Double
     let longitude: Double
 }

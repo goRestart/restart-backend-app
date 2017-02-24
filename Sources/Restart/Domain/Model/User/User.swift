@@ -1,17 +1,17 @@
 import Foundation
 
-struct User {
+public struct User {
     let identifier: String
     let userName: String
     let firstName: String?
     let lastName: String?
     let description: String?
-    let image: Image?
-    let sex: Sex = .Unknown
+    let profileImage: Image?
+    let gender: Gender = .unknown
     let email: String
-    let location: Location
+    let location: Location?
     let status: UserStatus
-    let locale: Locale
+    let locale: Locale?
     let platform: UserPlatform = .unknown
     let applicationVersion: Int?
     let birtdate: Date?

@@ -1,6 +1,7 @@
 import Foundation
 
-struct Location {
+public struct Location {
+    let identifier: String
     let location: Coordinate?
     let city: String?
     let country: String?
