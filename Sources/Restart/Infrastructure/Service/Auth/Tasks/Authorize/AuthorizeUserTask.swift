@@ -10,7 +10,7 @@ public struct AuthorizeUserTask {
 
     func execute(_ request: AuthorizeUserRequest) throws {
         let userName = request.userName.lowercased()
-        let password = request.password.lowercased()
+        let password = request.password
 
         let hashedPassword = passwordHasher.hash(
             userName: userName,
