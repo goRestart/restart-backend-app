@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Authorize {
+public struct AuthorizeUser {
 
     private let authService: AuthService
 
