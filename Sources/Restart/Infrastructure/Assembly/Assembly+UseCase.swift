@@ -22,3 +22,14 @@ extension Assembly {
         )
     }
 }
+
+// MARK: - Auth
+
+extension Assembly {
+
+    func getAuthorizeUser() -> AuthorizeUser {
+        return AuthorizeUser(
+            authService: getAuthService()
+        )
+    }
+}

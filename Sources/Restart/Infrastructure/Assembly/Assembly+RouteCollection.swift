@@ -5,20 +5,20 @@ extension Assembly {
     func getRouter() -> Router {
         return Router(
             droplet: getDroplet(),
-            suggestionRouteCollection: getSuggestionRouteCollection(),
-            userRouteCollection: getUSerRouteCollection()
+            userRouteCollection: getUserRouteCollection(),
+            authRouteCollection: getAuthRouteCollection()
         )
     }
 
-    func getSuggestionRouteCollection() -> SuggestionRouteCollection {
-        return SuggestionRouteCollection(
-            suggestionController: getSuggestionController()
-        )
-    }
-
-    func getUSerRouteCollection() -> UserRouteCollection {
+    func getUserRouteCollection() -> UserRouteCollection {
         return UserRouteCollection(
             userController: getUserController()
+        )
+    }
+
+    func getAuthRouteCollection() -> AuthRouteCollection {
+        return AuthRouteCollection(
+            authController: getAuthController()
         )
     }
 }
