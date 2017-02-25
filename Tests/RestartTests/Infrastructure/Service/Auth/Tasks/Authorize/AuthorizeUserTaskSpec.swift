@@ -4,7 +4,13 @@ import Vapor
 @testable import Restart
 
 class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
-    
+
+    static let allTests = [
+        ("testShould_throw_if_credentials_are_incorrect", testShould_throw_if_credentials_are_incorrect),
+        ("testShould_throw_if_user_is_disabled", testShould_throw_if_user_is_disabled),
+        ("testShould_authorize_if_credentials_are_correct", testShould_authorize_if_credentials_are_correct)
+    ]
+
     private var sut: AuthorizeUserTask!
     private var passwordHasher: PasswordHasher!
     private let droplet = Droplet()

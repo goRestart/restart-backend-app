@@ -10,5 +10,8 @@ XCTMain([
      testCase(AddUserTaskSpec.allTests),
 
      /* Developer */
-     testCase(CheckIfApiKeyIsValidTask.allTests)
+     testCase(CheckIfApiKeyIsValidTask.allTests),
+
+     /* Auth */
+     testCase(AuthorizeUserTask.allTests)
 ])
