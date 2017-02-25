@@ -9,13 +9,16 @@ public struct AuthorizeUserTask {
     }
 
     func execute(_ request: AuthorizeUserRequest) throws {
+        let userName = request.userName.lowercased()
+        let password = request.password.lowercased()
+
         let hashedPassword = passwordHasher.hash(
-            userName: request.userName,
-            password: request.password
+            userName: userName,
+            password: password
         )
 
         guard let user = try UserDiskModel.query()
-            .filter(UserDiskModel.Field.username, request.userName)
+            .filter(UserDiskModel.Field.username, userName)
             .filter(UserDiskModel.Field.password, hashedPassword)
             .first() else {
                 throw AuthorizationError.invalidCredentials
