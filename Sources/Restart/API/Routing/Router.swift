@@ -3,20 +3,20 @@ import Vapor
 public struct Router {
 
     private let droplet: Droplet
-    private let suggestionRouteCollection: SuggestionRouteCollection
     private let userRouteCollection: UserRouteCollection
+    private let authRouteCollection: AuthRouteCollection
 
     public init(droplet: Droplet,
-         suggestionRouteCollection: SuggestionRouteCollection,
-         userRouteCollection: UserRouteCollection)
+         userRouteCollection: UserRouteCollection,
+         authRouteCollection: AuthRouteCollection)
     {
         self.droplet = droplet
-        self.suggestionRouteCollection = suggestionRouteCollection
         self.userRouteCollection = userRouteCollection
+        self.authRouteCollection = authRouteCollection
     }
 
     func route() {
-        droplet.collection(suggestionRouteCollection)
         droplet.collection(userRouteCollection)
+        droplet.collection(authRouteCollection)
     }
 }

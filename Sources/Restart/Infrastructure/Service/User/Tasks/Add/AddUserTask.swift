@@ -18,7 +18,7 @@ public struct AddUserTask {
     func execute(_ request: AddUserRequest) throws {
         let email = request.email.lowercased()
         let userName = request.userName.lowercased()
-        let password = request.password.lowercased()
+        let password = request.password
 
         if !emailValidator.validate(email) {
             throw AddUserError.invalidEmail

@@ -1,5 +1,7 @@
 import ServiceLocator
 
+// MARK: - User
+
 extension Assembly {
 
     func getAddUserTask() -> AddUserTask {
@@ -12,5 +14,16 @@ extension Assembly {
 
     func getVerifyFieldTask() -> VerifyFieldTask {
         return VerifyFieldTask()
+    }
+}
+
+// MARK: - Auth
+
+extension Assembly {
+
+    func getAuthorizeUserTask() -> AuthorizeUserTask {
+        return AuthorizeUserTask(
+            passwordHasher: getPasswordHasher()
+        )
     }
 }

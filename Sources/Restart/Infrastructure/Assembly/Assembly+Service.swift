@@ -8,4 +8,10 @@ extension Assembly {
             addUserTask: getAddUserTask()
         )
     }
+
+    func getAuthService() -> AuthService {
+        return AuthService(
+            authorizeUserTask: getAuthorizeUserTask()
+        )
+    }
 }
