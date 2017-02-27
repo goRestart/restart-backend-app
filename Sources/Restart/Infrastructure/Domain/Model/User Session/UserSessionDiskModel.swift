@@ -11,6 +11,7 @@ extension UserSessionDiskModel {
     struct Field {
         static let identifier = "id"
         static let token = "token"
+        static let userId = "user_id"
         static let createdAt = "created_at"
         static let validUntil = "valid_until"
     }
@@ -25,13 +26,15 @@ public final class UserSessionDiskModel: Model {
     public var id: Node?
     var token: String
     var createdAt: String
+    var userId: String
     var validUntil: String
 
     public var exists = false
 
-    init(id: String, token: String, validUntil: String) {
+    init(id: String, token: String, userId: String, validUntil: String) {
         self.id = id.makeNode()
         self.token = token
+        self.userId = userId
         self.createdAt = Date().mysql
         self.validUntil = validUntil
     }
@@ -39,6 +42,7 @@ public final class UserSessionDiskModel: Model {
     public init(node: Node, in context: Context) throws {
         id = try node.extract(Field.identifier)
         token = try node.extract(Field.token)
+        userId = try node.extract(Field.userId)
         createdAt = try node.extract(Field.createdAt)
         validUntil = try node.extract(Field.validUntil)
     }
@@ -47,6 +51,7 @@ public final class UserSessionDiskModel: Model {
         return try Node(node: [
             Field.identifier: id,
             Field.token: token,
+            Field.userId: userId,
             Field.createdAt: createdAt,
             Field.validUntil: validUntil
         ])
@@ -58,6 +63,7 @@ public final class UserSessionDiskModel: Model {
         try database.create(Database.name) { builder in
             builder.id(Field.identifier, optional: false, unique: true, default: nil)
             builder.string(Field.token, length: nil, optional: false, unique: true, default: nil)
+            builder.string(Field.userId, length: nil, optional: false, unique: false, default: nil)
             builder.datetime(Field.createdAt, optional: false, unique: false, default: nil)
             builder.datetime(Field.validUntil, optional: false, unique: false, default: nil)
         }
