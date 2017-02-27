@@ -1,11 +1,20 @@
 import Foundation
 
+private let oneDay = 60 * 60 * 24
+private let numberOfDaysInYear = 365
+private let onYear = numberOfDaysInYear * oneDay
+private let sessionAuthorizationInterval = TimeInterval(onYear * 2)
+
 public struct AuthorizeUserTask {
 
     private let passwordHasher: PasswordHasher
+    private let sessionRepository: SessionRepository
 
-    init(passwordHasher: PasswordHasher) {
+    init(passwordHasher: PasswordHasher,
+         sessionRepository: SessionRepository)
+    {
         self.passwordHasher = passwordHasher
+        self.sessionRepository = sessionRepository
     }
 
     func execute(_ request: AuthorizeUserRequest) throws {
@@ -29,6 +38,16 @@ public struct AuthorizeUserTask {
             throw AuthorizationError.disabledUser
         }
 
-        // TODO: Generate session data
+        let sessionRequest = AddSessionRequest(
+            userId: user.id!.string!,
+            validityInterval: sessionAuthorizationInterval
+        )
+
+        do {
+            let session = try sessionRepository.store(sessionRequest)
+            print(session)
+        } catch {
+            throw AuthorizationError.unknown
+        }
     }
 }

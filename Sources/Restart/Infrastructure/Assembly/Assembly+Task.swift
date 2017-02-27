@@ -23,7 +23,8 @@ extension Assembly {
 
     func getAuthorizeUserTask() -> AuthorizeUserTask {
         return AuthorizeUserTask(
-            passwordHasher: getPasswordHasher()
+            passwordHasher: getPasswordHasher(),
+            sessionRepository: getUserSessionRepository()
         )
     }
 }
