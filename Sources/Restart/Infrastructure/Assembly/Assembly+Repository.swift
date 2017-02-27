@@ -6,7 +6,15 @@ extension Assembly {
 
     func getUserSessionRepository() -> SessionRepository {
         return SessionRepository(
+            inMemorySessionDataSource: getInMemorySessionDataSource(),
             diskSessionDataSource: getDiskSessionDataSource()
+        )
+    }
+
+    func getInMemorySessionDataSource() -> SessionDataSource {
+        let droplet = getDroplet()
+        return InMemorySessionDataSource(
+            redisCache: droplet.cache
         )
     }
 
