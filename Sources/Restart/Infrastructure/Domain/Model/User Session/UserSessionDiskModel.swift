@@ -31,12 +31,11 @@ public final class UserSessionDiskModel: Model {
 
     public var exists = false
 
-    init(id: String, token: String, userId: String, validUntil: String) {
-        self.id = id.makeNode()
+    init(token: String, userId: String, validUntil: Date) {
         self.token = token
         self.userId = userId
         self.createdAt = Date().mysql
-        self.validUntil = validUntil
+        self.validUntil = validUntil.mysql
     }
 
     public init(node: Node, in context: Context) throws {
