@@ -17,7 +17,7 @@ public struct AuthorizeUserTask {
         self.sessionRepository = sessionRepository
     }
 
-    func execute(_ request: AuthorizeUserRequest) throws {
+    func execute(_ request: AuthorizeUserRequest) throws -> UserSession {
         let userName = request.userName.lowercased()
         let password = request.password
 
@@ -44,8 +44,7 @@ public struct AuthorizeUserTask {
         )
 
         do {
-            let session = try sessionRepository.store(sessionRequest)
-            print(session)
+            return try sessionRepository.store(sessionRequest)
         } catch {
             throw AuthorizationError.unknown
         }
