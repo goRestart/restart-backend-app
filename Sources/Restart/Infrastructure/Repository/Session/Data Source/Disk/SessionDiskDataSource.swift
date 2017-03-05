@@ -8,6 +8,7 @@ struct SessionDiskDataSource: SessionDataSource {
         self.userSessionDiskModelToDomainMapper = userSessionDiskModelToDomainMapper
     }
 
+    @discardableResult
     func store(_ request: AddSessionRequest) throws -> UserSession {
         var userSession = UserSessionDiskModel(
             token: Identifier.make().value,

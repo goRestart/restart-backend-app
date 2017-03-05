@@ -14,5 +14,6 @@ XCTMain([
 
      /* Auth */
      testCase(AuthorizeUserTask.allTests),
-     testCase(SessionRepositorySpec.allTests)
+     testCase(SessionRepositorySpec.allTests),
+     testCase(SessionDiskDataSourceSpec.allTests)
 ])
