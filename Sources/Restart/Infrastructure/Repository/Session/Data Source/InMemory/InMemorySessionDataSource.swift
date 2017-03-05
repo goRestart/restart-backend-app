@@ -7,15 +7,15 @@ private struct Keys {
 
 public struct InMemorySessionDataSource: SessionDataSource {
 
-    private let redisCache: CacheProtocol
+    private let memoryCache: CacheProtocol
 
-    init(redisCache: CacheProtocol) {
-        self.redisCache = redisCache
+    init(memoryCache: CacheProtocol) {
+        self.memoryCache = memoryCache
     }
 
     func store(_ request: AddSessionRequest) throws -> UserSession {
         let token = Identifier.make().value
-        try redisCache.set(Keys.token, token)
+        try memoryCache.set(Keys.token, token)
 
         return UserSession(
             token: token,

@@ -14,7 +14,7 @@ extension Assembly {
     func getInMemorySessionDataSource() -> SessionDataSource {
         let droplet = getDroplet()
         return InMemorySessionDataSource(
-            redisCache: droplet.cache
+            memoryCache: droplet.cache
         )
     }
 
