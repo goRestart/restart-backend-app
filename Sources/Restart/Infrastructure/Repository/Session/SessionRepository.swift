@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SessionRepository {
+public struct SessionRepository: SessionRepositoryProtocol {
 
     private let inMemorySessionDataSource: SessionDataSource
     private let diskSessionDataSource: SessionDataSource
@@ -12,8 +12,11 @@ public struct SessionRepository {
         self.diskSessionDataSource = diskSessionDataSource
     }
 
-    func store(_ request: AddSessionRequest) throws -> UserSession {
-        try inMemorySessionDataSource.store(request)
+    @discardableResult
+    public func store(_ request: AddSessionRequest) throws -> UserSession {
+        do {
+            try inMemorySessionDataSource.store(request)
+        } catch {}
         return try diskSessionDataSource.store(request)
     }
 }

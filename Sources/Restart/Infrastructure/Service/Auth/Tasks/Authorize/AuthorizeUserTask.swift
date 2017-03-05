@@ -8,15 +8,16 @@ private let sessionAuthorizationInterval = TimeInterval(onYear * 2)
 public struct AuthorizeUserTask {
 
     private let passwordHasher: PasswordHasher
-    private let sessionRepository: SessionRepository
+    private let sessionRepository: SessionRepositoryProtocol
 
     init(passwordHasher: PasswordHasher,
-         sessionRepository: SessionRepository)
+         sessionRepository: SessionRepositoryProtocol)
     {
         self.passwordHasher = passwordHasher
         self.sessionRepository = sessionRepository
     }
 
+    @discardableResult
     func execute(_ request: AuthorizeUserRequest) throws -> UserSession {
         let userName = request.userName.lowercased()
         let password = request.password

@@ -13,6 +13,7 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
 
     private var sut: AuthorizeUserTask!
     private var passwordHasher: PasswordHasher!
+    private var sessionRepository: SessionRepositoryDummy!
     private let droplet = Droplet()
 
     private let testEmail = "hi@restart.net"
@@ -26,9 +27,11 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
         passwordHasher = PasswordHasher(
             droplet: droplet
         )
+        sessionRepository = SessionRepositoryDummy()
 
         sut = AuthorizeUserTask(
-            passwordHasher: passwordHasher
+            passwordHasher: passwordHasher,
+            sessionRepository: sessionRepository
         )
     }
     
