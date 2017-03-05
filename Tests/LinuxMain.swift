@@ -13,5 +13,8 @@ XCTMain([
      testCase(CheckIfApiKeyIsValidTask.allTests),
 
      /* Auth */
-     testCase(AuthorizeUserTask.allTests)
+     testCase(AuthorizeUserTask.allTests),
+     testCase(SessionRepositorySpec.allTests),
+     testCase(InMemorySessionDiskDataSourceSpec.allTests),
+     testCase(SessionDiskDataSourceSpec.allTests)
 ])

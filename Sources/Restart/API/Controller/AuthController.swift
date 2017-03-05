@@ -28,13 +28,13 @@ public struct AuthController {
         )
 
         do {
-            try authorizeUser.authorize(authorizeUserRequest)
+            return JSON(try authorizeUser.authorize(authorizeUserRequest).makeNode())
         } catch AuthorizationError.invalidCredentials {
             throw InvalidCredentials.error
         } catch AuthorizationError.disabledUser {
             throw DisabledUser.error
+        } catch {
+            throw ServerError.error
         }
-
-        return "auth ok" // TODO: Return session data
     }
 }

@@ -8,7 +8,7 @@ public struct AuthorizeUser {
         self.authService = authService
     }
 
-    func authorize(_ request: AuthorizeUserRequest) throws {
-        try authService.authorize(request)
+    func authorize(_ request: AuthorizeUserRequest) throws -> UserSession {
+        return try authService.authorize(request)
     }
 }
