@@ -9,7 +9,8 @@ class SessionRepositorySpec: XCTestCase {
     ]
 
     private var sut: SessionRepository!
-    private var inMemorySessionDataSource: SessionDataSourceMock!
+
+    fileprivate var inMemorySessionDataSource: SessionDataSourceMock!
     private var diskSessionDataSource: SessionDataSourceMock!
 
     override func setUp() {
@@ -19,7 +20,7 @@ class SessionRepositorySpec: XCTestCase {
         diskSessionDataSource = SessionDataSourceMock()
 
         sut = SessionRepository(
-            inMemorySessionDataSource: inMemorySessionDataSource,
+            sessionDataSourceProvider: self,
             diskSessionDataSource: diskSessionDataSource
         )
     }
@@ -56,5 +57,14 @@ class SessionRepositorySpec: XCTestCase {
             userId: "8798af98dafdsf98sdf",
             validityInterval: 100
         )
+    }
+}
+
+// MARK: - Extensions
+
+extension SessionRepositorySpec: SessionDataSourceProvider {
+
+    func inMemory() -> SessionDataSource {
+        return inMemorySessionDataSource
     }
 }

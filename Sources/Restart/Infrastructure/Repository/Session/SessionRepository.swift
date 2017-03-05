@@ -2,20 +2,20 @@ import Foundation
 
 public struct SessionRepository: SessionRepositoryProtocol {
 
-    private let inMemorySessionDataSource: SessionDataSource
+    private let sessionDataSourceProvider: SessionDataSourceProvider
     private let diskSessionDataSource: SessionDataSource
 
-    init(inMemorySessionDataSource: SessionDataSource,
+    init(sessionDataSourceProvider: SessionDataSourceProvider,
          diskSessionDataSource: SessionDataSource)
     {
-        self.inMemorySessionDataSource = inMemorySessionDataSource
+        self.sessionDataSourceProvider = sessionDataSourceProvider
         self.diskSessionDataSource = diskSessionDataSource
     }
 
     @discardableResult
     public func store(_ request: AddSessionRequest) throws -> UserSession {
         do {
-            try inMemorySessionDataSource.store(request)
+            try sessionDataSourceProvider.inMemory().store(request)
         } catch {}
         return try diskSessionDataSource.store(request)
     }
