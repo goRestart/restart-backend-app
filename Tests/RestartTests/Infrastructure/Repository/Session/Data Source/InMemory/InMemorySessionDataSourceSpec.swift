@@ -35,7 +35,6 @@ class InMemorySessionDiskDataSourceSpec: XCTestCase {
         try! sut.store(addSessionRequest)
 
         XCTAssertTrue(sessionCache.setExecuted)
-        XCTAssertEqual("token", sessionCache.setKey)
         XCTAssertNotNil(sessionCache.setKeyValue)
     }
 }

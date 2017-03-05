@@ -2,16 +2,16 @@ import ServiceLocator
 
 // MARK: - Session 
 
-extension Assembly {
+extension Assembly: SessionDataSourceProvider {
 
     func getUserSessionRepository() -> SessionRepository {
         return SessionRepository(
-            inMemorySessionDataSource: getInMemorySessionDataSource(),
+            sessionDataSourceProvider: self,
             diskSessionDataSource: getDiskSessionDataSource()
         )
     }
 
-    func getInMemorySessionDataSource() -> SessionDataSource {
+    func inMemory() -> SessionDataSource {
         let droplet = getDroplet()
         return InMemorySessionDataSource(
             memoryCache: droplet.cache

@@ -2,7 +2,11 @@ import Foundation
 import Cache
 
 private struct Keys {
-    static let token = "token"
+    static let session = "session"
+}
+
+protocol SessionDataSourceProvider {
+    func inMemory() -> SessionDataSource
 }
 
 public struct InMemorySessionDataSource: SessionDataSource {
@@ -16,7 +20,8 @@ public struct InMemorySessionDataSource: SessionDataSource {
     @discardableResult
     func store(_ request: AddSessionRequest) throws -> UserSession {
         let token = Identifier.make().value
-        try memoryCache.set(Keys.token, token)
+        let key = "\(Keys.session)_\(request.userId)_\(token)"
+        try memoryCache.set(key, token)
 
         return UserSession(
             token: token,
