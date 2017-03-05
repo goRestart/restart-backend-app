@@ -13,6 +13,7 @@ public struct InMemorySessionDataSource: SessionDataSource {
         self.memoryCache = memoryCache
     }
 
+    @discardableResult
     func store(_ request: AddSessionRequest) throws -> UserSession {
         let token = Identifier.make().value
         try memoryCache.set(Keys.token, token)
