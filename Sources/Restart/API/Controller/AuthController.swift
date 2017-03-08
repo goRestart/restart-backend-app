@@ -19,7 +19,7 @@ public struct AuthController {
         guard let userName = request.data[AuthParameters.username]?.string,
               let password = request.data[AuthParameters.password]?.string else
         {
-            throw MissingParameters.error
+            return MissingParameters.error
         }
 
         let authorizeUserRequest = AuthorizeUserRequest(
@@ -30,11 +30,11 @@ public struct AuthController {
         do {
             return JSON(try authorizeUser.authorize(authorizeUserRequest).makeNode())
         } catch AuthorizationError.invalidCredentials {
-            throw InvalidCredentials.error
+            return InvalidCredentials.error
         } catch AuthorizationError.disabledUser {
-            throw DisabledUser.error
+            return DisabledUser.error
         } catch {
-            throw ServerError.error
+            return ServerError.error
         }
     }
 }

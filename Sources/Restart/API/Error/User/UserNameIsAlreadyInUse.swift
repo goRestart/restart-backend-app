@@ -1,5 +1,5 @@
 import Vapor
 
-struct UserNameIsAlreadyInUse {
-    static let error = Abort.custom(status: .conflict, message: "Username is already in use")
+final class UserNameIsAlreadyInUse: ResponseError {
+    static let error = make(with: .conflict, code: 9, message: "Username is already in use")
 }

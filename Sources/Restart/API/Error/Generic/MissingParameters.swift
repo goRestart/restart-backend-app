@@ -1,5 +1,5 @@
 import Vapor
 
-struct MissingParameters {
-    static let error = Abort.custom(status: .badRequest, message: "Invalid request, missing parameter(s)")
+final class MissingParameters: ResponseError {
+    static let error = make(with: .badRequest, code: 5, message: "Invalid request, missing parameter(s)")
 }
