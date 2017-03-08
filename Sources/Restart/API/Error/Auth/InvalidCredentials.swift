@@ -1,5 +1,5 @@
 import Vapor
 
-struct InvalidCredentials {
-    static let error = Abort.custom(status: .unauthorized, message: "Invalid credentials")
+final class InvalidCredentials: ResponseError {
+    static let error = make(with: .unauthorized, code: 4, message: "Invalid credentials")
 }

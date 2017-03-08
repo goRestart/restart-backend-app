@@ -17,7 +17,7 @@ public struct ApiAuthMiddleware: Middleware {
         guard let timestamp = request.headers["ts"],
               let hash = request.headers["hash"],
               let publicKey = request.headers["publicKey"] else {
-                throw MissingParameters.error
+                return MissingParameters.error
         }
 
         do {
@@ -25,13 +25,13 @@ public struct ApiAuthMiddleware: Middleware {
             do {
                 let generatedHash = try generateHash(publicKey, privateKey: privateKey, timestamp: timestamp)
                 if hash != generatedHash {
-                    throw InvalidHash.error
+                    return InvalidHash.error
                 }
             } catch {
-                throw ServerError.error
+                return ServerError.error
             }
         } catch {
-            throw InvalidPrivateKey.error
+            return InvalidPrivateKey.error
         }
 
         return try next.respond(to: request)

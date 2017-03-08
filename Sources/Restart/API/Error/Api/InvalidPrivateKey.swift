@@ -1,5 +1,5 @@
 import Vapor
 
-struct InvalidPrivateKey {
-    static let error = Abort.custom(status: .unauthorized, message: "Invalid private api key")
+final class InvalidPrivateKey: ResponseError {
+    static let error = make(with: .unauthorized, code: 2, message: "Invalid private api key")
 }

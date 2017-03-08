@@ -28,7 +28,7 @@ public struct UserController {
               let email = request.data[UserParameters.email]?.string,
               let password = request.data[UserParameters.password]?.string else
         {
-            throw MissingParameters.error
+            return MissingParameters.error
         }
 
         let request = AddUserRequest(
@@ -40,13 +40,13 @@ public struct UserController {
         do {
             try addUser.add(with: request)
         } catch AddUserError.userNameIsAlreadyInUse {
-            throw UserNameIsAlreadyInUse.error
+            return UserNameIsAlreadyInUse.error
         } catch AddUserError.emailIsAlreadyInUse {
-            throw EmailIsAlreadyInUse.error
+            return EmailIsAlreadyInUse.error
         } catch AddUserError.invalidEmail {
-            throw InvalidEmail.error
+            return InvalidEmail.error
         } catch {
-            throw ServerError.error
+            return ServerError.error
         }
 
         return SuccessfullyCreated.response
@@ -55,18 +55,18 @@ public struct UserController {
     func verify(_ request: Request) throws -> ResponseRepresentable {
         if let userName = request.data[UserParameters.username]?.string {
             if !checkIfUserNameIsAvailable.isAvailable(userName) {
-                throw UserNameIsAlreadyInUse.error
+                return UserNameIsAlreadyInUse.error
             }
             return AvailableUsername.response
         }
 
         if let email = request.data[UserParameters.email]?.string {
             if !checkIfEmailIsAvailable.isAvailable(email) {
-                throw EmailIsAlreadyInUse.error
+                return EmailIsAlreadyInUse.error
             }
             return AvailableEmail.response
         }
 
-        throw MissingParameters.error
+        return MissingParameters.error
     }
 }

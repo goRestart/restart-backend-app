@@ -11,6 +11,7 @@ struct PasswordHasher {
     private let droplet: Droplet
     private let salt = "RV_(DP-H(ypS7oKk<YlWW%]ELSBK90<77U{r3574r7}-lZ!o9+~Oy>+{zKIj7*i)S}QYoz{O.S.C.A.R}ca:U-;AXuT"
 
+    // TODO: Change for Hashprotocol
     init(droplet: Droplet) {
         self.droplet = droplet
     }

@@ -1,5 +1,5 @@
-import Vapor
+import HTTP
 
-struct InvalidHash {
-    static let error = Abort.custom(status: .unauthorized, message: "Invalid hash")
+final class InvalidHash: ResponseError {
+    static let error = make(with: .unauthorized, code: 1, message: "Invalid hash")
 }

@@ -1,5 +1,5 @@
 import Vapor
 
-struct DisabledUser {
-    static let error = Abort.custom(status: .unauthorized, message: "Disabled user")
+final class DisabledUser: ResponseError {
+    static let error = make(with: .unauthorized, code: 3, message: "Disabled user")
 }
