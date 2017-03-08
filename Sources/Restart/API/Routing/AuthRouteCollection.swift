@@ -10,15 +10,21 @@ public struct AuthRouteCollection: RouteCollection {
 
     public typealias Wrapped = HTTP.Responder
 
+    private let apiAuthMiddleware: ApiAuthMiddleware
     private let authController: AuthController
 
-    public init(authController: AuthController) {
+    public init(apiAuthMiddleware: ApiAuthMiddleware,
+                authController: AuthController)
+    {
+        self.apiAuthMiddleware = apiAuthMiddleware
         self.authController = authController
     }
 
     public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
-        builder.post(Path.auth) { request in
-            return try self.authController.post(request)
+        builder.group(apiAuthMiddleware) { authorized in
+            authorized.post(Path.auth) { request in
+                return try self.authController.post(request)
+            }
         }
     }
 }

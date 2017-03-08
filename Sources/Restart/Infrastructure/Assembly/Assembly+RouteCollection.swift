@@ -18,6 +18,7 @@ extension Assembly {
 
     func getAuthRouteCollection() -> AuthRouteCollection {
         return AuthRouteCollection(
+            apiAuthMiddleware: getApiAuthMiddleware(),
             authController: getAuthController()
         )
     }

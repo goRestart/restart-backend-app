@@ -14,4 +14,11 @@ extension Assembly {
             authorizeUserTask: getAuthorizeUserTask()
         )
     }
+
+    func getDeveloperService() -> DeveloperService {
+        return DeveloperService(
+            checkIfApiKeyIsValidTask: getCheckIfApiKeyIsValidTask(),
+            getPrivateKeyTask: getGetPrivateKeyTask()
+        )
+    }
 }

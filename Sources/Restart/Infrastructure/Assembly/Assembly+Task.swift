@@ -28,3 +28,16 @@ extension Assembly {
         )
     }
 }
+
+// MARK: - Api Auth
+
+extension Assembly {
+
+    func getCheckIfApiKeyIsValidTask() -> CheckIfApiKeyIsValidTask {
+        return CheckIfApiKeyIsValidTask()
+    }
+
+    func getGetPrivateKeyTask() -> GetPrivateKeyTask {
+        return GetPrivateKeyTask()
+    }
+}
