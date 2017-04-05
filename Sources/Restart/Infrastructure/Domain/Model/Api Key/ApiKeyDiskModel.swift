@@ -1,67 +1,61 @@
-import Vapor
-import Fluent
+import FluentProvider
 
 extension ApiKeyDiskModel {
 
-    struct Database {
-        static let name = "api_keys"
-    }
-
+    static var name: String = "api_key"
+    
     struct Field {
-        static let identifier = "id"
         static let privateKey = "private_key"
         static let publicKey = "public_key"
         static let enabled = "enabled"
     }
 }
 
-public final class ApiKeyDiskModel: Model {
+final class ApiKeyDiskModel: Entity {
 
-    public static var entity: String {
-        return Database.name
-    }
-
-    public var id: Node?
+    var storage = Storage()
+    
     var privateKey: String
     var publicKey: String
     var enabled = true
-
-    public var exists = false
-
-    init(id: String, privateKey: String, publicKey: String) {
-        self.id = id.makeNode()
+    
+    public init(privateKey: String, publicKey: String, enabled: Bool = true) {
         self.privateKey = privateKey
         self.publicKey = publicKey
+        self.enabled = enabled
     }
-
-    public init(node: Node, in context: Context) throws {
-        id = try node.extract(Field.identifier)
-        privateKey = try node.extract(Field.privateKey)
-        publicKey = try node.extract(Field.publicKey)
-        enabled = try node.extract(Field.enabled)
+    
+    public init(row: Row) throws {
+        privateKey = try row.get(Field.privateKey)
+        publicKey = try row.get(Field.publicKey)
+        enabled = try row.get(Field.enabled)
+        id = try row.get(idKey)
     }
-
-    public func makeNode(context: Context) throws -> Node {
-        return try Node(node: [
-            Field.identifier: id,
-            Field.privateKey: privateKey,
-            Field.publicKey: publicKey,
-            Field.enabled: enabled
-        ])
+    
+    public func makeRow() throws -> Row {
+        var row = Row()
+        try row.set(idKey, id)
+        try row.set(Field.privateKey, privateKey)
+        try row.set(Field.publicKey, publicKey)
+        try row.set(Field.enabled, enabled)
+        return row
     }
+}
 
-    // MARK: - Preparations
+// MARK: - Preparations
 
+extension ApiKeyDiskModel: Preparation {
+    
     public static func prepare(_ database: Fluent.Database) throws {
-        try database.create(Database.name) { builder in
-            builder.id(Field.identifier, optional: false, unique: true, default: nil)
-            builder.string(Field.privateKey, length: nil, optional: false, unique: true, default: nil)
-            builder.string(Field.publicKey, length: nil, optional: false, unique: true, default: nil)
-            builder.bool(Field.enabled, optional: false, unique: false, default: true)
+        try database.create(self) { creator in
+            creator.id(for: self)
+            creator.string(Field.privateKey)
+            creator.string(Field.publicKey)
+            creator.string(Field.enabled)
         }
     }
 
     public static func revert(_ database: Fluent.Database) throws {
-        try database.delete(Database.name)
+        try database.delete(self)
     }
 }
