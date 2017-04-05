@@ -7,7 +7,7 @@ import ServiceLocator
 extension Application {
 
     func prepare(_ droplet: Droplet) throws {
-
+        
         try droplet.addProvider(MySQLProvider.Provider)
         try droplet.addProvider(RedisProvider.Provider)
 
@@ -15,7 +15,7 @@ extension Application {
 
         droplet.addConfigurable(
             middleware: apiAuthMiddleware,
-            name: String(describing: apiAuthMiddleware)
+            name: String(describing: "api-auth")
         )
         
         droplet.preparations = [

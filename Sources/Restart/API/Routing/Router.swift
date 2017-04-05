@@ -16,7 +16,7 @@ public struct Router {
     }
 
     func route() {
-        droplet.collection(userRouteCollection)
-        droplet.collection(authRouteCollection)
+        userRouteCollection.build(droplet)
+        authRouteCollection.build(droplet)
     }
 }

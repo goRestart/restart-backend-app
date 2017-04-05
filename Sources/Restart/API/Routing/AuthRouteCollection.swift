@@ -1,14 +1,10 @@
-import Vapor
-import HTTP
 import Routing
 
 private struct Path {
     static let auth = "auth"
 }
 
-public struct AuthRouteCollection: RouteCollection {
-
-    public typealias Wrapped = HTTP.Responder
+public struct AuthRouteCollection {
 
     private let apiAuthMiddleware: ApiAuthMiddleware
     private let authController: AuthController
@@ -19,8 +15,8 @@ public struct AuthRouteCollection: RouteCollection {
         self.apiAuthMiddleware = apiAuthMiddleware
         self.authController = authController
     }
-
-    public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
+    
+    public func build(_ builder: RouteBuilder) {
         builder.group(apiAuthMiddleware) { authorized in
             authorized.post(Path.auth) { request in
                 return try self.authController.post(request)

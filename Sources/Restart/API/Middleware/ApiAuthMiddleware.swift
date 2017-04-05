@@ -41,6 +41,6 @@ public struct ApiAuthMiddleware: Middleware {
 
     /// Generate api hash string, it's made by sha256(privateKey+timestamp+publicKey)
     private func generateHash(_ publicKey: String, privateKey: String, timestamp: String) throws -> String {
-        return try! hasher.make("\(privateKey)\(timestamp)\(publicKey)")
+        return try! hasher.make("\(privateKey)\(timestamp)\(publicKey)").makeString()
     }
 }

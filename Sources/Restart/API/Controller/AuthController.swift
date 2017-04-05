@@ -28,7 +28,7 @@ public struct AuthController {
         )
 
         do {
-            return JSON(try authorizeUser.authorize(authorizeUserRequest).makeNode())
+            return try JSON(node: authorizeUser.authorize(authorizeUserRequest))
         } catch AuthorizationError.invalidCredentials {
             return InvalidCredentials.error
         } catch AuthorizationError.disabledUser {

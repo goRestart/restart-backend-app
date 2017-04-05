@@ -2,7 +2,7 @@ import ServiceLocator
 import Vapor
 
 extension Assembly {
-
+    
     func getDroplet() -> Droplet {
         let key = String(describing: Droplet.self)
         guard let droplet: Droplet = Resolve(key) else {
