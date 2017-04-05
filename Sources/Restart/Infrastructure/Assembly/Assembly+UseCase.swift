@@ -9,18 +9,6 @@ extension Assembly {
             userService: getUserService()
         )
     }
-
-    func getCheckIfUserNameIsAvailable() -> CheckIfUserNameIsAvailable {
-        return CheckIfUserNameIsAvailable(
-            userService: getUserService()
-        )
-    }
-
-    func getCheckIfEmailIsAvailable() -> CheckIfEmailIsAvailable {
-        return CheckIfEmailIsAvailable(
-            userService: getUserService()
-        )
-    }
 }
 
 // MARK: - Auth

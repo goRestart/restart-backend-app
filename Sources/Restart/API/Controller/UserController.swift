@@ -10,16 +10,9 @@ private struct UserParameters {
 
 public struct UserController {
 
-    private let checkIfUserNameIsAvailable: CheckIfUserNameIsAvailable
-    private let checkIfEmailIsAvailable: CheckIfEmailIsAvailable
     private let addUser: AddUser
 
-    init(checkIfUserNameIsAvailable: CheckIfUserNameIsAvailable,
-         checkIfEmailIsAvailable: CheckIfEmailIsAvailable,
-         addUser: AddUser)
-    {
-        self.checkIfUserNameIsAvailable = checkIfUserNameIsAvailable
-        self.checkIfEmailIsAvailable = checkIfEmailIsAvailable
+    init(addUser: AddUser) {
         self.addUser = addUser
     }
 
@@ -50,23 +43,5 @@ public struct UserController {
         }
 
         return SuccessfullyCreated.response
-    }
-
-    func verify(_ request: Request) throws -> ResponseRepresentable {
-        if let userName = request.data[UserParameters.username]?.string {
-            if !checkIfUserNameIsAvailable.isAvailable(userName) {
-                return UserNameIsAlreadyInUse.error
-            }
-            return AvailableUsername.response
-        }
-
-        if let email = request.data[UserParameters.email]?.string {
-            if !checkIfEmailIsAvailable.isAvailable(email) {
-                return EmailIsAlreadyInUse.error
-            }
-            return AvailableEmail.response
-        }
-
-        return MissingParameters.error
     }
 }
