@@ -24,7 +24,7 @@ class PasswordHasherSpec: XCTestCase {
     }
     
     func testShould_generate_the_correct_password_hash() {
-        let passwordToHash = "Restart is going to rock you world ❤️"
+        let passwordToHash = "Restart is going to rick you world ❤️"
         let hashedString = sut.hash(
             userName: "skyweb07",
             password: passwordToHash
