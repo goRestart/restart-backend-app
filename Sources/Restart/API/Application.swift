@@ -16,6 +16,6 @@ public struct Application {
     public func run() throws {
         try prepare(droplet)
         router.route()
-        droplet.run()
+        try droplet.run()
     }
 }
