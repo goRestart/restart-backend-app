@@ -19,10 +19,12 @@ public struct InMemorySessionDataSource: SessionDataSource {
 
     @discardableResult
     func store(_ request: AddSessionRequest) throws -> UserSession {
-        let token = Identifier.make().value
+        let token = UUID().uuidString
         let key = "\(Keys.session)_\(request.userId)_\(token)"
-        try memoryCache.set(key, token)
+        let validUntil = Date().addingTimeInterval(request.validityInterval)
 
+        try memoryCache.set(key, token, expiration: validUntil)
+        
         return UserSession(
             token: token,
             validUntil: Date().addingTimeInterval(request.validityInterval)

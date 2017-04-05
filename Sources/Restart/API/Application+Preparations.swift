@@ -1,15 +1,15 @@
 import Vapor
 import Fluent
-import VaporMySQL
-import VaporRedis
+import MySQLProvider
+import RedisProvider
 import ServiceLocator
 
 extension Application {
 
     func prepare(_ droplet: Droplet) throws {
 
-        try droplet.addProvider(VaporMySQL.Provider.self)
-        try droplet.addProvider(VaporRedis.Provider.self)
+        try droplet.addProvider(MySQLProvider.Provider)
+        try droplet.addProvider(RedisProvider.Provider)
 
         let apiAuthMiddleware = Dependency().getApiAuthMiddleware()
 
@@ -17,9 +17,10 @@ extension Application {
             middleware: apiAuthMiddleware,
             name: String(describing: apiAuthMiddleware)
         )
-
+        
         droplet.preparations = [
             UserDiskModel.self,
+            GenderDiskModel.self,
             ImageDiskModel.self,
             LocationDiskModel.self,
             LocaleDiskModel.self,

@@ -1,5 +1,4 @@
 import Node
-import Fluent
 
 private struct JSONFields {
     static let token = "token"
@@ -8,10 +7,10 @@ private struct JSONFields {
 
 extension UserSession: NodeRepresentable {
 
-    public func makeNode(context: Context) throws -> Node {
+    public func makeNode(in context: Context?) throws -> Node {
         return try Node(node: [
-            JSONFields.token: token.makeNode(),
-            JSONFields.validUntil: validUntil.mysql
+            JSONFields.token: token.makeNode(in: context),
+            JSONFields.validUntil: validUntil
         ])
     }
 }

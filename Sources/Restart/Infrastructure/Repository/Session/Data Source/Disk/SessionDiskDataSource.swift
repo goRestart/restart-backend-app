@@ -10,10 +10,13 @@ struct SessionDiskDataSource: SessionDataSource {
 
     @discardableResult
     func store(_ request: AddSessionRequest) throws -> UserSession {
-        var userSession = UserSessionDiskModel(
-            token: Identifier.make().value,
+        let token = UUID().uuidString
+        let validUntil = Date().addingTimeInterval(request.validityInterval)
+        
+        let userSession = UserSessionDiskModel(
+            token: token,
             userId: request.userId,
-            validUntil: Date().addingTimeInterval(request.validityInterval)
+            validUntil: validUntil
         )
         try userSession.save()
 
