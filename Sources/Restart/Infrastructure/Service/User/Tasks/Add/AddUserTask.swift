@@ -23,7 +23,7 @@ public struct AddUserTask {
         if !emailValidator.validate(email) {
             throw AddUserError.invalidEmail
         }
-
+        
         try verifyFieldTask.execute(.username(userName))
         try verifyFieldTask.execute(.email(email))
 

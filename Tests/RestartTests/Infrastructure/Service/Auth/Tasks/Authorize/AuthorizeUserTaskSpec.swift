@@ -14,7 +14,7 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
     private var sut: AuthorizeUserTask!
     private var passwordHasher: PasswordHasher!
     private var sessionRepository: SessionRepositoryDummy!
-    private let droplet = Droplet()
+    private let droplet = try! Droplet()
 
     private let testEmail = "hi@restart.net"
     private let testUserName = "restart"
@@ -25,8 +25,9 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
         prepare(UserDiskModel.self)
 
         passwordHasher = PasswordHasher(
-            droplet: droplet
+            hasher: droplet.hash
         )
+        
         sessionRepository = SessionRepositoryDummy()
 
         sut = AuthorizeUserTask(
@@ -86,14 +87,12 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
             password: testPassword
         )
 
-        var user = UserDiskModel(
-            id: UUID().uuidString,
+        let user = UserDiskModel(
             username: testUserName,
-            email: testEmail,
             password: hashedPassword
         )
-        user.userStatus = enabled
-
+        user.status = enabled ? .enabled: .blocked
+        
         try! user.save()
     }
 }

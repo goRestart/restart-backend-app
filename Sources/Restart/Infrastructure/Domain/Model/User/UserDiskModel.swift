@@ -45,6 +45,15 @@ final class UserDiskModel: Entity, Timestampable {
     var birthDate: Date?
     fileprivate var rawStatus: Int = Status.enabled.rawValue
 
+    var status: Status? {
+        set {
+            rawStatus = newValue!.rawValue
+        }
+        get {
+            return Status(rawValue: rawStatus)
+        }
+    }
+
     init(username: String, password: String) {
         self.username = username
         self.password = password
@@ -133,9 +142,5 @@ extension UserDiskModel {
     func locale() throws -> LocaleDiskModel? {
         guard let identifier = localeId else { return nil }
         return try parent(id: identifier, type: LocaleDiskModel.self).get()
-    }
-    
-    func status() -> Status? {
-        return Status(rawValue: rawStatus)
     }
 }

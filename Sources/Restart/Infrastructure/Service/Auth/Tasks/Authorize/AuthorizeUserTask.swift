@@ -34,8 +34,7 @@ public struct AuthorizeUserTask {
                 throw AuthorizationError.invalidCredentials
         }
         
-
-        let usernameIsEnabled = user.status() == .enabled
+        let usernameIsEnabled = user.status == .enabled
         if !usernameIsEnabled {
             throw AuthorizationError.disabledUser
         }

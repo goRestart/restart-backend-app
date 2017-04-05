@@ -10,12 +10,12 @@ class PasswordHasherSpec: XCTestCase {
     ]
 
     private var sut: PasswordHasher!
-    private let droplet = Droplet()
+    private let droplet = try! Droplet()
 
     override func setUp() {
         super.setUp()
         sut = PasswordHasher(
-            droplet: droplet
+            hasher: droplet.hash
         )
     }
     
@@ -24,7 +24,7 @@ class PasswordHasherSpec: XCTestCase {
     }
     
     func testShould_generate_the_correct_password_hash() {
-        let passwordToHash = "Restart is going to rick you world ❤️"
+        let passwordToHash = "Restart is going to rock you world ❤️"
         let hashedString = sut.hash(
             userName: "skyweb07",
             password: passwordToHash

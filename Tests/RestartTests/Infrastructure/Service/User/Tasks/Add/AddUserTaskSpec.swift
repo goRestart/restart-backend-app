@@ -16,7 +16,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
     private var emailValidator: EmailValidator!
     private var verifyFieldTask: VerifyFieldTask!
     private var passwordHasher: PasswordHasher!
-    private let droplet = Droplet()
+    private let droplet = try! Droplet()
 
     private let testEmail = "hi@restart.net"
     private let invalidEmail = "hi@com"
@@ -29,7 +29,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
         emailValidator = EmailValidator()
         verifyFieldTask = VerifyFieldTask()
         passwordHasher = PasswordHasher(
-            droplet: droplet
+            hasher: droplet.hash
         )
 
         sut = AddUserTask(
@@ -60,7 +60,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
     }
 
     func testShould_throw_error_if_username_is_duplicated() {
-        givenThereAreDuplicatedUsersWithSameUserName(2)
+        XCTAssertThrowsError(try givenThereAreDuplicatedUsersWithSameUserName(2))
 
         let request = AddUserRequest(
             userName: testUserName,
@@ -74,14 +74,14 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
     }
 
     func testShould_throw_error_if_email_is_duplicated() {
-        givenThereAreDuplicatedUsersWithSameEmail(2)
+        XCTAssertThrowsError(try givenThereAreDuplicatedUsersWithSameEmail(2))
 
         let request = AddUserRequest(
             userName: testUserName,
             email: testEmail,
             password: "c001d209a772r"
         )
-
+        
         XCTAssertThrowsError(try sut.execute(request)) { error in
             XCTAssertEqual(error as? AddUserError, AddUserError.emailIsAlreadyInUse)
         }
@@ -102,35 +102,33 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
 
     // MARK: - Helpers
 
-    private func givenThereAreDuplicatedUsersWithSameUserName(_ amount: Int) {
+    private func givenThereAreDuplicatedUsersWithSameUserName(_ amount: Int) throws {
         for _ in 0...amount {
-            generateWithSameUserName()
+            try generateWithSameUserName()
         }
     }
 
-    private func givenThereAreDuplicatedUsersWithSameEmail(_ amount: Int) {
+    private func givenThereAreDuplicatedUsersWithSameEmail(_ amount: Int) throws {
         for _ in 0...amount {
-            generateWithSameEmail()
+            try generateWithSameEmail()
         }
     }
 
-    private func generateWithSameUserName() {
-        var user = UserDiskModel(
-            id: UUID().uuidString,
+    private func generateWithSameUserName() throws {
+        let user = UserDiskModel(
             username: testUserName,
-            email: "\(UUID().uuidString)@restart.net",
             password: "c001d209a772r"
         )
-        try! user.save()
+        user.username = testUserName
+        try user.save()
     }
 
-    private func generateWithSameEmail() {
-        var user = UserDiskModel(
-            id: UUID().uuidString,
+    private func generateWithSameEmail() throws {
+        let user = UserDiskModel(
             username: UUID().uuidString,
-            email: testEmail,
             password: "c001d209a772r"
         )
-        try! user.save()
+        user.email = testEmail
+        try user.save()
     }
 }

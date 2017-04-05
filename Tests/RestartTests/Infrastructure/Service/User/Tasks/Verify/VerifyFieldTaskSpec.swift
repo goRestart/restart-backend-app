@@ -1,5 +1,7 @@
 import Foundation
 import XCTest
+import FluentProvider
+
 @testable import Restart
 
 class VerifyFieldTaskSpec: XCTestDatabasePreparations {
@@ -26,7 +28,7 @@ class VerifyFieldTaskSpec: XCTestDatabasePreparations {
     }
 
     func testShould_throw_when_username_is_duplicated() {
-        givenThereAreDuplicatedUsers(2)
+        XCTAssertThrowsError(try givenThereAreDuplicatedUsers(2))
 
         XCTAssertThrowsError(try sut.execute(.username(testUserName))) { error in
             XCTAssertEqual(error as? AddUserError, AddUserError.userNameIsAlreadyInUse)
@@ -34,7 +36,7 @@ class VerifyFieldTaskSpec: XCTestDatabasePreparations {
     }
 
     func testShould_throw_when_email_is_duplicated() {
-        givenThereAreDuplicatedUsers(2)
+        XCTAssertThrowsError(try givenThereAreDuplicatedEmails(2))
 
         XCTAssertThrowsError(try sut.execute(.email(testEmail))) { error in
             XCTAssertEqual(error as? AddUserError, AddUserError.emailIsAlreadyInUse)
@@ -43,19 +45,24 @@ class VerifyFieldTaskSpec: XCTestDatabasePreparations {
 
     // MARK: - Helpers
 
-    private func givenThereAreDuplicatedUsers(_ amount: Int) {
+    private func givenThereAreDuplicatedUsers(_ amount: Int) throws {
         for _ in 0...amount {
-            generate()
+            try generate()
+        }
+    }
+    
+    private func givenThereAreDuplicatedEmails(_ amount: Int) throws {
+        for _ in 0...amount {
+            try generate(email: testEmail)
         }
     }
 
-    private func generate() {
-        var user = UserDiskModel(
-            id: UUID().uuidString,
+    private func generate(email: String? = nil) throws {
+        let user = UserDiskModel(
             username: testUserName,
-            email: testEmail,
             password: "c001d209a772r"
         )
-        try! user.save()
+        user.email = email
+        try user.save()
     }
 }
