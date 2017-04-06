@@ -1,11 +1,7 @@
 {
     "name": "Restart",
     "scripts": {},
-    "env": {
-        "APT_SOURCE": {
-            "value": "deb https://repo.vapor.codes/apt trusty main"
-        }
-    },
+    "env": {},
     "formation": {},
     "addons": [],
     "buildpacks": [
