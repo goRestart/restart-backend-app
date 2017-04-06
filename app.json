@@ -6,7 +6,7 @@
     "addons": [],
     "buildpacks": [
         {
-            "url": "https://github.com/goRestart/heroku-buildpack-apt.git"
+            "url": "https://github.com/heroku/heroku-buildpack-apt.git"
         },
         {
             "url": "https://github.com/vapor/heroku-buildpack"
