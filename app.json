@@ -10,7 +10,7 @@
     "addons": [],
     "buildpacks": [
         {
-            "url": "https://github.com/ivandeex/heroku-buildpack-apt.git"
+            "url": "https://github.com/goRestart/heroku-buildpack-apt.git"
         },
         {
             "url": "https://github.com/vapor/heroku-buildpack"
