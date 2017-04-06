@@ -6,6 +6,9 @@
     "addons": [],
     "buildpacks": [
         {
+            "url": "https://github.com/mspanc/heroku-buildpack-apt"
+        },
+        {
             "url": "https://github.com/vapor/heroku-buildpack"
         }
     ]
