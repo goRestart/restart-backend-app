@@ -1,12 +1,16 @@
 {
     "name": "Restart",
     "scripts": {},
-    "env": {},
+    "env": {
+        "APT_SOURCE": {
+            "value": "deb https://repo.vapor.codes/apt trusty main"
+        }
+    },
     "formation": {},
     "addons": [],
     "buildpacks": [
         {
-            "url": "https://github.com/mspanc/heroku-buildpack-apt"
+            "url": "https://github.com/ivandeex/heroku-buildpack-apt.git"
         },
         {
             "url": "https://github.com/vapor/heroku-buildpack"
