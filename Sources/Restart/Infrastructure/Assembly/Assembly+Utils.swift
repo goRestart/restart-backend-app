@@ -14,8 +14,9 @@ extension Assembly {
 extension Assembly {
 
     func getPasswordHasher() -> PasswordHasher {
+        let droplet = getDroplet()
         return PasswordHasher(
-            droplet: getDroplet()
+            hasher: droplet.hash
         )
     }
 }

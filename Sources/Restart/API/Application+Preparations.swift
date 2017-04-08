@@ -1,25 +1,24 @@
 import Vapor
 import Fluent
-import VaporMySQL
-import VaporRedis
+import RedisProvider
 import ServiceLocator
 
 extension Application {
 
     func prepare(_ droplet: Droplet) throws {
 
-        try droplet.addProvider(VaporMySQL.Provider.self)
-        try droplet.addProvider(VaporRedis.Provider.self)
+        try droplet.addProvider(RedisProvider.Provider)
 
         let apiAuthMiddleware = Dependency().getApiAuthMiddleware()
 
         droplet.addConfigurable(
             middleware: apiAuthMiddleware,
-            name: String(describing: apiAuthMiddleware)
+            name: String(describing: "api-auth")
         )
-
+        
         droplet.preparations = [
             UserDiskModel.self,
+            GenderDiskModel.self,
             ImageDiskModel.self,
             LocationDiskModel.self,
             LocaleDiskModel.self,

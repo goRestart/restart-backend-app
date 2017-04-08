@@ -1,135 +1,122 @@
-import Foundation
-import Vapor
-import Fluent
+import FluentProvider
 
 extension UserDiskModel {
 
-    struct Database {
-        static let name = "users"
-    }
-
+    static var name: String = "user"
+    static var idType: IdentifierType = .uuid
+    
     struct Field {
-        static let identifier = "id"
         static let username = "username"
         static let firstName = "first_name"
         static let lastName = "last_name"
         static let description = "description"
         static let profileImageId = "profile_image_id"
-        static let gender = "gender"
+        static let genderId = "gender_id"
         static let email = "email"
         static let locationId = "location_id"
         static let userStatus = "user_status"
         static let localeId = "locale_id"
         static let password = "password"
-        static let platform = "platform"
-        static let applicationVersion = "application_version"
         static let birthDate = "birth_date"
-        static let createdAt = "created_at"
-        static let updatedAt = "updated_at"
+        static let status = "status"
     }
 }
 
-public final class UserDiskModel: Model {
+final class UserDiskModel: Entity, Timestampable {
 
-    public static var entity: String {
-        return Database.name
+    var storage = Storage()
+    
+    enum Status: Int {
+        case enabled = 0
+        case blocked = 1
+        case banned = 2
     }
-
-    public var id: Node?
+    
     var username: String
     var firstName: String?
     var lastName: String?
     var description: String?
-    var profileImageId: Node?
-    var gender = 0
-    var email: String
-    var locationId: Node?
-    var userStatus = true
-    var localeId: Node?
+    var profileImageId: Identifier?
+    var genderId: Identifier?
+    var email: String?
+    var locationId: Identifier?
+    var localeId: Identifier?
     var password: String
-    var platform = 0
-    var applicationVersion: Int?
-    var birthDate: String?
-    var createdAt: String
-    var updatedAt: String
+    var birthDate: Date?
+    fileprivate var rawStatus: Int = Status.enabled.rawValue
 
-    public var exists = false
-
-    init(id: String, username: String, email: String, password: String) {
-        self.id = id.makeNode()
-        self.username = username
-        self.email = email
-        self.password = password
-        self.createdAt = Date().mysql
-        self.updatedAt = Date().mysql
-    }
-
-    public init(node: Node, in context: Context) throws {
-        id = try node.extract(Field.identifier)
-        username = try node.extract(Field.username)
-        firstName = try node.extract(Field.firstName)
-        lastName = try node.extract(Field.lastName)
-        description = try node.extract(Field.description)
-        profileImageId = try node.extract(Field.profileImageId)
-        gender = try node.extract(Field.gender)
-        email = try node.extract(Field.email)
-        locationId = try node.extract(Field.locationId)
-        userStatus = try node.extract(Field.userStatus)
-        localeId = try node.extract(Field.localeId)
-        password = try node.extract(Field.password)
-        platform = try node.extract(Field.platform)
-        createdAt = try node.extract(Field.createdAt)
-        updatedAt = try node.extract(Field.updatedAt)
-    }
-
-    public func makeNode(context: Context) throws -> Node {
-        return try Node(node: [
-            Field.identifier: id,
-            Field.username: username,
-            Field.firstName: firstName,
-            Field.lastName: lastName,
-            Field.description: description,
-            Field.profileImageId: profileImageId,
-            Field.gender: gender,
-            Field.email: email,
-            Field.locationId: locationId,
-            Field.userStatus: userStatus,
-            Field.localeId: localeId,
-            Field.password: password,
-            Field.platform: platform,
-            Field.applicationVersion: applicationVersion,
-            Field.birthDate: birthDate,
-            Field.createdAt: createdAt,
-            Field.updatedAt: updatedAt
-        ])
-    }
-
-    // MARK: - Preparations
-
-    public static func prepare(_ database: Fluent.Database) throws {
-        try database.create(Database.name) { builder in
-            builder.id(Field.identifier)
-            builder.string(Field.username, length: nil, optional: false, unique: true, default: nil)
-            builder.string(Field.firstName, length: nil, optional: true, unique: false, default: nil)
-            builder.string(Field.lastName, length: nil, optional: true, unique: false, default: nil)
-            builder.string(Field.description, length: nil, optional: true, unique: false, default: nil)
-            builder.parent(idKey: Field.profileImageId, optional: true, unique: false, default: nil)
-            builder.tinyInteger(Field.gender, signed: true, optional: false, unique: false, default: 0)
-            builder.string(Field.email, length: nil, optional: false, unique: true, default: nil)
-            builder.parent(idKey: Field.locationId, optional: true, unique: false, default: nil)
-            builder.bool(Field.userStatus, optional: false, unique: false, default: true)
-            builder.parent(idKey: Field.localeId, optional: true, unique: false, default: nil)
-            builder.string(Field.password, length: nil, optional: false, unique: false, default: nil)
-            builder.tinyInteger(Field.platform, signed: true, optional: false, unique: false, default: 0)
-            builder.integer(Field.applicationVersion, signed: true, optional: true, unique: false, default: nil)
-            builder.date(Field.birthDate, optional: true, unique: false, default: nil)
-            builder.date(Field.createdAt)
-            builder.date(Field.updatedAt)
+    var status: Status? {
+        set {
+            rawStatus = newValue!.rawValue
+        }
+        get {
+            return Status(rawValue: rawStatus)
         }
     }
 
-    public static func revert(_ database: Fluent.Database) throws {
-        try database.delete(Database.name)
+    init(username: String, password: String) {
+        self.username = username
+        self.password = password
+    }
+    
+    init(row: Row) throws {
+        username = try row.get(Field.username)
+        firstName = try row.get(Field.firstName)
+        lastName = try row.get(Field.lastName)
+        description = try row.get(Field.description)
+        profileImageId = try row.get(Field.profileImageId)
+        genderId = try row.get(Field.genderId)
+        email = try row.get(Field.profileImageId)
+        locationId = try row.get(Field.locationId)
+        localeId = try row.get(Field.localeId)
+        password = try row.get(Field.password)
+        birthDate = try row.get(Field.birthDate)
+        rawStatus = try row.get(Field.status)
+        id = try row.get(idKey)
+    }
+    
+    func makeRow() throws -> Row {
+        var row = Row()
+        try row.set(Field.username, username)
+        try row.set(Field.lastName, lastName)
+        try row.set(Field.description, description)
+        try row.set(Field.profileImageId, profileImageId)
+        try row.set(Field.genderId, genderId)
+        try row.set(Field.email, email)
+        try row.set(Field.locationId, locationId)
+        try row.set(Field.localeId, localeId)
+        try row.set(Field.password, password)
+        try row.set(Field.birthDate, birthDate)
+        try row.set(Field.status, rawStatus)
+        try row.set(idKey, id)
+        return row
+    }
+}
+
+// MARK: - Preparations
+
+extension UserDiskModel: Preparation {
+    
+    static func prepare(_ database: Fluent.Database) throws {
+        try database.create(self) { creator in
+            creator.id(for: self)
+            creator.string(Field.username, optional: false, unique: true)
+            creator.string(Field.firstName, optional: true)
+            creator.string(Field.lastName, optional: true)
+            creator.string(Field.description, optional: true)
+            creator.parent(idKey: Field.profileImageId, idType: .uuid, optional: true, unique: false, default: nil)
+            creator.parent(idKey: Field.genderId, idType: .int, optional: true, unique: false, default: nil)
+            creator.string(Field.email, optional: true, unique: true)
+            creator.parent(idKey: Field.locationId, idType: .uuid, optional: true, unique: false, default: nil)
+            creator.parent(idKey: Field.localeId, idType: .uuid, optional: true, unique: false, default: nil)
+            creator.string(Field.password)
+            creator.int(Field.status, optional: false, unique: false, default: Status.enabled.rawValue)
+            creator.date(Field.birthDate, optional: true)
+        }
+    }
+    
+    static func revert(_ database: Fluent.Database) throws {
+        try database.delete(self)
     }
 }
 
@@ -137,15 +124,23 @@ public final class UserDiskModel: Model {
 
 extension UserDiskModel {
 
-    func profileImage() throws -> ImageDiskModel? {
-        return try parent(profileImageId).get()
+    func gender() throws -> GenderDiskModel? {
+        guard let identifier = genderId else { return nil }
+        return try parent(id: identifier, type: GenderDiskModel.self).get()
+    }
+    
+    func image() throws -> ImageDiskModel? {
+        guard let identifier = profileImageId else { return nil }
+        return try parent(id: identifier, type: ImageDiskModel.self).get()
     }
 
     func location() throws -> LocationDiskModel? {
-        return try parent(locationId).get()
+        guard let identifier = locationId else { return nil }
+        return try parent(id: identifier, type: LocationDiskModel.self).get()
     }
 
     func locale() throws -> LocaleDiskModel? {
-        return try parent(localeId).get()
+        guard let identifier = localeId else { return nil }
+        return try parent(id: identifier, type: LocaleDiskModel.self).get()
     }
 }

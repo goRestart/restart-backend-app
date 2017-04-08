@@ -1,75 +1,65 @@
-import Vapor
-import Fluent
+import FluentProvider
 
 extension LocationDiskModel {
-
-    struct Database {
-        static let name = "locations"
-    }
-
+ 
+    static var name: String = "location"
+    
     struct Field {
-        static let identifier = "id"
-        static let locationLatitude = "location_latitude"
-        static let locationLongitude = "location_longitude"
+        static let latitude = "latitude"
+        static let longitude = "longitude"
         static let city = "city"
         static let country = "country"
         static let zip = "zip"
     }
 }
 
-public final class LocationDiskModel: Model {
-
-    public static var entity: String {
-        return Database.name
-    }
-
-    public var id: Node?
-    var locationLatitude: Double?
-    var locationLongitude: Double?
+final class LocationDiskModel: Entity, Timestampable {
+    
+    var storage = Storage()
+    
+    var latitude: Double?
+    var longitude: Double?
     var city: String?
     var country: String?
     var zip: String?
-
-    public var exists = false
-
-    init(id: String) {
-        self.id = id.makeNode()
+    
+    init(row: Row) throws {
+        latitude = try row.get(Field.latitude)
+        longitude = try row.get(Field.longitude)
+        city = try row.get(Field.city)
+        country = try row.get(Field.country)
+        zip = try row.get(Field.zip)
+        id = try row.get(idKey)
     }
-
-    public init(node: Node, in context: Context) throws {
-        id = try node.extract(Field.identifier)
-        locationLatitude = try node.extract(Field.locationLatitude)
-        locationLongitude = try node.extract(Field.locationLongitude)
-        city = try node.extract(Field.city)
-        country = try node.extract(Field.country)
-        zip = try node.extract(Field.zip)
+    
+    func makeRow() throws -> Row {
+        var row = Row()
+        try row.set(Field.latitude, latitude)
+        try row.set(Field.longitude, longitude)
+        try row.set(Field.city, city)
+        try row.set(Field.country, country)
+        try row.set(Field.zip, zip)
+        try row.set(idKey, id)
+        return row
     }
+}
 
-    public func makeNode(context: Context) throws -> Node {
-        return try Node(node: [
-            Field.identifier: id,
-            Field.locationLatitude: locationLatitude,
-            Field.locationLongitude: locationLongitude,
-            Field.city: city,
-            Field.country: country,
-            Field.zip: zip
-        ])
-    }
+// MARK: - Preparations
 
-    // MARK: - Preparations
+extension LocationDiskModel: Preparation {
 
-    public static func prepare(_ database: Fluent.Database) throws {
-        try database.create(Database.name) { builder in
-            builder.id(Field.identifier, optional: false, unique: true, default: nil)
-            builder.double(Field.locationLatitude, optional: true, unique: false, default: nil)
-            builder.double(Field.locationLongitude, optional: true, unique: false, default: nil)
-            builder.string(Field.city, length: nil, optional: true, unique: false, default: nil)
-            builder.string(Field.country, length: nil, optional: true, unique: false, default: nil)
-            builder.string(Field.zip, length: nil, optional: true, unique: false, default: nil)
+    static func prepare(_ database: Fluent.Database) throws {
+        try database.create(self) { creator in
+            creator.id(for: self)
+            creator.double(Field.latitude)
+            creator.double(Field.longitude)
+            creator.string(Field.city)
+            creator.string(Field.country)
+            creator.string(Field.zip)
         }
     }
-
-    public static func revert(_ database: Fluent.Database) throws {
-        try database.delete(Database.name)
+    
+    static func revert(_ database: Fluent.Database) throws {
+        try database.delete(self)
     }
 }

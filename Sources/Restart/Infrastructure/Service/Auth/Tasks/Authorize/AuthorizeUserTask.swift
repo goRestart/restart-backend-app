@@ -19,23 +19,23 @@ public struct AuthorizeUserTask {
 
     @discardableResult
     func execute(_ request: AuthorizeUserRequest) throws -> UserSession {
-        let userName = request.userName.lowercased()
+        let username = request.userName
         let password = request.password
 
         let hashedPassword = passwordHasher.hash(
-            userName: userName,
+            userName: username,
             password: password
         )
 
-        guard let user = try UserDiskModel.query()
-            .filter(UserDiskModel.Field.username, userName)
+        guard let user = try UserDiskModel.makeQuery()
+            .filter(UserDiskModel.Field.username, username)
             .filter(UserDiskModel.Field.password, hashedPassword)
             .first() else {
                 throw AuthorizationError.invalidCredentials
         }
-
-        let userNameIsEnabled = user.userStatus
-        if !userNameIsEnabled {
+        
+        let usernameIsEnabled = user.status == .enabled
+        if !usernameIsEnabled {
             throw AuthorizationError.disabledUser
         }
 

@@ -1,20 +1,26 @@
 import XCTest
+import FluentProvider
 import Fluent
 import Vapor
+@testable import Restart
+
+public protocol Model: Entity {}
 
 class XCTestDatabasePreparations: XCTestCase {
 
-    private let drop = Droplet()
+    private let drop = try! Droplet()
     private var memoryDriver: MemoryDriver!
     private var memoryDatabase: Database!
 
     override func setUp() {
         super.setUp()
 
-        memoryDriver = MemoryDriver()
+        memoryDriver = try! MemoryDriver()
         memoryDatabase = Database(memoryDriver)
 
         drop.database = memoryDatabase
+            
+        try! drop.addProvider(FluentProvider.Provider)
     }
     
     override func tearDown() {
@@ -23,15 +29,21 @@ class XCTestDatabasePreparations: XCTestCase {
         super.tearDown()
     }
 
-    func prepare(_ models: [Model.Type]) {
-        drop.preparations = models
-
+    func prepare(_ models: [Entity.Type]) {
         models.forEach { model in
             model.database = memoryDatabase
         }
+        
+        drop.preparations = models.map { $0 as! Preparation.Type }
+        
+        // We don't want to run our entire webserver so we need to make this
+        // hack so we only initialize providers without firing up server
+        for provider in drop.providers {
+            try! provider.beforeRun(drop)
+        }
     }
 
-    func prepare(_ model: Model.Type) {
+    func prepare(_ model: Entity.Type) {
         prepare([model])
     }
 }

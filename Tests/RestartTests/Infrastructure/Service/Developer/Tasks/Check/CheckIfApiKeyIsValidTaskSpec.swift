@@ -54,8 +54,7 @@ class CheckIfApiKeyIsValidTaskSpec: XCTestDatabasePreparations {
     // MARK - Helpers
 
     private func givenThereAreValidKeys() {
-        var apiKey = ApiKeyDiskModel(
-            id: UUID().uuidString,
+        let apiKey = ApiKeyDiskModel(
             privateKey: testPrivateApiKey,
             publicKey: testPublicApiKey
         )

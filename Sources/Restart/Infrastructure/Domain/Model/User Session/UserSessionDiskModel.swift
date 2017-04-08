@@ -1,13 +1,10 @@
-import Foundation
-import Vapor
-import Fluent
+import FluentProvider
 
 extension UserSessionDiskModel {
 
-    struct Database {
-        static let name = "user_sessions"
-    }
-
+    static var name: String = "user_session"
+    static var idType: IdentifierType = .uuid
+    
     struct Field {
         static let identifier = "id"
         static let token = "token"
@@ -17,58 +14,51 @@ extension UserSessionDiskModel {
     }
 }
 
-public final class UserSessionDiskModel: Model {
-
-    public static var entity: String {
-        return Database.name
-    }
-
-    public var id: Node?
+final class UserSessionDiskModel: Entity, Timestampable {
+    
+    var storage = Storage()
+    
     var token: String
-    var createdAt: String
     var userId: String
-    var validUntil: String
-
-    public var exists = false
-
+    var validUntil: Date
+ 
     init(token: String, userId: String, validUntil: Date) {
         self.token = token
         self.userId = userId
-        self.createdAt = Date().mysql
-        self.validUntil = validUntil.mysql
+        self.validUntil = validUntil
     }
-
-    public init(node: Node, in context: Context) throws {
-        id = try node.extract(Field.identifier)
-        token = try node.extract(Field.token)
-        userId = try node.extract(Field.userId)
-        createdAt = try node.extract(Field.createdAt)
-        validUntil = try node.extract(Field.validUntil)
+    
+    init(row: Row) throws {
+        token = try row.get(Field.token)
+        userId = try row.get(Field.userId)
+        validUntil = try row.get(Field.validUntil)
+        id = try row.get(idKey)
     }
-
-    public func makeNode(context: Context) throws -> Node {
-        return try Node(node: [
-            Field.identifier: id,
-            Field.token: token,
-            Field.userId: userId,
-            Field.createdAt: createdAt,
-            Field.validUntil: validUntil
-        ])
+    
+    func makeRow() throws -> Row {
+        var row = Row()
+        try row.set(idKey, id)
+        try row.set(Field.token, token)
+        try row.set(Field.userId, userId)
+        try row.set(Field.validUntil, validUntil)
+        return row
     }
+}
 
-    // MARK: - Preparations
+// MARK: - Preparations
 
-    public static func prepare(_ database: Fluent.Database) throws {
-        try database.create(Database.name) { builder in
-            builder.id(Field.identifier, optional: false, unique: true, default: nil)
-            builder.string(Field.token, length: nil, optional: false, unique: true, default: nil)
-            builder.string(Field.userId, length: nil, optional: false, unique: false, default: nil)
-            builder.datetime(Field.createdAt, optional: false, unique: false, default: nil)
-            builder.datetime(Field.validUntil, optional: false, unique: false, default: nil)
+extension UserSessionDiskModel: Preparation {
+    
+    static func prepare(_ database: Fluent.Database) throws {
+        try database.create(self) { creator in
+            creator.id(for: self)
+            creator.string(Field.token)
+            creator.string(Field.userId)
+            creator.date(Field.validUntil)
         }
     }
-
-    public static func revert(_ database: Fluent.Database) throws {
-        try database.delete(Database.name)
+    
+    static func revert(_ database: Fluent.Database) throws {
+        try database.delete(self)
     }
 }

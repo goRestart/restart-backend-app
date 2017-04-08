@@ -23,7 +23,7 @@ public struct AddUserTask {
         if !emailValidator.validate(email) {
             throw AddUserError.invalidEmail
         }
-
+        
         try verifyFieldTask.execute(.username(userName))
         try verifyFieldTask.execute(.email(email))
 
@@ -31,14 +31,12 @@ public struct AddUserTask {
             userName: userName,
             password: password
         )
-
-        var user = UserDiskModel(
-            id: Identifier.make().value,
+        
+        let user = UserDiskModel(
             username: userName,
-            email: email,
             password: hashedPassword
         )
-
+        
         do {
             try user.save()
         } catch {

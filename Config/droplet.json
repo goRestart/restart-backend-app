@@ -5,6 +5,7 @@
     "log": "console",
     "hash": "crypto",
     "cipher": "crypto",
+    "cache": "redis",
     "middleware": {
         "server": [
             "file",
@@ -12,7 +13,8 @@
             "validation",
             "type-safe",
             "date",
-            "sessions"
+            "sessions",
+            "api-auth"
         ],
         "client": [
         
