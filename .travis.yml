@@ -8,5 +8,5 @@ osx_image: xcode8
 services:
   - redis-server
 install:
-  - eval "$(curl -sL https://apt.vapor.sh)"
+  - eval "$(curl -sL https://swift.vapor.sh/ci-3.1)"
   - eval "$(curl -sL https://swift.vapor.sh/codecov)"
