@@ -9,5 +9,4 @@ services:
   - redis-server
 install:
   - eval "$(curl -sL https://apt.vapor.sh)"
-  - eval "$(curl -sL https://ci.restrt.tech/travis_mysql)"
   - eval "$(curl -sL https://swift.vapor.sh/codecov)"
