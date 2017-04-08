@@ -95,7 +95,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
         )
         try! sut.execute(request)
 
-        let count = try! UserDiskModel.query().all().count
+        let count = try! UserDiskModel.makeQuery().all().count
 
         XCTAssertEqual(1, count)
     }

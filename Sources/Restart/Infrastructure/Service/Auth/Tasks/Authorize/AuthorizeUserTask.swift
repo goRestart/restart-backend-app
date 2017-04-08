@@ -27,7 +27,7 @@ public struct AuthorizeUserTask {
             password: password
         )
 
-        guard let user = try UserDiskModel.query()
+        guard let user = try UserDiskModel.makeQuery()
             .filter(UserDiskModel.Field.username, username)
             .filter(UserDiskModel.Field.password, hashedPassword)
             .first() else {
