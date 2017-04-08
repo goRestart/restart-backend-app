@@ -1,15 +1,23 @@
 {
-    "name": "Restart",
-    "scripts": {},
-    "env": {},
-    "formation": {},
-    "addons": [],
-    "buildpacks": [
-        {
-            "url": "https://github.com/heroku/heroku-buildpack-apt.git"
-        },
-        {
-            "url": "https://github.com/vapor/heroku-buildpack"
-        }
-    ]
+	"name": "Restart",
+	"scripts": {},
+	"env": {},
+	"formation": {},
+	"addons": [],
+	"environments": {
+		"test": {
+			"scripts": {
+				"test-setup": "",
+				"test": "swift test"
+			}
+		}
+	},
+	"buildpacks": [
+		{
+			"url": "https://github.com/heroku/heroku-buildpack-apt.git"
+		},
+		{
+			"url": "https://github.com/vapor/heroku-buildpack"
+		}
+	]
 }

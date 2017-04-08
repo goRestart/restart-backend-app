@@ -10,10 +10,10 @@ XCTMain([
      testCase(AddUserTaskSpec.allTests),
 
      /* Developer */
-     testCase(CheckIfApiKeyIsValidTask.allTests),
+     testCase(CheckIfApiKeyIsValidTaskSpec.allTests),
 
      /* Auth */
-     testCase(AuthorizeUserTask.allTests),
+     testCase(AuthorizeUserTaskSpec.allTests),
      testCase(SessionRepositorySpec.allTests),
      testCase(InMemorySessionDiskDataSourceSpec.allTests),
      testCase(SessionDiskDataSourceSpec.allTests)
