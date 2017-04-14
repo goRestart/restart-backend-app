@@ -1,6 +1,7 @@
 import Vapor
 import Fluent
 import RedisProvider
+import MySQLProvider
 import ServiceLocator
 
 extension Application {
@@ -8,7 +9,8 @@ extension Application {
     func prepare(_ droplet: Droplet) throws {
 
         try droplet.addProvider(RedisProvider.Provider)
-
+        try droplet.addProvider(MySQLProvider.Provider)
+        
         let apiAuthMiddleware = Dependency().getApiAuthMiddleware()
 
         droplet.addConfigurable(
