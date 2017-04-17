@@ -40,5 +40,4 @@ class EmailValidatorSpec: XCTestCase {
 
         XCTAssertFalse(sut.validate(invalidEmail))
     }
-    
 }
