@@ -48,7 +48,7 @@ extension ApiKeyDiskModel: Preparation {
     
     public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
-            creator.id(for: self)
+            creator.id()
             creator.string(Field.privateKey)
             creator.string(Field.publicKey)
             creator.string(Field.enabled)

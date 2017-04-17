@@ -30,6 +30,6 @@ class PasswordHasherSpec: XCTestCase {
             password: passwordToHash
         )
 
-        XCTAssertEqual("59f2f3924d4b5358361235c1f3bae02669c6790a7d8eadbada2f402d5c63db94", hashedString)
+        XCTAssertEqual("efb94009820a6f239183d4a28f7ea618bff1b8bd361788ed1012b6ba59541108", hashedString)
     }
 }

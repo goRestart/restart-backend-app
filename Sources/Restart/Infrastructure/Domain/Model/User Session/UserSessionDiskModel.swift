@@ -51,7 +51,7 @@ extension UserSessionDiskModel: Preparation {
     
     static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
-            creator.id(for: self)
+            creator.id()
             creator.string(Field.token)
             creator.string(Field.userId)
             creator.date(Field.validUntil)

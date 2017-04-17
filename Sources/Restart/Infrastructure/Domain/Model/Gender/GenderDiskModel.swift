@@ -40,7 +40,7 @@ extension GenderDiskModel: Preparation {
     
     static func prepare(_ database: Database) throws {
         try database.create(self) { creator in
-            creator.id(for: self)
+            creator.id()
             creator.string(Field.value)
         }
     }
