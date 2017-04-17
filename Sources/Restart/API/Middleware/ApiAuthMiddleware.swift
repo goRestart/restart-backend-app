@@ -14,12 +14,12 @@ public struct ApiAuthMiddleware: Middleware {
     }
 
     public func respond(to request: Request, chainingTo next: Responder) throws -> Response {
-        guard let timestamp = request.headers["ts"],
-              let hash = request.headers["hash"],
-              let publicKey = request.headers["publicKey"] else {
+        guard let timestamp = request.headers["X-Timestamp"],
+            let hash = request.headers["X-Hash"],
+            let publicKey = request.headers["X-PublicKey"] else {
                 return MissingParameters.error
         }
-
+        
         do {
             let privateKey = try developerService.getPrivateKey(with: publicKey)
             do {

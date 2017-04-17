@@ -1,7 +1,6 @@
 {
     "hash": {
         "method": "sha256",
-        "key": "password",
         "encoding": "hex"
     },
     "cipher": {
