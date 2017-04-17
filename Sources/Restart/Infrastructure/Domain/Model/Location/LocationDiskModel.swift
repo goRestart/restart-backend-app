@@ -50,7 +50,7 @@ extension LocationDiskModel: Preparation {
 
     static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
-            creator.id(for: self)
+            creator.id()
             creator.double(Field.latitude)
             creator.double(Field.longitude)
             creator.string(Field.city)

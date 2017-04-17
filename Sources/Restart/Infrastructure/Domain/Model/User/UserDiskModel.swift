@@ -99,16 +99,16 @@ extension UserDiskModel: Preparation {
     
     static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
-            creator.id(for: self)
+            creator.id()
             creator.string(Field.username, optional: false, unique: true)
             creator.string(Field.firstName, optional: true)
             creator.string(Field.lastName, optional: true)
             creator.string(Field.description, optional: true)
-            creator.parent(idKey: Field.profileImageId, idType: .uuid, optional: true, unique: false, default: nil)
-            creator.parent(idKey: Field.genderId, idType: .int, optional: true, unique: false, default: nil)
+//          creator.parent(ImageDiskModel.self, optional: true, unique: false) // TODO: Check documentation for `parent` method
+//          creator.parent(GenderDiskModel.self, optional: true, unique: false)
             creator.string(Field.email, optional: true, unique: true)
-            creator.parent(idKey: Field.locationId, idType: .uuid, optional: true, unique: false, default: nil)
-            creator.parent(idKey: Field.localeId, idType: .uuid, optional: true, unique: false, default: nil)
+//          creator.parent(LocationDiskModel.self, optional: true, unique: false)
+//          creator.parent(LocaleDiskModel.self, optional: true, unique: false)
             creator.string(Field.password)
             creator.int(Field.status, optional: false, unique: false, default: Status.enabled.rawValue)
             creator.date(Field.birthDate, optional: true)
