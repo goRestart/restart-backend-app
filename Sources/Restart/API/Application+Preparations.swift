@@ -19,13 +19,13 @@ extension Application {
         )
         
         droplet.preparations = [
-            UserDiskModel.self,
             GenderDiskModel.self,
             ImageDiskModel.self,
             LocationDiskModel.self,
             LocaleDiskModel.self,
             ApiKeyDiskModel.self,
-            UserSessionDiskModel.self
+            UserSessionDiskModel.self,
+            UserDiskModel.self
         ]
     }
 }
