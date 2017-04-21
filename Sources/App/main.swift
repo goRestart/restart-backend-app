@@ -1,11 +1,3 @@
-import Vapor
-import ServiceLocator
-import Restart
+import Foundation
 
-let application = Dependency().getApplication()
-
-do {
-    try application.run()
-} catch {
-    print(error)
-}
+print("hola mundo")
