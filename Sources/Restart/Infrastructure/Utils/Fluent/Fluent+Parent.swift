@@ -7,12 +7,12 @@ extension Fluent.Builder {
     
     public func foreignId<E: Entity>(
         for entityType: E.Type,
-        name: String = E.foreignIdKey,
+        idKey: String = E.foreignIdKey,
         optional: Bool = false,
         unique: Bool = false
         ) {
         let field = Field(
-            name: name,
+            name: idKey,
             type: .id(type: E.idType),
             optional: optional,
             unique: unique
@@ -22,17 +22,17 @@ extension Fluent.Builder {
         if autoForeignKeys {
             foreignKey(
                 for: E.self,
-                name: name
+                idKey: idKey
             )
         }
     }
     
     public func foreignKey<E: Entity>(
         for: E.Type = E.self,
-        name: String = E.foreignIdKey
+        idKey: String = E.foreignIdKey
         ) {
         foreignKey(
-            name,
+            idKey,
             references: E.idKey,
             on: E.self
         )
@@ -40,13 +40,13 @@ extension Fluent.Builder {
     
     public func parent<E: Entity>(
         _ entity: E.Type = E.self,
-        name: String,
+        idKey: String,
         optional: Bool = false,
         unique: Bool = false
         ) {
         foreignId(
             for: E.self,
-            name: name,
+            idKey: idKey,
             optional: optional,
             unique: unique
         )
