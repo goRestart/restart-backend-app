@@ -1,7 +1,7 @@
 import Foundation
 import Domain
 
-struct SessionDiskDataSource: SessionDataSource {
+struct UserSessionDiskDataSource: UserSessionDataSource {
 
     private let userSessionDiskModelToDomainMapper: UserSessionDiskModelToDomainMapper
 

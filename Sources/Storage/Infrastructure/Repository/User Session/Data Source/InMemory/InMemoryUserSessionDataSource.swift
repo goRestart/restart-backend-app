@@ -6,11 +6,11 @@ private struct Keys {
     static let session = "session"
 }
 
-protocol SessionDataSourceProvider {
-    func inMemory() -> SessionDataSource
+protocol UserSessionDataSourceProvider {
+    func inMemory() -> UserSessionDataSource
 }
 
-public struct InMemorySessionDataSource: SessionDataSource {
+public struct InMemoryUserSessionDataSource: UserSessionDataSource {
 
     private let memoryCache: CacheProtocol
 

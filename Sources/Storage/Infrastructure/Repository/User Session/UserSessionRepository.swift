@@ -3,21 +3,21 @@ import Domain
 
 public struct UserSessionRepository: UserSessionRepositoryProtocol {
 
-    private let sessionDataSourceProvider: SessionDataSourceProvider
-    private let diskSessionDataSource: SessionDataSource
+    private let userSessionDataSourceProvider: UserSessionDataSourceProvider
+    private let diskUserSessionDataSource: UserSessionDataSource
 
-    init(sessionDataSourceProvider: SessionDataSourceProvider,
-         diskSessionDataSource: SessionDataSource)
+    init(userSessionDataSourceProvider: UserSessionDataSourceProvider,
+         diskUserSessionDataSource: UserSessionDataSource)
     {
-        self.sessionDataSourceProvider = sessionDataSourceProvider
-        self.diskSessionDataSource = diskSessionDataSource
+        self.userSessionDataSourceProvider = userSessionDataSourceProvider
+        self.diskUserSessionDataSource = diskUserSessionDataSource
     }
 
     @discardableResult
     public func store(_ request: AddSessionRequest) throws -> UserSession {
         do {
-            try sessionDataSourceProvider.inMemory().store(request)
+            try userSessionDataSourceProvider.inMemory().store(request)
         } catch {}
-        return try diskSessionDataSource.store(request)
+        return try diskUserSessionDataSource.store(request)
     }
 }

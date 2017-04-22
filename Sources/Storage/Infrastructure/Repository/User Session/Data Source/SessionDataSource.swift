@@ -1,7 +1,7 @@
 import Foundation
 import Domain
 
-protocol SessionDataSource {
+protocol UserSessionDataSource {
     @discardableResult
     func store(_ request: AddSessionRequest) throws -> UserSession
 }

@@ -4,11 +4,11 @@ import Shared
 
 public struct AddUserTask {
 
-    private let emailValidator: Shared.EmailValidator
+    private let emailValidator: EmailValidator
     private let verifyFieldTask: VerifyFieldTask
     private let passwordHasher: PasswordHasher
 
-    init(emailValidator: Shared.EmailValidator,
+    init(emailValidator: EmailValidator,
          verifyFieldTask: VerifyFieldTask,
          passwordHasher: PasswordHasher)
     {

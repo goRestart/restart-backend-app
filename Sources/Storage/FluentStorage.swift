@@ -1,5 +1,5 @@
 import Vapor
-import Fluent
+import FluentProvider
 
 public struct FluentStorage {
     
