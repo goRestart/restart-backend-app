@@ -1,4 +1,5 @@
 import Vapor
+import Fluent
 import FluentProvider
 
 public struct FluentStorage {
@@ -8,18 +9,18 @@ public struct FluentStorage {
     }
     
     private static let preparations: [Preparation.Type] = [
-        
         // Developer
         ApiKeyDiskModel.self,
         UserSessionDiskModel.self,
         
         // Generic 
+        LocaleDiskModel.self,
         ImageDiskModel.self,
         LocationDiskModel.self,
+        PriceDiskModel.self,
 
         // User
         GenderDiskModel.self,
-        LocaleDiskModel.self,
         UserDiskModel.self
     ]
 }
