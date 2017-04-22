@@ -11,7 +11,7 @@ extension LocaleDiskModel {
 
 final class LocaleDiskModel: Entity {
 
-    var storage = Storage()
+    let storage = Storage()
     
     var localeIdentifier: String
     

@@ -13,7 +13,7 @@ extension ApiKeyDiskModel {
 
 final class ApiKeyDiskModel: Entity {
 
-    var storage = Storage()
+    let storage = Storage()
     
     var privateKey: String
     var publicKey: String
@@ -51,7 +51,7 @@ extension ApiKeyDiskModel: Preparation {
             creator.id()
             creator.string(Field.privateKey)
             creator.string(Field.publicKey)
-            creator.string(Field.enabled)
+            creator.bool(Field.enabled)
         }
     }
 

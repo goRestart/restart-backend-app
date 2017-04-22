@@ -5,7 +5,7 @@ import Fluent
 
 extension Fluent.Builder {
     
-    public func foreignId<E: Entity>(
+    func foreignId<E: Entity>(
         for entityType: E.Type,
         idKey: String = E.foreignIdKey,
         optional: Bool = false,
@@ -27,7 +27,7 @@ extension Fluent.Builder {
         }
     }
     
-    public func foreignKey<E: Entity>(
+    func foreignKey<E: Entity>(
         for: E.Type = E.self,
         idKey: String = E.foreignIdKey
         ) {
@@ -38,7 +38,7 @@ extension Fluent.Builder {
         )
     }
     
-    public func parent<E: Entity>(
+    func parent<E: Entity>(
         _ entity: E.Type = E.self,
         idKey: String,
         optional: Bool = false,

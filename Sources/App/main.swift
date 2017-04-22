@@ -1,3 +1,6 @@
-import Foundation
+import ServiceLocator
+import API
 
-print("hola mundo")
+let application = Dependency().getApplication()
+
+try application.run()

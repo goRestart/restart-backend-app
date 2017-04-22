@@ -1,6 +1,7 @@
 import Foundation
 
 public struct AuthorizeUserRequest {
+    
     public let userName: String
     public let password: String
     

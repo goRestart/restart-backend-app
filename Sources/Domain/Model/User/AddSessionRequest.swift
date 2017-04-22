@@ -1,8 +1,9 @@
 import Foundation
 
 public struct AddSessionRequest {
-    let userId: String
-    let validityInterval: TimeInterval
+    
+    public let userId: String
+    public let validityInterval: TimeInterval
     
     public init(userId: String,
                 validityInterval: TimeInterval)

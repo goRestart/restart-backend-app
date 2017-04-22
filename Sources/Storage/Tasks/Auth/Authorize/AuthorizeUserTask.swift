@@ -9,13 +9,13 @@ private let sessionAuthorizationInterval = TimeInterval(onYear * 2)
 public struct AuthorizeUserTask {
 
     private let passwordHasher: PasswordHasher
-    private let sessionRepository: SessionRepositoryProtocol
+    private let userSessionRepository: UserSessionRepositoryProtocol
 
     init(passwordHasher: PasswordHasher,
-         sessionRepository: SessionRepositoryProtocol)
+         userSessionRepository: UserSessionRepositoryProtocol)
     {
         self.passwordHasher = passwordHasher
-        self.sessionRepository = sessionRepository
+        self.userSessionRepository = userSessionRepository
     }
 
     @discardableResult
@@ -23,7 +23,7 @@ public struct AuthorizeUserTask {
         let username = request.userName
         let password = request.password
 
-        let hashedPassword = passwordHasher.hash(
+        let hashedPassword = try passwordHasher.hash(
             userName: username,
             password: password
         )
@@ -46,7 +46,7 @@ public struct AuthorizeUserTask {
         )
 
         do {
-            return try sessionRepository.store(sessionRequest)
+            return try userSessionRepository.store(sessionRequest)
         } catch {
             throw AuthorizationError.unknown
         }

@@ -15,7 +15,7 @@ extension LocationDiskModel {
 
 final class LocationDiskModel: Entity, Timestampable {
     
-    var storage = Storage()
+    let storage = Storage()
     
     var latitude: Double?
     var longitude: Double?

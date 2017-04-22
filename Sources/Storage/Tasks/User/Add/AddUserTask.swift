@@ -1,13 +1,14 @@
 import Foundation
 import Domain
+import Shared
 
 public struct AddUserTask {
 
-    private let emailValidator: EmailValidator
+    private let emailValidator: Shared.EmailValidator
     private let verifyFieldTask: VerifyFieldTask
     private let passwordHasher: PasswordHasher
 
-    init(emailValidator: EmailValidator,
+    init(emailValidator: Shared.EmailValidator,
          verifyFieldTask: VerifyFieldTask,
          passwordHasher: PasswordHasher)
     {
@@ -30,7 +31,7 @@ public struct AddUserTask {
         try verifyFieldTask.execute(.username(userName))
         try verifyFieldTask.execute(.email(email))
 
-        let hashedPassword = passwordHasher.hash(
+        let hashedPassword = try passwordHasher.hash(
             userName: userName,
             password: password
         )

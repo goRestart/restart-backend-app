@@ -16,7 +16,7 @@ extension ImageDiskModel {
 
 final class ImageDiskModel: Entity, Timestampable {
 
-    var storage = Storage()
+    let storage = Storage()
     
     var url: String
     var width: Double

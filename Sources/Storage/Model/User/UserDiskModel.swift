@@ -24,7 +24,7 @@ extension UserDiskModel {
 
 final class UserDiskModel: Entity, Timestampable {
 
-    var storage = Storage()
+    let storage = Storage()
     
     enum Status: Int {
         case enabled = 0

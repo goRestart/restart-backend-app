@@ -15,15 +15,11 @@ struct PasswordHasher {
         self.hasher = hasher
     }
 
-    func hash(userName: String, password: String) -> String {
-        return hash(hash(userName.lowercased()) + salt + hash(password))
+    func hash(userName: String, password: String) throws -> String {
+        return try hash(hash(userName.lowercased()) + salt + hash(password))
     }
 
-    private func hash(_ input: String) -> String {
-        do {
-            return try hasher.make(input).makeString()
-        } catch {
-            return String(input.characters.reversed())
-        }
+    private func hash(_ input: String) throws -> String {
+        return try hasher.make(input).makeString()
     }
 }
