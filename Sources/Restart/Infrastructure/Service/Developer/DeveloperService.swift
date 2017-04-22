@@ -1,4 +1,5 @@
-import Foundation
+import Storage
+import Domain
 
 public struct DeveloperService {
 
@@ -12,11 +13,11 @@ public struct DeveloperService {
         self.getPrivateKeyTask = getPrivateKeyTask
     }
 
-    func isApiKeyValid(privateKey: String, publicKey: String) throws {
+    public func isApiKeyValid(privateKey: String, publicKey: String) throws {
         return try checkIfApiKeyIsValidTask.execute(privateKey, publicKey)
     }
 
-    func getPrivateKey(with publicKey: String) throws -> String {
+    public func getPrivateKey(with publicKey: String) throws -> String {
         return try getPrivateKeyTask.execute(publicKey)
     }
 }

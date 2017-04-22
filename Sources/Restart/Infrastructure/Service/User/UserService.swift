@@ -1,7 +1,8 @@
-import Foundation
+import Storage
+import Domain
 
 public struct UserService {
-
+    
     private let verifyFieldTask: VerifyFieldTask
     private let addUserTask: AddUserTask
 

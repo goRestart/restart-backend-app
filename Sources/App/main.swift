@@ -1,11 +1,6 @@
-import Vapor
 import ServiceLocator
-import Restart
+import API
 
 let application = Dependency().getApplication()
 
-do {
-    try application.run()
-} catch {
-    print(error)
-}
+try application.run()

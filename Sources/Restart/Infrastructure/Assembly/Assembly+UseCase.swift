@@ -4,7 +4,7 @@ import ServiceLocator
 
 extension Assembly {
 
-    func getAddUser() -> AddUser {
+    public func getAddUser() -> AddUser {
         return AddUser(
             userService: getUserService()
         )
@@ -15,7 +15,7 @@ extension Assembly {
 
 extension Assembly {
 
-    func getAuthorizeUser() -> AuthorizeUser {
+    public func getAuthorizeUser() -> AuthorizeUser {
         return AuthorizeUser(
             authService: getAuthService()
         )

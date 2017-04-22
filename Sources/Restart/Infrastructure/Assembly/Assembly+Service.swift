@@ -1,6 +1,7 @@
 import ServiceLocator
+import Storage
 
-extension Assembly {
+public extension Assembly {
 
     func getUserService() -> UserService {
         return UserService(
