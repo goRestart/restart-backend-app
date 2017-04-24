@@ -18,9 +18,15 @@ public struct FluentStorage {
         ImageDiskModel.self,
         LocationDiskModel.self,
         PriceDiskModel.self,
+        PlatformDiskModel.self,
 
         // User
         GenderDiskModel.self,
-        UserDiskModel.self
+        UserDiskModel.self,
+        
+        // Product
+        ProductDiskModel.self,
+        ImageCollectionDiskModel.self,
+        ViewCountDiskModel.self
     ]
 }
