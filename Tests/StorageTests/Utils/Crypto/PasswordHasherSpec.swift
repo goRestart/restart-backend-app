@@ -10,10 +10,12 @@ class PasswordHasherSpec: XCTestCase {
     ]
 
     private var sut: PasswordHasher!
-    private let droplet = try! Droplet()
-
+    private var droplet: Droplet!
+    
     override func setUp() {
         super.setUp()
+        
+        droplet = try! getDroplet()
         sut = PasswordHasher(
             hasher: droplet.hash
         )
