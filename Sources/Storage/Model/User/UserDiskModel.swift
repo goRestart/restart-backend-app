@@ -93,6 +93,32 @@ final class UserDiskModel: Entity, Timestampable {
     }
 }
 
+
+// MARK - Relations
+
+extension UserDiskModel {
+    
+    func gender() throws -> GenderDiskModel? {
+        guard let identifier = genderId else { return nil }
+        return try parent(id: identifier, type: GenderDiskModel.self).get()
+    }
+    
+    func image() throws -> ImageDiskModel? {
+        guard let identifier = profileImageId else { return nil }
+        return try parent(id: identifier, type: ImageDiskModel.self).get()
+    }
+    
+    func location() throws -> LocationDiskModel? {
+        guard let identifier = locationId else { return nil }
+        return try parent(id: identifier, type: LocationDiskModel.self).get()
+    }
+    
+    func locale() throws -> LocaleDiskModel? {
+        guard let identifier = localeId else { return nil }
+        return try parent(id: identifier, type: LocaleDiskModel.self).get()
+    }
+}
+
 // MARK: - Preparations
 
 extension UserDiskModel: Preparation {
@@ -117,30 +143,5 @@ extension UserDiskModel: Preparation {
     
     static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
-    }
-}
-
-// MARK - Relations
-
-extension UserDiskModel {
-
-    func gender() throws -> GenderDiskModel? {
-        guard let identifier = genderId else { return nil }
-        return try parent(id: identifier, type: GenderDiskModel.self).get()
-    }
-    
-    func image() throws -> ImageDiskModel? {
-        guard let identifier = profileImageId else { return nil }
-        return try parent(id: identifier, type: ImageDiskModel.self).get()
-    }
-
-    func location() throws -> LocationDiskModel? {
-        guard let identifier = locationId else { return nil }
-        return try parent(id: identifier, type: LocationDiskModel.self).get()
-    }
-
-    func locale() throws -> LocaleDiskModel? {
-        guard let identifier = localeId else { return nil }
-        return try parent(id: identifier, type: LocaleDiskModel.self).get()
     }
 }
