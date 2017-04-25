@@ -9,17 +9,27 @@ import Vapor
 struct PasswordHasher {
 
     private let hasher: HashProtocol
-    private let salt = "RV_(DP-H(ypS7oKk<YlWW%]ELSBK90<77U{r3574r7}-lZ!o9+~Oy>+{zKIj7*i)S}QYoz{O.S.C.A.R}ca:U-;AXuT"
 
     init(hasher: HashProtocol) {
         self.hasher = hasher
     }
 
-    func hash(userName: String, password: String) throws -> String {
-        return try hash(hash(userName.lowercased()) + salt + hash(password))
+    func signature(username: String, password: String, salt: String) -> String {
+        return username.lowercased() + salt + password
+    }
+    
+    func hash(_ signature: String) throws -> String {
+        let hashedPassword = try _hash(signature)
+        return hashedPassword
     }
 
-    private func hash(_ input: String) throws -> String {
+    func check(input: String, matches hash: String) throws -> Bool {
+        return try hasher.check(input.makeBytes(), matchesHash: hash.makeBytes())
+    }
+    
+    // Private 
+    
+    private func _hash(_ input: String) throws -> String {
         return try hasher.make(input).makeString()
     }
 }

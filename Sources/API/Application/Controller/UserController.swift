@@ -17,7 +17,7 @@ public struct UserController {
     }
 
     func post(_ request: Request) throws -> ResponseRepresentable {
-        guard let userName = request.data[UserParameters.username]?.string,
+        guard let username = request.data[UserParameters.username]?.string,
               let email = request.data[UserParameters.email]?.string,
               let password = request.data[UserParameters.password]?.string else
         {
@@ -25,7 +25,7 @@ public struct UserController {
         }
 
         let request = AddUserRequest(
-            userName: userName,
+            username: username,
             email: email,
             password: password
         )

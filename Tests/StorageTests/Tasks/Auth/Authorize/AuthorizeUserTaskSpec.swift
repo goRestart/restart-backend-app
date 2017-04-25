@@ -83,14 +83,15 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
     // MARK - Helper
 
     private func givenThereAreUsers(enabled: Bool = true) {
-        let hashedPassword = try! passwordHasher.hash(
-            userName: testUserName,
-            password: testPassword
+        let password = PasswordDiskModel(
+            hash: "hash",
+            salt: "salt"
         )
-
+        try! password.save()
+        
         let user = UserDiskModel(
             username: testUserName,
-            password: hashedPassword
+            passwordId: password.id!
         )
         user.status = enabled ? .enabled: .blocked
         

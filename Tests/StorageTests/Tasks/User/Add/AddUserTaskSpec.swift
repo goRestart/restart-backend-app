@@ -23,7 +23,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
 
     private let testEmail = "hi@restart.net"
     private let invalidEmail = "hi@com"
-    private let testUserName = "restart"
+    private let testUsername = "restart"
 
     override func setUp() {
         super.setUp()
@@ -52,7 +52,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
 
     func fixMetestShould_throw_error_if_email_is_incorrect() {
         let request = AddUserRequest(
-            userName: testUserName,
+            username: testUsername,
             email: invalidEmail,
             password: "ugbhnjdmkhgasd"
         )
@@ -66,7 +66,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
         XCTAssertThrowsError(try givenThereAreDuplicatedUsersWithSameUserName(2))
 
         let request = AddUserRequest(
-            userName: testUserName,
+            username: testUsername,
             email: testEmail,
             password: "c001d209a772r"
         )
@@ -80,7 +80,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
         XCTAssertThrowsError(try givenThereAreDuplicatedUsersWithSameEmail(2))
 
         let request = AddUserRequest(
-            userName: testUserName,
+            username: testUsername,
             email: testEmail,
             password: "c001d209a772r"
         )
@@ -92,7 +92,7 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
 
     func fixMetestShould_add_user_if_all_fields_are_valid() {
         let request = AddUserRequest(
-            userName: testUserName,
+            username: testUsername,
             email: testEmail,
             password: "c001d209a772r"
         )
@@ -118,18 +118,30 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
     }
 
     private func generateWithSameUserName() throws {
-        let user = UserDiskModel(
-            username: testUserName,
-            password: "c001d209a772r"
+        let password = PasswordDiskModel(
+            hash: "hash",
+            salt: "salt"
         )
-        user.username = testUserName
+        try password.save()
+
+        let user = UserDiskModel(
+            username: testUsername,
+            passwordId: password.id!
+        )
+        user.username = testUsername
         try user.save()
     }
 
     private func generateWithSameEmail() throws {
+        let password = PasswordDiskModel(
+            hash: "hash",
+            salt: "salt"
+        )
+        try password.save()
+        
         let user = UserDiskModel(
-            username: UUID().uuidString,
-            password: "c001d209a772r"
+            username: testUsername,
+            passwordId: password.id!
         )
         user.email = testEmail
         try user.save()

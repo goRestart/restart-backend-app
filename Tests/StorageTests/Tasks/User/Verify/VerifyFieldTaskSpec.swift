@@ -58,9 +58,15 @@ class VerifyFieldTaskSpec: XCTestDatabasePreparations {
     }
 
     private func generate(email: String? = nil) throws {
+        let password = PasswordDiskModel(
+            hash: "hash",
+            salt: "salt"
+        )
+        try password.save()
+        
         let user = UserDiskModel(
             username: testUserName,
-            password: "c001d209a772r"
+            passwordId: password.id!
         )
         user.email = email
         try user.save()

@@ -2,12 +2,12 @@ import Foundation
 
 public struct AddUserRequest {
     
-    public let userName: String
+    public let username: String
     public let email: String
     public let password: String
     
-    public init(userName: String, email: String, password: String) {
-        self.userName = userName
+    public init(username: String, email: String, password: String) {
+        self.username = username
         self.email = email
         self.password = password
     }

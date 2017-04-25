@@ -7,19 +7,21 @@ public protocol Model: Entity {}
 
 class XCTestDatabasePreparations: XCTestCase {
 
-    private let drop = try! Droplet()
+    private var drop: Droplet!
     private var memoryDriver: MemoryDriver!
     private var memoryDatabase: Database!
 
     override func setUp() {
         super.setUp()
+        
+        drop = try! getDroplet()
 
         memoryDriver = try! MemoryDriver()
         memoryDatabase = Database(memoryDriver)
 
-        drop.database = memoryDatabase
-            
-        try! drop.addProvider(FluentProvider.Provider)
+        drop.config.addConfigurable(driver: MemoryDriver.init, name: "memory-driver")
+        
+        try! drop.config.addProvider(FluentProvider.Provider)
     }
     
     override func tearDown() {
@@ -33,11 +35,11 @@ class XCTestDatabasePreparations: XCTestCase {
             model.database = memoryDatabase
         }
         
-        drop.preparations = models.map { $0 as! Preparation.Type }
+        drop.config.preparations = models.map { $0 as! Preparation.Type }
         
         // We don't want to run our entire webserver so we need to make this
         // hack so we only initialize providers without firing up server
-        for provider in drop.providers {
+        for provider in drop.config.providers {
             try! provider.beforeRun(drop)
         }
     }
@@ -46,3 +48,4 @@ class XCTestDatabasePreparations: XCTestCase {
         prepare([model])
     }
 }
+

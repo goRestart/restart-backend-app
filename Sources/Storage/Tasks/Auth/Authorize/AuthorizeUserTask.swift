@@ -23,16 +23,26 @@ public struct AuthorizeUserTask {
         let username = request.userName
         let password = request.password
 
-        let hashedPassword = try passwordHasher.hash(
-            userName: username,
-            password: password
-        )
-
         guard let user = try UserDiskModel.makeQuery()
-            .filter(UserDiskModel.Field.username, username)
-            .filter(UserDiskModel.Field.password, hashedPassword)
+            .filter(raw: "\(UserDiskModel.Field.username) = lcase('\(username)')")
             .first() else {
                 throw AuthorizationError.invalidCredentials
+        }
+        
+        guard let passwordHash = try user.password()?.hash,
+              let passwordSalt = try user.password()?.salt else {
+            throw AuthorizationError.invalidCredentials
+        }
+        
+        let signature = passwordHasher.signature(
+            username: username,
+            password: password,
+            salt: passwordSalt
+        )
+        
+        let passwordMatches = try passwordHasher.check(input: signature, matches: passwordHash)
+        if !passwordMatches {
+            throw AuthorizationError.invalidCredentials
         }
         
         let usernameIsEnabled = user.status == .enabled

@@ -19,7 +19,7 @@ public struct AddUserTask {
 
     public func execute(_ request: AddUserRequest) throws {
         let email = request.email.lowercased()
-        let userName = request.userName.lowercased() // TODO: Remove the lowercased
+        let username = request.username
         let password = request.password
 
         // TODO: Add username validator 
@@ -28,17 +28,32 @@ public struct AddUserTask {
             throw AddUserError.invalidEmail
         }
         
-        try verifyFieldTask.execute(.username(userName))
+        try verifyFieldTask.execute(.username(username))
         try verifyFieldTask.execute(.email(email))
 
-        let hashedPassword = try passwordHasher.hash(
-            userName: userName,
-            password: password
+        let salt = UUID().uuidString
+        let signature = passwordHasher.signature(
+            username: username,
+            password: password,
+            salt: salt
         )
         
+        let hashedPassword = try passwordHasher.hash(signature)
+
+        let passwordDiskModel = PasswordDiskModel(
+            hash: hashedPassword,
+            salt: salt
+        )
+        
+        try passwordDiskModel.save()
+
+        guard let passwordDiskModelId = passwordDiskModel.id else {
+            throw AddUserError.unknown
+        }
+        
         let user = UserDiskModel(
-            username: userName,
-            password: hashedPassword
+            username: username,
+            passwordId: passwordDiskModelId
         )
         
         do {
