@@ -13,7 +13,6 @@ public struct Application {
     }
 
     public func run() throws {
-        try prepare(droplet)
         router.route()
         try droplet.run()
     }

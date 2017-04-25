@@ -1,4 +1,17 @@
 import ServiceLocator
+import Vapor
+
+// MARK: - Api auth
+
+extension ApiAuthMiddleware: ConfigInitializable {
+    
+    public init(config: Config) throws {
+        self.init(
+            developerService: Dependency().getDeveloperService(),
+            hasher: try config.resolveHash()
+        )
+    }
+}
 
 extension Assembly {
 
