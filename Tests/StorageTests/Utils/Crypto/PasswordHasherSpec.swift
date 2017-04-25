@@ -24,12 +24,16 @@ class PasswordHasherSpec: XCTestCase {
     }
     
     func testShould_generate_the_correct_password_hash() {
-        let passwordToHash = "Restart is going to rick you world ❤️"
-        let hashedString = try! sut.hash(
-            userName: "skyweb07",
-            password: passwordToHash
+        let passwordToHash = "Restart is going to rock you world ❤️"
+        let salt = UUID().uuidString
+        
+        let signature = sut.signature(
+            username: "skyweb07",
+            password: passwordToHash,
+            salt: salt
         )
+        let hashedPassword = try! sut.hash(signature)
 
-        XCTAssertEqual("efb94009820a6f239183d4a28f7ea618bff1b8bd361788ed1012b6ba59541108", hashedString)
+        XCTAssertTrue(try sut.check(input: signature, matches: hashedPassword))
     }
 }
