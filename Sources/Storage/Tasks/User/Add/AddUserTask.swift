@@ -55,6 +55,7 @@ public struct AddUserTask {
             username: username,
             passwordId: passwordDiskModelId
         )
+        user.email = email
         
         do {
             try user.save()
