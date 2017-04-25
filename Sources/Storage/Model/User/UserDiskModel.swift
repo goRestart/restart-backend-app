@@ -16,7 +16,7 @@ extension UserDiskModel {
         static let locationId = "location_id"
         static let userStatus = "user_status"
         static let localeId = "locale_id"
-        static let password = "password"
+        static let passwordId = "password_id"
         static let birthDate = "birth_date"
         static let status = "status"
     }
@@ -41,7 +41,7 @@ final class UserDiskModel: Entity, Timestampable {
     var email: String?
     var locationId: Identifier?
     var localeId: Identifier?
-    var password: String
+    var passwordId: Identifier
     var birthDate: Date?
     fileprivate var rawStatus: Int = Status.enabled.rawValue
 
@@ -54,9 +54,9 @@ final class UserDiskModel: Entity, Timestampable {
         }
     }
 
-    init(username: String, password: String) {
+    init(username: String, passwordId: Identifier) {
         self.username = username
-        self.password = password
+        self.passwordId = passwordId
     }
     
     init(row: Row) throws {
@@ -66,10 +66,10 @@ final class UserDiskModel: Entity, Timestampable {
         description = try row.get(Field.description)
         profileImageId = try row.get(Field.profileImageId)
         genderId = try row.get(Field.genderId)
-        email = try row.get(Field.profileImageId)
+        email = try row.get(Field.email)
         locationId = try row.get(Field.locationId)
         localeId = try row.get(Field.localeId)
-        password = try row.get(Field.password)
+        passwordId = try row.get(Field.passwordId)
         birthDate = try row.get(Field.birthDate)
         rawStatus = try row.get(Field.status)
         id = try row.get(idKey)
@@ -85,7 +85,7 @@ final class UserDiskModel: Entity, Timestampable {
         try row.set(Field.email, email)
         try row.set(Field.locationId, locationId)
         try row.set(Field.localeId, localeId)
-        try row.set(Field.password, password)
+        try row.set(Field.passwordId, passwordId)
         try row.set(Field.birthDate, birthDate)
         try row.set(Field.status, rawStatus)
         try row.set(idKey, id)
@@ -98,24 +98,28 @@ final class UserDiskModel: Entity, Timestampable {
 
 extension UserDiskModel {
     
+    func password() throws -> PasswordDiskModel? {
+        return try parent(id: passwordId).get()
+    }
+    
     func gender() throws -> GenderDiskModel? {
         guard let identifier = genderId else { return nil }
-        return try parent(id: identifier, type: GenderDiskModel.self).get()
+        return try parent(id: identifier).get()
     }
     
     func image() throws -> ImageDiskModel? {
         guard let identifier = profileImageId else { return nil }
-        return try parent(id: identifier, type: ImageDiskModel.self).get()
+        return try parent(id: identifier).get()
     }
     
     func location() throws -> LocationDiskModel? {
         guard let identifier = locationId else { return nil }
-        return try parent(id: identifier, type: LocationDiskModel.self).get()
+        return try parent(id: identifier).get()
     }
     
     func locale() throws -> LocaleDiskModel? {
         guard let identifier = localeId else { return nil }
-        return try parent(id: identifier, type: LocaleDiskModel.self).get()
+        return try parent(id: identifier).get()
     }
 }
 
@@ -135,7 +139,7 @@ extension UserDiskModel: Preparation {
             creator.string(Field.email, optional: true, unique: true)
             creator.parent(LocationDiskModel.self, idKey: Field.locationId, optional: true, unique: false)
             creator.parent(LocaleDiskModel.self, idKey: Field.localeId, optional: true, unique: false)
-            creator.string(Field.password)
+            creator.parent(PasswordDiskModel.self, idKey: Field.passwordId, optional: false, unique: true)
             creator.int(Field.status, optional: false, unique: false, default: Status.enabled.rawValue)
             creator.date(Field.birthDate, optional: true)
         }
