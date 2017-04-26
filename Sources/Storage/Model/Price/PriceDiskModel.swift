@@ -5,7 +5,7 @@ extension PriceDiskModel {
     static var name: String = "price"
     
     struct Field {
-        static let value = "value"
+        static let amount = "amount"
         static let localeId = "locale_id"
     }
 }
@@ -14,16 +14,16 @@ final class PriceDiskModel: Entity {
     
     let storage = Storage()
     
-    var value: Double
+    var amount: Double
     var localeId: Identifier?
     
-    public init(value: Double, localeId: Identifier?) {
-        self.value = value
+    public init(amount: Double, localeId: Identifier?) {
+        self.amount = amount
         self.localeId = localeId
     }
     
     public init(row: Row) throws {
-        value = try row.get(Field.value)
+        amount = try row.get(Field.amount)
         localeId = try row.get(Field.localeId)
         id = try row.get(idKey)
     }
@@ -31,9 +31,18 @@ final class PriceDiskModel: Entity {
     public func makeRow() throws -> Row {
         var row = Row()
         try row.set(idKey, id)
-        try row.set(Field.value, value)
+        try row.set(Field.amount, amount)
         try row.set(Field.localeId, localeId)
         return row
+    }
+}
+
+// MARK: - Relation
+
+extension PriceDiskModel {
+    
+    func locale() throws  -> LocaleDiskModel? {
+        return try parent(id: localeId).get()
     }
 }
 
@@ -44,7 +53,7 @@ extension PriceDiskModel: Preparation {
     public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
-            creator.double(Field.value)
+            creator.double(Field.amount)
             creator.parent(LocaleDiskModel.self, idKey: Field.localeId, optional: false, unique: false)
         }
     }
