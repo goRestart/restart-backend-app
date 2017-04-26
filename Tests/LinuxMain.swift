@@ -1,22 +1,16 @@
 import XCTest
 @testable import StorageTests
 
-XCTMain([
+private let storageTests = [
+     /* Infrastructure */
+     testCase(UserSessionRepositorySpec.allTests),
+     testCase(InMemoryUserSessionDiskDataSourceSpec.allTests),
 
+     /* Utils */
      testCase(PasswordHasherSpec.allTests),
      testCase(EmailValidatorSpec.allTests)
-     # /* User */
-     # testCase(EmailValidatorSpec.allTests),
-     # testCase(PasswordHasherSpec.allTests),
-     # testCase(VerifyFieldTaskSpec.allTests),
-     # testCase(AddUserTaskSpec.allTests),
+] 
 
-     # /* Developer */
-     # testCase(CheckIfApiKeyIsValidTaskSpec.allTests),
+let allTests = storageTests
 
-     # /* Auth */
-     # testCase(AuthorizeUserTaskSpec.allTests),
-     # testCase(SessionRepositorySpec.allTests),
-     # testCase(InMemorySessionDiskDataSourceSpec.allTests),
-     # testCase(SessionDiskDataSourceSpec.allTests)
-])
+XCTMain(allTests)
