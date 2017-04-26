@@ -2,6 +2,7 @@ import Foundation
 
 public struct User {
     
+    public let identifier: String
     public let username: String
     public let firstName: String?
     public let lastName: String?
@@ -13,7 +14,8 @@ public struct User {
     public let locale: Locale?
     public let birthDate: Date?
     
-    public init(username: String,
+    public init(identifier: String,
+                username: String,
                 firstName: String?,
                 lastName: String?,
                 description: String?,
@@ -24,6 +26,7 @@ public struct User {
                 locale: Locale?,
                 birthDate: Date?)
     {
+        self.identifier = identifier
         self.username = username
         self.firstName = firstName
         self.lastName = lastName
