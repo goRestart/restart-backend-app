@@ -3,8 +3,7 @@ import FluentProvider
 extension GenderDiskModel {
     
     static var name: String = "gender"
-    static var idType: IdentifierType = .int
-    
+
     struct Field {
         static let value = "value"
     }
