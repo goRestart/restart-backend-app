@@ -36,8 +36,15 @@ ENV PATH $WORK_DIR/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr/bin:$PATH
 RUN swiftc -h
 
 # Install MySQL
-RUN apt-get update && \
-    apt-get install -y libmysqlclient-dev
+# RUN apt-get update && apt-get install -y \
+#  libmysqlclient-dev
+
+RUN export DEBIAN_FRONTEND=noninteractive
+
+RUN wget http://dev.mysql.com/get/mysql-apt-config_0.6.0-1_all.deb
+RUN dpkg -i mysql-apt-config_0.6.0-1_all.deb
+RUN apt-get update
+RUN apt-get install mysql-server -y
 
 # # Install SQLite
 # RUN apt-get update && \
