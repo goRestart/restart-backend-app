@@ -103,23 +103,19 @@ extension UserDiskModel {
     }
     
     func gender() throws -> GenderDiskModel? {
-        guard let identifier = genderId else { return nil }
-        return try parent(id: identifier).get()
+        return try parent(id: genderId).get()
     }
     
     func image() throws -> ImageDiskModel? {
-        guard let identifier = profileImageId else { return nil }
-        return try parent(id: identifier).get()
+        return try parent(id: profileImageId).get()
     }
     
     func location() throws -> LocationDiskModel? {
-        guard let identifier = locationId else { return nil }
-        return try parent(id: identifier).get()
+        return try parent(id: locationId).get()
     }
     
     func locale() throws -> LocaleDiskModel? {
-        guard let identifier = localeId else { return nil }
-        return try parent(id: identifier).get()
+        return try parent(id: localeId).get()
     }
 }
 

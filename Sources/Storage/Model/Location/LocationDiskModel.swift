@@ -10,6 +10,7 @@ extension LocationDiskModel {
         static let city = "city"
         static let country = "country"
         static let zip = "zip"
+        static let ip = "ip"
     }
 }
 
@@ -22,6 +23,7 @@ final class LocationDiskModel: Entity, Timestampable {
     var city: String?
     var country: String?
     var zip: String?
+    var ip: String?
     
     init(row: Row) throws {
         latitude = try row.get(Field.latitude)
@@ -29,6 +31,7 @@ final class LocationDiskModel: Entity, Timestampable {
         city = try row.get(Field.city)
         country = try row.get(Field.country)
         zip = try row.get(Field.zip)
+        ip = try row.get(Field.ip)
         id = try row.get(idKey)
     }
     
@@ -39,6 +42,7 @@ final class LocationDiskModel: Entity, Timestampable {
         try row.set(Field.city, city)
         try row.set(Field.country, country)
         try row.set(Field.zip, zip)
+        try row.set(Field.ip, ip)
         try row.set(idKey, id)
         return row
     }
@@ -56,6 +60,7 @@ extension LocationDiskModel: Preparation {
             creator.string(Field.city)
             creator.string(Field.country)
             creator.string(Field.zip)
+            creator.string(Field.ip)
         }
     }
     
