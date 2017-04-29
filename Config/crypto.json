@@ -4,8 +4,8 @@
         "encoding": "hex"
     },
     "cipher": {
+        "encoding": "base64",
         "method": "aes256",
-        "key": "passwordpasswordpasswordpassword",
-        "iv": "password"
+        "key": "BWr/SnQHl30q6G4wFYPHfAVowM28NWI8Mq3rYHRXubw="
     }
 }

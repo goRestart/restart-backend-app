@@ -1,51 +1,31 @@
 import XCTest
-import FluentProvider
 import Fluent
-import Vapor
+import MySQLDriver
+import Storage
 
 public protocol Model: Entity {}
 
 class XCTestDatabasePreparations: XCTestCase {
 
-    private var drop: Droplet!
-    private var memoryDriver: MemoryDriver!
-    private var memoryDatabase: Database!
-
+    public var database: Database!
+ 
     override func setUp() {
         super.setUp()
-        
-        drop = try! getDroplet()
+        Fluent.autoForeignKeys = false
 
-        memoryDriver = try! MemoryDriver()
-        memoryDatabase = Database(memoryDriver)
-
-        drop.config.addConfigurable(driver: MemoryDriver.init, name: "memory-driver")
+        let driver = try! MemoryDriver()
         
-        try! drop.config.addProvider(FluentProvider.Provider)
+        database = Database(driver)
+
+        initializeDatabase()
     }
     
     override func tearDown() {
-        memoryDriver = nil
-        memoryDatabase = nil
         super.tearDown()
+        try! database.revertAll(FluentStorage.preparations.reversed())
     }
-
-    func prepare(_ models: [Entity.Type]) {
-        models.forEach { model in
-            model.database = memoryDatabase
-        }
-        
-        drop.config.preparations = models.map { $0 as! Preparation.Type }
-        
-        // We don't want to run our entire webserver so we need to make this
-        // hack so we only initialize providers without firing up server
-        for provider in drop.config.providers {
-            try! provider.beforeRun(drop)
-        }
-    }
-
-    func prepare(_ model: Entity.Type) {
-        prepare([model])
+    
+    private func initializeDatabase() {
+        try! database.prepare(FluentStorage.preparations)
     }
 }
-

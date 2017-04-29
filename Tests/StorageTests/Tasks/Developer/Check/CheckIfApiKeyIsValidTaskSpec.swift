@@ -5,11 +5,11 @@ import Domain
 
 class CheckIfApiKeyIsValidTaskSpec: XCTestDatabasePreparations {
 
-//    static let allTests = [
-//        ("testShould_throw_if_private_key_is_invalid", testShould_throw_if_private_key_is_invalid),
-//        ("testShould_throw_if_public_key_is_invalid", testShould_throw_if_public_key_is_invalid),
-//        ("testShould_not_throw_if_keys_are_valid", testShould_not_throw_if_keys_are_valid)
-//    ]
+    static let allTests = [
+        ("testShould_throw_if_private_key_is_invalid", testShould_throw_if_private_key_is_invalid),
+        ("testShould_throw_if_public_key_is_invalid", testShould_throw_if_public_key_is_invalid),
+        ("testShould_not_throw_if_keys_are_valid", testShould_not_throw_if_keys_are_valid)
+    ]
 
     private var sut: CheckIfApiKeyIsValidTask!
     private let testPrivateApiKey = "superPrivateApiKey9837493243"
@@ -17,7 +17,6 @@ class CheckIfApiKeyIsValidTaskSpec: XCTestDatabasePreparations {
 
     override func setUp() {
         super.setUp()
-        prepare(ApiKeyDiskModel.self)
         sut = CheckIfApiKeyIsValidTask()
     }
     
@@ -26,7 +25,7 @@ class CheckIfApiKeyIsValidTaskSpec: XCTestDatabasePreparations {
         super.tearDown()
     }
 
-    func fixtestShould_throw_if_private_key_is_invalid() {
+    func testShould_throw_if_private_key_is_invalid() {
         givenThereAreValidKeys()
 
         let invalidPrivateApiKey = "yaTuSabe"
@@ -36,7 +35,7 @@ class CheckIfApiKeyIsValidTaskSpec: XCTestDatabasePreparations {
         }
     }
 
-    func fixtestShould_throw_if_public_key_is_invalid() {
+    func testShould_throw_if_public_key_is_invalid() {
         givenThereAreValidKeys()
 
         let invalidPublicApiKey = "palMundo"
@@ -46,7 +45,7 @@ class CheckIfApiKeyIsValidTaskSpec: XCTestDatabasePreparations {
         }
     }
 
-    func fixtestShould_not_throw_if_keys_are_valid() {
+    func testShould_not_throw_if_keys_are_valid() {
         givenThereAreValidKeys()
 
         try! sut.execute(testPrivateApiKey, testPublicApiKey)

@@ -16,7 +16,6 @@ extension UserDiskModel {
         static let locationId = "location_id"
         static let userStatus = "user_status"
         static let localeId = "locale_id"
-        static let passwordId = "password_id"
         static let birthDate = "birth_date"
         static let status = "status"
     }
@@ -41,7 +40,6 @@ final class UserDiskModel: Entity, Timestampable {
     var email: String?
     var locationId: Identifier?
     var localeId: Identifier?
-    var passwordId: Identifier
     var birthDate: Date?
     fileprivate var rawStatus: Int = Status.enabled.rawValue
 
@@ -54,9 +52,8 @@ final class UserDiskModel: Entity, Timestampable {
         }
     }
 
-    init(username: String, passwordId: Identifier) {
+    init(username: String) {
         self.username = username
-        self.passwordId = passwordId
     }
     
     init(row: Row) throws {
@@ -69,7 +66,6 @@ final class UserDiskModel: Entity, Timestampable {
         email = try row.get(Field.email)
         locationId = try row.get(Field.locationId)
         localeId = try row.get(Field.localeId)
-        passwordId = try row.get(Field.passwordId)
         birthDate = try row.get(Field.birthDate)
         rawStatus = try row.get(Field.status)
         id = try row.get(idKey)
@@ -85,7 +81,6 @@ final class UserDiskModel: Entity, Timestampable {
         try row.set(Field.email, email)
         try row.set(Field.locationId, locationId)
         try row.set(Field.localeId, localeId)
-        try row.set(Field.passwordId, passwordId)
         try row.set(Field.birthDate, birthDate)
         try row.set(Field.status, rawStatus)
         try row.set(idKey, id)
@@ -97,9 +92,9 @@ final class UserDiskModel: Entity, Timestampable {
 // MARK - Relations
 
 extension UserDiskModel {
-    
+
     func password() throws -> PasswordDiskModel? {
-        return try parent(id: passwordId).get()
+        return try children().first()
     }
     
     func gender() throws -> GenderDiskModel? {
@@ -130,12 +125,12 @@ extension UserDiskModel: Preparation {
             creator.string(Field.firstName, optional: true)
             creator.string(Field.lastName, optional: true)
             creator.string(Field.description, optional: true)
+
             creator.parent(ImageDiskModel.self, idKey: Field.profileImageId, optional: true, unique: false)
             creator.parent(GenderDiskModel.self, idKey: Field.genderId, optional: true, unique: false)
             creator.string(Field.email, optional: true, unique: true)
             creator.parent(LocationDiskModel.self, idKey: Field.locationId, optional: true, unique: false)
             creator.parent(LocaleDiskModel.self, idKey: Field.localeId, optional: true, unique: false)
-            creator.parent(PasswordDiskModel.self, idKey: Field.passwordId, optional: false, unique: true)
             creator.int(Field.status, optional: false, unique: false, default: Status.enabled.rawValue)
             creator.date(Field.birthDate, optional: true)
         }
