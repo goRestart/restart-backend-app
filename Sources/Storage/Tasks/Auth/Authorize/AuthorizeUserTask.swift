@@ -29,8 +29,6 @@ public struct AuthorizeUserTask {
                 throw AuthorizationError.invalidCredentials
         }
         
-      
-        
         guard let passwordHash = try user.password()?.hash,
               let passwordSalt = try user.password()?.salt else {
             throw AuthorizationError.invalidCredentials
