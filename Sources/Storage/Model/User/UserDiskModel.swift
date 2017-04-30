@@ -26,8 +26,8 @@ final class UserDiskModel: Entity, Timestampable {
     let storage = Storage()
     
     enum Status: Int {
-        case enabled = 0
-        case blocked = 1
+        case blocked = 0
+        case enabled = 1
         case banned = 2
     }
     
@@ -125,7 +125,6 @@ extension UserDiskModel: Preparation {
             creator.string(Field.firstName, optional: true)
             creator.string(Field.lastName, optional: true)
             creator.string(Field.description, optional: true)
-
             creator.parent(ImageDiskModel.self, idKey: Field.profileImageId, optional: true, unique: false)
             creator.parent(GenderDiskModel.self, idKey: Field.genderId, optional: true, unique: false)
             creator.string(Field.email, optional: true, unique: true)
