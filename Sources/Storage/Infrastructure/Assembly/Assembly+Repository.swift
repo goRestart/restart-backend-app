@@ -12,10 +12,8 @@ extension Assembly: UserSessionDataSourceProvider {
     }
     
     func inMemory() -> UserSessionDataSource {
-        let droplet = getDroplet()
-        
         return InMemoryUserSessionDataSource(
-            memoryCache: droplet.cache
+            memoryCache: getMemoryCache()
         )
     }
     
