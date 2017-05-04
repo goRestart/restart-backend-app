@@ -1,14 +1,19 @@
 import ServiceLocator
 import Vapor
+import Cache
+import RedisProvider
+import API
 
 public extension Assembly {
     
-    func getDroplet() -> Droplet {
-        let key = String(describing: Droplet.self)
-        guard let droplet: Droplet = Resolve(key) else {
-            let service: Droplet = try! Droplet()
-            return Register(service, key: key)
-        }
-        return droplet
+    func getMemoryCache() -> CacheProtocol {
+        return getDroplet().cache
+    }
+    
+    func getHasher() -> HashProtocol {
+        return CryptoHasher(
+            hash: .sha256,
+            encoding: .hex
+        )
     }
 }

@@ -11,11 +11,11 @@ public struct VerifyFieldTask {
     public func execute(_ field: FieldToVerify) throws {
         switch field {
         case .username(let value):
-            if let _ = try UserDiskModel.makeQuery().filter(UserDiskModel.Field.username, value).first() {
+            if let _ = try UserDiskModel.makeQuery().filter(raw: "\(UserDiskModel.Field.username) = lower('\(value.lowercased())')").first() {
                 throw AddUserError.userNameIsAlreadyInUse
             }
         case .email(let value):
-            if let _ = try UserDiskModel.makeQuery().filter(UserDiskModel.Field.email, value).first() {
+            if let _ = try UserDiskModel.makeQuery().filter(raw: "\(UserDiskModel.Field.email) = lower('\(value.lowercased())')").first() {
                 throw AddUserError.emailIsAlreadyInUse
             }
         }

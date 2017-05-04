@@ -26,8 +26,8 @@ public struct UserController {
 
         let request = AddUserRequest(
             username: username,
-            email: email,
-            password: password
+            password: password,
+            email: email
         )
 
         do {

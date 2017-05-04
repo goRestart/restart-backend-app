@@ -18,7 +18,6 @@ public struct FluentStorage {
         // User
         GenderDiskModel.self,
         UserDiskModel.self,
-        PasswordDiskModel.self,
                 
         // Product
         ProductDiskModel.self,

@@ -3,12 +3,12 @@ import Foundation
 public struct AddUserRequest {
     
     public let username: String
-    public let email: String
     public let password: String
-    
-    public init(username: String, email: String, password: String) {
+    public let email: String
+
+    public init(username: String, password: String, email: String) {
         self.username = username
-        self.email = email
         self.password = password
+        self.email = email
     }
 }

@@ -29,20 +29,11 @@ public struct AuthorizeUserTask {
                 throw AuthorizationError.invalidCredentials
         }
         
-      
-        
-        guard let passwordHash = try user.password()?.hash,
-              let passwordSalt = try user.password()?.salt else {
-            throw AuthorizationError.invalidCredentials
-        }
-
-        let signature = passwordHasher.signature(
+        let passwordMatches = try user.check(
             username: username,
-            password: password,
-            salt: passwordSalt
+            password: password
         )
         
-        let passwordMatches = try passwordHasher.check(input: signature, matches: passwordHash)
         if !passwordMatches {
             throw AuthorizationError.invalidCredentials
         }

@@ -1,4 +1,5 @@
 import FluentProvider
+import ServiceLocator
 
 extension UserDiskModel {
 
@@ -18,16 +19,19 @@ extension UserDiskModel {
         static let localeId = "locale_id"
         static let birthDate = "birth_date"
         static let status = "status"
+        static let passwordHash = "password_hash"
+        static let passwordSalt = "password_salt"
     }
 }
 
 final class UserDiskModel: Entity, Timestampable {
 
     let storage = Storage()
+    let passwordHasher = Dependency().getPasswordHasher()
     
     enum Status: Int {
-        case enabled = 0
-        case blocked = 1
+        case blocked = 0
+        case enabled = 1
         case banned = 2
     }
     
@@ -41,6 +45,8 @@ final class UserDiskModel: Entity, Timestampable {
     var locationId: Identifier?
     var localeId: Identifier?
     var birthDate: Date?
+    fileprivate var passwordHash: String
+    fileprivate var passwordSalt: String
     fileprivate var rawStatus: Int = Status.enabled.rawValue
 
     var status: Status? {
@@ -52,8 +58,18 @@ final class UserDiskModel: Entity, Timestampable {
         }
     }
 
-    init(username: String) {
+    init(username: String, password: String) throws {
         self.username = username
+        
+        let salt = UUID().uuidString
+        let signature = passwordHasher.signature(
+            username: username,
+            password: password,
+            salt: salt
+        )
+        let hash = try passwordHasher.hash(signature)
+        self.passwordHash = hash
+        self.passwordSalt = salt
     }
     
     init(row: Row) throws {
@@ -68,6 +84,8 @@ final class UserDiskModel: Entity, Timestampable {
         localeId = try row.get(Field.localeId)
         birthDate = try row.get(Field.birthDate)
         rawStatus = try row.get(Field.status)
+        passwordHash = try row.get(Field.passwordHash)
+        passwordSalt = try row.get(Field.passwordSalt)
         id = try row.get(idKey)
     }
     
@@ -83,20 +101,35 @@ final class UserDiskModel: Entity, Timestampable {
         try row.set(Field.localeId, localeId)
         try row.set(Field.birthDate, birthDate)
         try row.set(Field.status, rawStatus)
+        try row.set(Field.passwordHash, passwordHash)
+        try row.set(Field.passwordSalt, passwordSalt)
         try row.set(idKey, id)
         return row
     }
 }
 
-
-// MARK - Relations
+// MARK: - Actions
 
 extension UserDiskModel {
-
-    func password() throws -> PasswordDiskModel? {
-        return try children().first()
-    }
     
+    func check(username: String, password: String) throws -> Bool {
+        let signature = passwordHasher.signature(
+            username: username,
+            password: password,
+            salt: passwordSalt
+        )
+        return try passwordHasher.check(
+            input: signature,
+            matches: passwordHash
+        )
+    }
+}
+
+
+// MARK: - Relations
+
+extension UserDiskModel {
+ 
     func gender() throws -> GenderDiskModel? {
         return try parent(id: genderId).get()
     }
@@ -125,13 +158,14 @@ extension UserDiskModel: Preparation {
             creator.string(Field.firstName, optional: true)
             creator.string(Field.lastName, optional: true)
             creator.string(Field.description, optional: true)
-
             creator.parent(ImageDiskModel.self, idKey: Field.profileImageId, optional: true, unique: false)
             creator.parent(GenderDiskModel.self, idKey: Field.genderId, optional: true, unique: false)
             creator.string(Field.email, optional: true, unique: true)
             creator.parent(LocationDiskModel.self, idKey: Field.locationId, optional: true, unique: false)
             creator.parent(LocaleDiskModel.self, idKey: Field.localeId, optional: true, unique: false)
             creator.int(Field.status, optional: false, unique: false, default: Status.enabled.rawValue)
+            creator.string(Field.passwordHash, optional: false)
+            creator.string(Field.passwordSalt, optional: false )
             creator.date(Field.birthDate, optional: true)
         }
     }
