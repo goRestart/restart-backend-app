@@ -127,24 +127,4 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
             XCTAssertEqual(AuthorizationError.unknown, error as? AuthorizationError)
         }
     }
-    
-    // MARK: - Helpers
-    @discardableResult
-    private func givenDisabledUser(with username: String, password: String) -> UserDiskModel {
-        return givenUser(with: username, password: password, disabled: true)
-    }
-
-    @discardableResult
-    private func givenUser(with username: String, password: String, disabled: Bool = false) -> UserDiskModel {
-        let user = try! UserDiskModel(
-            username: username,
-            password: password
-        )
-        
-        user.status = disabled ? .banned: .enabled
-        
-        try! user.save()
-        
-        return user
-    }
 }
