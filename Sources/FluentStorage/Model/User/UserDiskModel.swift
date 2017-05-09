@@ -1,55 +1,58 @@
 import FluentProvider
 import ServiceLocator
+import Vapor
+import Cache
 
 extension UserDiskModel {
 
-    static var name: String = "user"
-    static var idType: IdentifierType = .uuid
+    public static var name: String = "user"
+    public static var idType: IdentifierType = .uuid
     
-    struct Field {
-        static let username = "username"
-        static let firstName = "first_name"
-        static let lastName = "last_name"
-        static let description = "description"
-        static let profileImageId = "profile_image_id"
-        static let genderId = "gender_id"
-        static let email = "email"
-        static let locationId = "location_id"
-        static let userStatus = "user_status"
-        static let localeId = "locale_id"
-        static let birthDate = "birth_date"
-        static let status = "status"
-        static let passwordHash = "password_hash"
-        static let passwordSalt = "password_salt"
+    public struct Field {
+        public static let username = "username"
+        public static let firstName = "first_name"
+        public static let lastName = "last_name"
+        public static let description = "description"
+        public static let profileImageId = "profile_image_id"
+        public static let genderId = "gender_id"
+        public static let email = "email"
+        public static let locationId = "location_id"
+        public static let userStatus = "user_status"
+        public static let localeId = "locale_id"
+        public static let birthDate = "birth_date"
+        public static let status = "status"
+        public static let passwordHash = "password_hash"
+        public static let passwordSalt = "password_salt"
     }
 }
 
-final class UserDiskModel: Entity, Timestampable {
 
-    let storage = Storage()
-    let passwordHasher = Dependency().getPasswordHasher()
+public final class UserDiskModel: Entity, Timestampable {
+
+    public let storage = Storage()
+    let passwordHasher = UserDiskModel.getPasswordHasher()
     
-    enum Status: Int {
+    public enum Status: Int {
         case blocked = 0
         case enabled = 1
         case banned = 2
     }
     
-    var username: String
-    var firstName: String?
-    var lastName: String?
-    var description: String?
-    var profileImageId: Identifier?
-    var genderId: Identifier?
-    var email: String?
-    var locationId: Identifier?
-    var localeId: Identifier?
-    var birthDate: Date?
+    public var username: String
+    public var firstName: String?
+    public var lastName: String?
+    public var description: String?
+    public var profileImageId: Identifier?
+    public var genderId: Identifier?
+    public var email: String?
+    public var locationId: Identifier?
+    public var localeId: Identifier?
+    public var birthDate: Date?
     fileprivate var passwordHash: String
     fileprivate var passwordSalt: String
     fileprivate var rawStatus: Int = Status.enabled.rawValue
 
-    var status: Status? {
+    public var status: Status? {
         set {
             rawStatus = newValue!.rawValue
         }
@@ -57,8 +60,22 @@ final class UserDiskModel: Entity, Timestampable {
             return Status(rawValue: rawStatus)
         }
     }
+    public static func getPasswordHasher() -> PasswordHasher {
+        return PasswordHasher(
+            hasher: getHasher()
+        )
+    }
+    
+    static func getHasher() -> HashProtocol {
+        return CryptoHasher(
+            hash: .sha256,
+            encoding: .hex
+        )
+    }
 
-    init(username: String, password: String) throws {
+    
+    
+    public init(username: String, password: String) throws {
         self.username = username
         
         let salt = UUID().uuidString
@@ -72,7 +89,7 @@ final class UserDiskModel: Entity, Timestampable {
         self.passwordSalt = salt
     }
     
-    init(row: Row) throws {
+    public init(row: Row) throws {
         username = try row.get(Field.username)
         firstName = try row.get(Field.firstName)
         lastName = try row.get(Field.lastName)
@@ -89,7 +106,7 @@ final class UserDiskModel: Entity, Timestampable {
         id = try row.get(idKey)
     }
     
-    func makeRow() throws -> Row {
+    public func makeRow() throws -> Row {
         var row = Row()
         try row.set(Field.username, username)
         try row.set(Field.lastName, lastName)
@@ -112,7 +129,7 @@ final class UserDiskModel: Entity, Timestampable {
 
 extension UserDiskModel {
     
-    func check(username: String, password: String) throws -> Bool {
+    public func check(username: String, password: String) throws -> Bool {
         let signature = passwordHasher.signature(
             username: username,
             password: password,
@@ -151,7 +168,7 @@ extension UserDiskModel {
 
 extension UserDiskModel: Preparation {
     
-    static func prepare(_ database: Fluent.Database) throws {
+    public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
             creator.string(Field.username, optional: false, unique: true)
@@ -170,7 +187,7 @@ extension UserDiskModel: Preparation {
         }
     }
     
-    static func revert(_ database: Fluent.Database) throws {
+    public static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
     }
 }

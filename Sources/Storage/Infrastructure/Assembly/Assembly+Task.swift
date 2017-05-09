@@ -1,4 +1,5 @@
 import ServiceLocator
+import Shared
 
 // MARK: - User
 
@@ -7,8 +8,7 @@ public extension Assembly {
     public func getAddUserTask() -> AddUserTask {
         return AddUserTask(
             emailValidator: getEmailValidator(),
-            verifyFieldTask: getVerifyFieldTask(),
-            passwordHasher: getPasswordHasher()
+            verifyFieldTask: getVerifyFieldTask()
         )
     }
 
@@ -23,7 +23,6 @@ public extension Assembly {
 
     public func getAuthorizeUserTask() -> AuthorizeUserTask {
         return AuthorizeUserTask(
-            passwordHasher: getPasswordHasher(),
             userSessionRepository: getUserSessionRepository()
         )
     }

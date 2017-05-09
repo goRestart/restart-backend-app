@@ -6,7 +6,7 @@ import Vapor
     algorithm should be enought not to store the password
     in plain text ⚠️
  */
-struct PasswordHasher {
+public struct PasswordHasher {
 
     private let hasher: HashProtocol
 

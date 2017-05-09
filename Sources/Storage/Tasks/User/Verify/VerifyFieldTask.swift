@@ -1,5 +1,6 @@
 import Foundation
 import Domain
+import FluentStorage
 
 public enum FieldToVerify {
     case username(String)

@@ -2,6 +2,7 @@ import XCTest
 import Domain
 import Fluent
 @testable import Storage
+@testable import FluentStorage
 
 class UserSessionDiskDataSourceSpec: XCTestDatabasePreparations {
 

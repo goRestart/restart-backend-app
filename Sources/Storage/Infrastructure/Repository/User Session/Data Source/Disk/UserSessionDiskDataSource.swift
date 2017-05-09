@@ -1,5 +1,6 @@
 import Foundation
 import Domain
+import FluentStorage
 
 struct UserSessionDiskDataSource: UserSessionDataSource {
 

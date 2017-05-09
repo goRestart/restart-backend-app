@@ -1,13 +1,14 @@
 import Foundation
-import Shared
-
+ 
 private let minimumNumberOfCharacters = 6 // a@a.io
 
 /*
     This is not the best way to validate emails but at least works
  */
 public struct EmailValidator: Validator {
-
+    
+    public init() {}
+    
     public func validate(_ input: String) -> Bool {
         return input.contains("@")
             && input.contains(".")

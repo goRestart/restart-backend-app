@@ -1,5 +1,6 @@
 import Foundation
 import Domain
+import FluentStorage
 
 private let oneDay = 60 * 60 * 24
 private let numberOfDaysInYear = 365
@@ -8,13 +9,9 @@ private let sessionAuthorizationInterval = TimeInterval(onYear * 2)
 
 public struct AuthorizeUserTask {
 
-    private let passwordHasher: PasswordHasher
     private let userSessionRepository: UserSessionRepositoryProtocol
 
-    init(passwordHasher: PasswordHasher,
-         userSessionRepository: UserSessionRepositoryProtocol)
-    {
-        self.passwordHasher = passwordHasher
+    init(userSessionRepository: UserSessionRepositoryProtocol) {
         self.userSessionRepository = userSessionRepository
     }
 
@@ -47,11 +44,6 @@ public struct AuthorizeUserTask {
             userId: user.id!.string!,
             validityInterval: sessionAuthorizationInterval
         )
-
-        do {
-            return try userSessionRepository.store(sessionRequest)
-        } catch {
-            throw AuthorizationError.unknown
-        }
+        return try userSessionRepository.store(sessionRequest)
     }
 }

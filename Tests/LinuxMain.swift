@@ -6,6 +6,13 @@ private let storageTests = [
      testCase(UserSessionRepositorySpec.allTests),
      testCase(InMemoryUserSessionDiskDataSourceSpec.allTests),
 
+     /* Tasks */
+     testCase(CheckIfApiKeyIsValidTaskSpec.allTests),
+     testCase(AuthorizeUserTaskSpec.allTests),
+     testCase(GetPrivateKeyTaskSpec.allTests),
+     testCase(AddUserTaskSpec.allTests),
+     testCase(VerifyFieldTaskSpec.allTests),
+
      /* Utils */
      testCase(PasswordHasherSpec.allTests),
      testCase(EmailValidatorSpec.allTests)

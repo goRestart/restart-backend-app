@@ -2,7 +2,7 @@ import Foundation
 import Vapor
 import RedisProvider
 import MySQLProvider
-import Storage
+import FluentStorage
 
 struct ApplicationConfig: ConfigProvider {
     
@@ -18,16 +18,16 @@ struct ApplicationConfig: ConfigProvider {
         try prepareStorage(config)
     }
     
-    // MARK: - Storage 
+    // MARK: - Storage
     
     private func prepareStorage(_ config: Config) throws {
         config.preparations += FluentStorage.preparations
     }
     
     // MARK: - Middleware
-
+    
     private func prepareMiddlewares(_ config: Config) throws {
-        config.addConfigurable(middleware: ApiAuthMiddleware.init, name: "api-auth")
+       // config.addConfigurable(middleware: ApiAuthMiddleware.init, name: "api-auth")
     }
     
     // MARK: - Providers
