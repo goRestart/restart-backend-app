@@ -2,6 +2,7 @@ import Foundation
 import XCTest
 import Domain
 @testable import Storage
+@testable import FluentStorage
 
 class CheckIfApiKeyIsValidTaskSpec: XCTestDatabasePreparations {
 

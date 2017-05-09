@@ -1,5 +1,6 @@
 import XCTest
-@testable import Storage
+import Shared
+@testable import FluentStorage
 
 class EmailValidatorSpec: XCTestCase {
 

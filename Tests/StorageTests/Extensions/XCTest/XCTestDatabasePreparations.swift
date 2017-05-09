@@ -1,7 +1,7 @@
 import XCTest
 import Fluent
 import MySQLDriver
-import Storage
+import FluentStorage
 
 public protocol Model: Entity {}
 

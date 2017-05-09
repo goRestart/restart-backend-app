@@ -1,5 +1,5 @@
 import Foundation
-@testable import Storage
+@testable import FluentStorage
 
 // MARK: - Helpers
 @discardableResult

@@ -1,15 +1,15 @@
 import XCTest
 import Vapor
 import Domain
+import Shared
 @testable import Storage
+@testable import FluentStorage
 
 class AddUserTaskSpec: XCTestDatabasePreparations {
 
     private var sut: AddUserTask!
     private var emailValidator: EmailValidator!
     private var verifyFieldTask: VerifyFieldTask!
-    private var passwordHasher: PasswordHasher!
-    private var hasher: HashProtocol!
     private let testUsername = "restart"
     private let testPassword = "123456"
     private let testEmail = "hi@restart.ninja"
@@ -19,24 +19,16 @@ class AddUserTaskSpec: XCTestDatabasePreparations {
     
         emailValidator = EmailValidator()
         verifyFieldTask = VerifyFieldTask()
-        hasher = CryptoHasher(hash: .sha256, encoding: .hex)
-        
-        passwordHasher = PasswordHasher(
-            hasher: hasher
-        )
-        
+
         sut = AddUserTask(
             emailValidator: emailValidator,
-            verifyFieldTask: verifyFieldTask,
-            passwordHasher: passwordHasher
+            verifyFieldTask: verifyFieldTask
         )
     }
     
     override func tearDown() {
         emailValidator = nil
         verifyFieldTask = nil
-        passwordHasher = nil
-        hasher = nil
         sut = nil
         super.tearDown()
     }

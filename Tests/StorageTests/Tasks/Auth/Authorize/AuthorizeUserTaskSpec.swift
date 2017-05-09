@@ -6,32 +6,21 @@ import Domain
 class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
     
     private var sut: AuthorizeUserTask!
-    private var passwordHasher: PasswordHasher!
     private var userSessionRepository: UserSessionRepositorySpy!
-    private var hasher: HashProtocol!
     private let testUsername = "restart"
     private let testPassword = "123456"
     
     override func setUp() {
         super.setUp()
         
-        hasher = CryptoHasher(hash: .sha256, encoding: .hex)
-
-        passwordHasher = PasswordHasher(
-            hasher: hasher
-        )
-        
         userSessionRepository = UserSessionRepositorySpy()
         
         sut = AuthorizeUserTask(
-            passwordHasher: passwordHasher,
             userSessionRepository: userSessionRepository
         )
     }
     
     override func tearDown() {
-        hasher = nil
-        passwordHasher = nil
         userSessionRepository = nil
         sut = nil
         super.tearDown()

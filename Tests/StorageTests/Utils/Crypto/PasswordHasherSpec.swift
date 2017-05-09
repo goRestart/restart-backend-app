@@ -1,7 +1,7 @@
 import XCTest
 import Storage
 import Vapor
-@testable import Storage
+@testable import FluentStorage
 
 class PasswordHasherSpec: XCTestCase {
 
