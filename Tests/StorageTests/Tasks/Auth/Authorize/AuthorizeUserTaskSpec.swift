@@ -5,6 +5,15 @@ import Domain
 
 class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
     
+    static let allTests = [
+        ("testShould_throw_if_credentials_are_wrong", testShould_throw_if_credentials_are_wrong),
+        ("testShould_authorize_if_credentials_are_correct", testShould_authorize_if_credentials_are_correct),
+        ("testShould_throw_if_password_is_incorect", testShould_throw_if_password_is_incorect),
+        ("testShould_throw_if_user_is_disabled", testShould_throw_if_user_is_disabled),
+        ("testShould_store_user_session_in_cache", testShould_store_user_session_in_cache),
+        ("testShould_throw_if_cannot_store_user_session_in_cache", testShould_throw_if_cannot_store_user_session_in_cache)
+    ]
+    
     private var sut: AuthorizeUserTask!
     private var userSessionRepository: UserSessionRepositorySpy!
     private let testUsername = "restart"
@@ -113,7 +122,7 @@ class AuthorizeUserTaskSpec: XCTestDatabasePreparations {
         userSessionRepository.storeShouldThrow = true
         
         XCTAssertThrowsError(try sut.execute(request)) { (error) in
-            XCTAssertEqual(AuthorizationError.unknown, error as? AuthorizationError)
+            XCTAssertNotNil(error)
         }
     }
 }

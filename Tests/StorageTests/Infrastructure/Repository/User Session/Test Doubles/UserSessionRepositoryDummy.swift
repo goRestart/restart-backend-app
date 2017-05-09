@@ -10,7 +10,7 @@ final class UserSessionRepositorySpy: UserSessionRepositoryProtocol {
         storeExecuted = true
         
         if storeShouldThrow {
-            throw AuthorizationError.unknown
+            throw AuthorizationError.disabledUser
         }
         
         return UserSession(

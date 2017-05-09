@@ -44,11 +44,6 @@ public struct AuthorizeUserTask {
             userId: user.id!.string!,
             validityInterval: sessionAuthorizationInterval
         )
-
-        do {
-            return try userSessionRepository.store(sessionRequest)
-        } catch {
-            throw AuthorizationError.unknown
-        }
+        return try userSessionRepository.store(sessionRequest)
     }
 }

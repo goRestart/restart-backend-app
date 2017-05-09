@@ -7,6 +7,13 @@ import Shared
 
 class AddUserTaskSpec: XCTestDatabasePreparations {
 
+    static let allTests = [
+        ("testShould_add_user_if_add_request_is_valid", testShould_add_user_if_add_request_is_valid),
+        ("testShould_throw_if_email_is_invalid", testShould_throw_if_email_is_invalid),
+        ("testShould_throw_if_email_is_already_in_use", testShould_throw_if_email_is_already_in_use),
+        ("testShould_throw_if_username_is_already_in_use", testShould_throw_if_username_is_already_in_use)
+    ]
+    
     private var sut: AddUserTask!
     private var emailValidator: EmailValidator!
     private var verifyFieldTask: VerifyFieldTask!

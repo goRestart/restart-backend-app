@@ -4,6 +4,15 @@ import Domain
 
 class VerifyFieldTaskSpec: XCTestDatabasePreparations {
     
+    static let allTests = [
+        ("testShould_throw_if_email_is_already_being_used", testShould_throw_if_email_is_already_being_used),
+        ("testShould_not_throw_if_email_is_correct", testShould_not_throw_if_email_is_correct),
+        ("testShould_throw_if_email_is_already_used_ignoring_case_sensitive", testShould_throw_if_email_is_already_used_ignoring_case_sensitive),
+        ("testShould_throw_if_username_is_already_being_used", testShould_throw_if_username_is_already_being_used),
+        ("testShould_not_throw_if_username_is_correct", testShould_not_throw_if_username_is_correct),
+        ("testShould_throw_if_username_is_already_used_ignoring_case_sensitive", testShould_throw_if_username_is_already_used_ignoring_case_sensitive)
+    ]
+    
     private var sut: VerifyFieldTask!
     private let testUsername = "restart"
     private let testPassword = "123456"

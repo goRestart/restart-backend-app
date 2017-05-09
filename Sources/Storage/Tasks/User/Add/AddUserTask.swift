@@ -35,10 +35,6 @@ public struct AddUserTask {
         )
         user.email = email
         
-        do {
-            try user.save()
-        } catch {
-            throw AddUserError.unknown
-        }
+        try user.save()
     }
 }
