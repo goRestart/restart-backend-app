@@ -2,8 +2,8 @@ import FluentProvider
 
 extension ProductDiskModel {
     
-    static var name: String = "product"
-    static var idType: IdentifierType = .uuid
+    public static var name: String = "product"
+    public static var idType: IdentifierType = .uuid
     
     struct Field {
         static let title = "title"
@@ -16,19 +16,19 @@ extension ProductDiskModel {
     }
 }
 
-final class ProductDiskModel: Entity, Timestampable {
+public final class ProductDiskModel: Entity, Timestampable {
     
-    let storage = Storage()
+    public let storage = Storage()
     
-    var title: String
-    var description: String
-    var priceId: Identifier
-    var platformId: Identifier
-    var locationId: Identifier
-    var sellerId: Identifier
+    public var title: String
+    public var description: String
+    public var priceId: Identifier?
+    public var platformId: Identifier?
+    public var locationId: Identifier?
+    public var sellerId: Identifier?
 
-    init(title: String, description: String, priceId: Identifier,
-         platformId: Identifier, locationId: Identifier, sellerId: Identifier)
+    public init(title: String, description: String, priceId: Identifier?,
+         platformId: Identifier? = nil, locationId: Identifier? = nil, sellerId: Identifier? = nil)
     {
         self.title = title
         self.description = description
@@ -38,7 +38,7 @@ final class ProductDiskModel: Entity, Timestampable {
         self.sellerId = sellerId
     }
     
-    init(row: Row) throws {
+    public init(row: Row) throws {
         title = try row.get(Field.title)
         description = try row.get(Field.description)
         priceId = try row.get(Field.priceId)
@@ -48,7 +48,7 @@ final class ProductDiskModel: Entity, Timestampable {
         id = try row.get(idKey)
     }
     
-    func makeRow() throws -> Row {
+    public func makeRow() throws -> Row {
         var row = Row()
         try row.set(Field.title, title)
         try row.set(Field.description, description)
@@ -63,15 +63,15 @@ final class ProductDiskModel: Entity, Timestampable {
 
 // MARK - Relations
 
-extension ProductDiskModel {
+public extension ProductDiskModel {
     
-    func imageCollection() throws -> ImageCollectionDiskModel? {
+    public func imageCollection() throws -> ImageCollectionDiskModel? {
         return try ImageCollectionDiskModel.makeQuery()
             .filter(ImageCollectionDiskModel.Field.productId, id)
             .first()
     }
     
-    func viewCount() throws -> Int {
+    public func viewCount() throws -> Int {
         return try ViewCountDiskModel.makeQuery()
             .filter(ViewCountDiskModel.Field.productId, id)
             .count()
@@ -82,19 +82,19 @@ extension ProductDiskModel {
 
 extension ProductDiskModel: Preparation {
     
-    static func prepare(_ database: Fluent.Database) throws {
+    public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
             creator.string(Field.title)
             creator.string(Field.description)
             creator.parent(PriceDiskModel.self, idKey: Field.priceId, optional: false, unique: false)
-            creator.parent(PlatformDiskModel.self, idKey: Field.platformId, optional: false, unique: false)
-            creator.parent(LocationDiskModel.self, idKey: Field.locationId, optional: true, unique: false)
-            creator.parent(UserDiskModel.self, idKey: Field.sellerId, optional: false, unique: false)
+            creator.parent(PlatformDiskModel.self, idKey: Field.platformId, optional: true, unique: false)  // TODO: Remove optional
+            creator.parent(LocationDiskModel.self, idKey: Field.locationId, optional: true, unique: false)  // TODO: Remove optional
+            creator.parent(UserDiskModel.self, idKey: Field.sellerId, optional: true, unique: false) // TODO: Remove optional
         }
     }
     
-    static func revert(_ database: Fluent.Database) throws {
+    public static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
     }
 }

@@ -2,8 +2,8 @@ import FluentProvider
 
 extension ImageCollectionDiskModel {
     
-    static var name: String = "image_collection"
-    static var idType: IdentifierType = .uuid
+    public static var name: String = "image_collection"
+    public static var idType: IdentifierType = .uuid
     
     struct Field {
         static let productId = "product_id"
@@ -11,27 +11,27 @@ extension ImageCollectionDiskModel {
     }
 }
 
-final class ImageCollectionDiskModel: Entity, Timestampable {
+public final class ImageCollectionDiskModel: Entity, Timestampable {
     
-    let storage = Storage()
+    public let storage = Storage()
 
-    var productId: Identifier
-    var imageIdentifiers: [Identifier] = []
-    var mainImageId: Identifier
+    public var productId: Identifier
+    public var imageIdentifiers: [Identifier] = []
+    public var mainImageId: Identifier
     
-    init(productId: Identifier, imageIdentifiers: [Identifier], mainImageId: Identifier) {
+    public init(productId: Identifier, imageIdentifiers: [Identifier], mainImageId: Identifier) {
         self.productId = productId
         self.imageIdentifiers = imageIdentifiers
         self.mainImageId = mainImageId
     }
     
-    init(row: Row) throws {
+    public init(row: Row) throws {
         productId = try row.get(Field.productId)
         mainImageId = try row.get(Field.mainImageId)
         id = try row.get(idKey)
     }
     
-    func makeRow() throws -> Row {
+    public func makeRow() throws -> Row {
         var row = Row()
         try row.set(Field.productId, productId)
         try row.set(Field.mainImageId, mainImageId)
@@ -44,7 +44,7 @@ final class ImageCollectionDiskModel: Entity, Timestampable {
 
 extension ImageCollectionDiskModel {
     
-    func images() throws -> [ImageDiskModel] {
+    public func images() throws -> [ImageDiskModel] {
         return try ImageDiskModel.makeQuery()
             .filter(ImageDiskModel.idKey, Filter.Comparison.contains, imageIdentifiers)
             .all()
@@ -55,7 +55,7 @@ extension ImageCollectionDiskModel {
 
 extension ImageCollectionDiskModel: Preparation {
     
-    static func prepare(_ database: Fluent.Database) throws {
+    public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
             creator.parent(ProductDiskModel.self, idKey: Field.productId, optional: false, unique: false)
@@ -63,7 +63,7 @@ extension ImageCollectionDiskModel: Preparation {
         }
     }
     
-    static func revert(_ database: Fluent.Database) throws {
+    public static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
     }
 }

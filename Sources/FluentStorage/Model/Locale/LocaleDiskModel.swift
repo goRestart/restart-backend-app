@@ -2,29 +2,29 @@ import FluentProvider
 
 extension LocaleDiskModel {
     
-    static var name: String = "locale"
+    public static var name: String = "locale"
     
     struct Field {
         static let identifier = "locale_id"
     }
 }
 
-final class LocaleDiskModel: Entity {
+public final class LocaleDiskModel: Entity {
 
-    let storage = Storage()
+    public let storage = Storage()
     
-    var localeIdentifier: String
+    public var localeIdentifier: String
     
-    init(localeIdentifier: String) {
+    public init(localeIdentifier: String) {
         self.localeIdentifier = localeIdentifier
     }
     
-    init(row: Row) throws {
+    public init(row: Row) throws {
         localeIdentifier = try row.get(Field.identifier)
         id = try row.get(idKey)
     }
     
-    func makeRow() throws -> Row {
+    public func makeRow() throws -> Row {
         var row = Row()
         try row.set(Field.identifier, localeIdentifier)
         try row.set(idKey, id)
@@ -36,14 +36,14 @@ final class LocaleDiskModel: Entity {
 
 extension LocaleDiskModel: Preparation {
     
-    static func prepare(_ database: Fluent.Database) throws {
+    public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
             creator.string(Field.identifier)
         }
     }
     
-    static func revert(_ database: Fluent.Database) throws {
+    public static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
     }
 }

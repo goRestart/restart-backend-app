@@ -2,7 +2,7 @@ import FluentProvider
 
 extension PriceDiskModel {
     
-    static var name: String = "price"
+    public static var name: String = "price"
     
     struct Field {
         static let amount = "amount"
@@ -10,12 +10,12 @@ extension PriceDiskModel {
     }
 }
 
-final class PriceDiskModel: Entity {
+public final class PriceDiskModel: Entity {
     
-    let storage = Storage()
+    public let storage = Storage()
     
-    var amount: Double
-    var localeId: Identifier?
+    public var amount: Double
+    public var localeId: Identifier?
     
     public init(amount: Double, localeId: Identifier?) {
         self.amount = amount
@@ -39,9 +39,9 @@ final class PriceDiskModel: Entity {
 
 // MARK: - Relation
 
-extension PriceDiskModel {
+public extension PriceDiskModel {
     
-    func locale() throws  -> LocaleDiskModel? {
+    public func locale() throws  -> LocaleDiskModel? {
         return try parent(id: localeId).get()
     }
 }

@@ -2,8 +2,8 @@ import FluentProvider
 
 extension ImageDiskModel {
 
-    static var name: String = "image"
-    static var idType: IdentifierType = .uuid
+    public static var name: String = "image"
+    public static var idType: IdentifierType = .uuid
     
     struct Field {
         static let url = "url"
@@ -14,24 +14,24 @@ extension ImageDiskModel {
     }
 }
 
-final class ImageDiskModel: Entity, Timestampable {
+public final class ImageDiskModel: Entity, Timestampable {
 
-    let storage = Storage()
+    public let storage = Storage()
     
-    var url: String
-    var width: Double
-    var height: Double
-    var size: Double
-    var color: Int?
+    public var url: String
+    public var width: Double
+    public var height: Double
+    public var size: Double
+    public var color: Int?
     
-    init(url: String, width: Double, height: Double, size: Double) {
+    public init(url: String, width: Double, height: Double, size: Double) {
         self.url = url
         self.width = width
         self.height = height
         self.size = size
     }
     
-    init(row: Row) throws {
+    public init(row: Row) throws {
         url = try row.get(Field.url)
         width = try row.get(Field.width)
         height = try row.get(Field.height)
@@ -40,7 +40,7 @@ final class ImageDiskModel: Entity, Timestampable {
         id = try row.get(idKey)
     }
     
-    func makeRow() throws -> Row {
+    public func makeRow() throws -> Row {
         var row = Row()
         try row.set(Field.url, url)
         try row.set(Field.width, width)
@@ -56,7 +56,7 @@ final class ImageDiskModel: Entity, Timestampable {
 
 extension ImageDiskModel: Preparation {
     
-    static func prepare(_ database: Fluent.Database) throws {
+    public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
             creator.string(Field.url)
@@ -67,7 +67,7 @@ extension ImageDiskModel: Preparation {
         }
     }
     
-    static func revert(_ database: Fluent.Database) throws {
+    public static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
     }
 }
