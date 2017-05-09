@@ -2,22 +2,22 @@ import FluentProvider
 
 extension ApiKeyDiskModel {
 
-    static var name: String = "api_key"
+    public static var name: String = "api_key"
     
-    struct Field {
-        static let privateKey = "private_key"
-        static let publicKey = "public_key"
-        static let enabled = "enabled"
+    public struct Field {
+        public static let privateKey = "private_key"
+        public static let publicKey = "public_key"
+        public static let enabled = "enabled"
     }
 }
 
-final class ApiKeyDiskModel: Entity {
+public final class ApiKeyDiskModel: Entity {
 
-    let storage = Storage()
+    public let storage = Storage()
     
-    var privateKey: String
-    var publicKey: String
-    var enabled = true
+    public var privateKey: String
+    public var publicKey: String
+    public var enabled = true
     
     public init(privateKey: String, publicKey: String, enabled: Bool = true) {
         self.privateKey = privateKey

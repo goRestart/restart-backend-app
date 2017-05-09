@@ -16,11 +16,14 @@ let package = Package(
     	Target(name: "Restart", dependencies: ["Storage", "Domain"]),
         Target(name: "Domain"), // Pure domain models
 
+        // FluentStorage
+        Target(name: "FluentStorage"),
+
+        // Shared
+        Target(name: "Shared", dependencies: ["FluentStorage"]),
+
     	// Storage
-        Target(name: "Storage", dependencies: ["Shared", "Domain"]),
-        
-    	// Core
-        Target(name: "Shared")
+        Target(name: "Storage", dependencies: ["Shared", "Domain", "FluentStorage"])
     ],
     dependencies: [
         .Package(url: "https://github.com/vapor/vapor.git", beta),

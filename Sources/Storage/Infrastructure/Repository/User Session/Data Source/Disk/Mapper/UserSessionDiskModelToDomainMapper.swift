@@ -1,6 +1,7 @@
 import Foundation
 import Shared
 import Domain
+import FluentStorage
 
 struct UserSessionDiskModelToDomainMapper: Mappable {
 

@@ -2,8 +2,8 @@ import FluentProvider
 
 extension UserSessionDiskModel {
     
-    static var name: String = "user_session"
-    static var idType: IdentifierType = .uuid
+    public static var name: String = "user_session"
+    public static var idType: IdentifierType = .uuid
     
     struct Field {
         static let identifier = "id"
@@ -14,28 +14,28 @@ extension UserSessionDiskModel {
     }
 }
 
-final class UserSessionDiskModel: Entity, Timestampable {
+public final class UserSessionDiskModel: Entity, Timestampable {
     
-    var storage = Storage()
+    public let storage = Storage()
     
-    var token: String
-    var userId: String
-    var validUntil: Date
+    public var token: String
+    public var userId: String
+    public var validUntil: Date
     
-    init(token: String, userId: String, validUntil: Date) {
+    public init(token: String, userId: String, validUntil: Date) {
         self.token = token
         self.userId = userId
         self.validUntil = validUntil
     }
     
-    init(row: Row) throws {
+    public init(row: Row) throws {
         token = try row.get(Field.token)
         userId = try row.get(Field.userId)
         validUntil = try row.get(Field.validUntil)
         id = try row.get(idKey)
     }
     
-    func makeRow() throws -> Row {
+    public func makeRow() throws -> Row {
         var row = Row()
         try row.set(idKey, id)
         try row.set(Field.token, token)
@@ -49,7 +49,7 @@ final class UserSessionDiskModel: Entity, Timestampable {
 
 extension UserSessionDiskModel: Preparation {
     
-    static func prepare(_ database: Fluent.Database) throws {
+    public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
             creator.string(Field.token)
@@ -58,7 +58,7 @@ extension UserSessionDiskModel: Preparation {
         }
     }
     
-    static func revert(_ database: Fluent.Database) throws {
+    public static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
     }
 }

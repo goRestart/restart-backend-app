@@ -1,6 +1,5 @@
 import Foundation
-import Shared
-
+ 
 private let minimumNumberOfCharacters = 6 // a@a.io
 
 /*
