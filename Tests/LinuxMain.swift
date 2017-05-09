@@ -7,7 +7,7 @@ private let storageTests = [
      testCase(InMemoryUserSessionDiskDataSourceSpec.allTests),
 
      /* Tasks */
-     testCase(CheckIfApiKeyIsValidTaskSpec),
+     testCase(CheckIfApiKeyIsValidTaskSpec.allTests),
      testCase(AuthorizeUserTaskSpec.allTests),
      testCase(GetPrivateKeyTaskSpec.allTests),
      testCase(AddUserTaskSpec.allTests),
