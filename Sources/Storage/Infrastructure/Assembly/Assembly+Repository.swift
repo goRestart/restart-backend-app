@@ -30,7 +30,7 @@ extension Assembly: UserSessionDataSourceProvider {
 
 extension Assembly {
     
-    func getGameRepository() -> GameRepositoryProtocol {
+    public func getGameRepository() -> GameRepositoryProtocol {
         return GameRepository(
             diskDataSource: getGameDiskDataSource()
         )
