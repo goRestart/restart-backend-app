@@ -18,13 +18,17 @@ public final class GameDiskModel: Entity, Timestampable {
     public var title: String
     public var description: String
     public var platformId: Identifier?
+    public var gameGenres: [Identifier?] = []
     
     public init(title: String,
                 description: String,
-                platformId: Identifier?) {
+                platformId: Identifier?,
+                gameGenres: [Identifier?])
+    {
         self.title = title
         self.description = description
         self.platformId = platformId
+        self.gameGenres = gameGenres
     }
     
     public init(row: Row) throws {
@@ -50,6 +54,12 @@ extension GameDiskModel {
     
     func platform() throws -> PlatformDiskModel? {
         return try parent(id: platformId).get()
+    }
+    
+    func genres() throws -> [GameGenreDiskModel] {
+        return try GameGenreDiskModel.makeQuery()
+            .filter(GameGenreDiskModel.idKey, Filter.Comparison.contains, gameGenres)
+            .all()
     }
 }
 
