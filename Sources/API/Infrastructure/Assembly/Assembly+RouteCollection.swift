@@ -6,7 +6,8 @@ extension Assembly {
         return Router(
             droplet: getDroplet(),
             userRouteCollection: getUserRouteCollection(),
-            authRouteCollection: getAuthRouteCollection()
+            authRouteCollection: getAuthRouteCollection(),
+            gameRouteCollection: getGameRouteCollection()
         )
     }
 
@@ -20,6 +21,12 @@ extension Assembly {
         return AuthRouteCollection(
             apiAuthMiddleware: getApiAuthMiddleware(),
             authController: getAuthController()
+        )
+    }
+    
+    func getGameRouteCollection() -> GameRouteCollection {
+        return GameRouteCollection(
+            gameController: getGameController()
         )
     }
 }
