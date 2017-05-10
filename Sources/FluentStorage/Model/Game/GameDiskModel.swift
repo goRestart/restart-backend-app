@@ -48,7 +48,7 @@ public final class GameDiskModel: Entity, Timestampable {
     }
 }
 
-// MARK: Relation
+// MARK: - Relation
 
 extension GameDiskModel {
     
@@ -57,8 +57,11 @@ extension GameDiskModel {
     }
     
     func genres() throws -> [GameGenreDiskModel] {
+        let genreIds = gameGenres.map {
+            $0!.string!.makeNode(in: nil)
+        }
         return try GameGenreDiskModel.makeQuery()
-            .filter(GameGenreDiskModel.idKey, Filter.Comparison.contains, gameGenres)
+            .filter(.subset(GameGenreDiskModel.idKey, .in, genreIds))
             .all()
     }
 }
