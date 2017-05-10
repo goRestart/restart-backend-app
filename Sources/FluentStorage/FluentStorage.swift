@@ -20,11 +20,16 @@ public struct FluentStorage {
         UserDiskModel.self,
                 
         // Product
-        ProductDiskModel.self,
         ImageCollectionDiskModel.self,
+        ProductDiskModel.self,
         ViewCountDiskModel.self,
         
         // Game
-        GameDiskModel.self
+        GameGenreDiskModel.self,
+        GameDiskModel.self,
+        TranslationDiskModel<GameGenreDiskModel>.self,
+        
+        // Seeders
+        GameGenreSeeder.self
     ]
 }
