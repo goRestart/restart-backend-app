@@ -30,6 +30,7 @@ public struct FluentStorage {
         TranslationDiskModel<GameGenreDiskModel>.self,
         
         // Seeders
+        PlatformSeeder.self,
         GameGenreSeeder.self
     ]
 }
