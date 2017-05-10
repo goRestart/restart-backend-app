@@ -10,7 +10,7 @@ public protocol Mappable {
 
 extension Mappable {
 
-    func map(array from: [From]) -> [To] {
+    public func map(array from: [From]) -> [To] {
         return from.map { from in
             return map(from)
         }
