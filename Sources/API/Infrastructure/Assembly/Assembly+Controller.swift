@@ -14,4 +14,10 @@ extension Assembly {
             authorizeUser: getAuthorizeUser()
         )
     }
+    
+    func getGameController() -> GameController {
+        return GameController(
+            getPlatForms: getPlatforms()
+        )
+    }
 }
