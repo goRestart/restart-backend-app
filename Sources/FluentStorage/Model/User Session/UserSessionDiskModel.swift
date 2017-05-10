@@ -3,7 +3,6 @@ import FluentProvider
 extension UserSessionDiskModel {
     
     public static var name: String = "user_session"
-    public static var idType: IdentifierType = .uuid
     
     struct Field {
         static let identifier = "id"

@@ -3,7 +3,6 @@ import FluentProvider
 extension ImageDiskModel {
 
     public static var name: String = "image"
-    public static var idType: IdentifierType = .uuid
     
     struct Field {
         static let url = "url"

@@ -6,7 +6,6 @@ import Cache
 extension UserDiskModel {
 
     public static var name: String = "user"
-    public static var idType: IdentifierType = .uuid
     
     public struct Field {
         public static let username = "username"
@@ -60,6 +59,8 @@ public final class UserDiskModel: Entity, Timestampable {
             return Status(rawValue: rawStatus)
         }
     }
+
+    // TODO: Remove this 🔥
     public static func getPasswordHasher() -> PasswordHasher {
         return PasswordHasher(
             hasher: getHasher()
@@ -73,8 +74,6 @@ public final class UserDiskModel: Entity, Timestampable {
         )
     }
 
-    
-    
     public init(username: String, password: String) throws {
         self.username = username
         

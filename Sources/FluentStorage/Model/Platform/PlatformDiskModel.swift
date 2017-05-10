@@ -2,29 +2,29 @@ import FluentProvider
 
 extension PlatformDiskModel {
     
-    static var name: String = "platform"
+    public static var name: String = "platform"
     
     struct Field {
         static let name = "name"
     }
 }
 
-final class PlatformDiskModel: Entity {
+public final class PlatformDiskModel: Entity {
     
-    let storage = Storage()
+    public let storage = Storage()
     
-    var name: String
+    public var name: String
     
-    init(name: String) {
+    public init(name: String) {
         self.name = name
     }
     
-    init(row: Row) throws {
+    public init(row: Row) throws {
         name = try row.get(Field.name)
         id = try row.get(idKey)
     }
     
-    func makeRow() throws -> Row {
+    public func makeRow() throws -> Row {
         var row = Row()
         try row.set(Field.name, name)
         try row.set(idKey, id)
@@ -36,14 +36,14 @@ final class PlatformDiskModel: Entity {
 
 extension PlatformDiskModel: Preparation {
     
-    static func prepare(_ database: Fluent.Database) throws {
+    public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
-            creator.string(Field.name)
+            creator.string(Field.name, unique: true)
         }
     }
     
-    static func revert(_ database: Fluent.Database) throws {
+    public static func revert(_ database: Fluent.Database) throws {
         try database.delete(self)
     }
 }

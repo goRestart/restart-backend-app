@@ -3,10 +3,8 @@ import FluentProvider
 extension ImageCollectionDiskModel {
     
     public static var name: String = "image_collection"
-    public static var idType: IdentifierType = .uuid
     
     struct Field {
-        static let productId = "product_id"
         static let mainImageId = "main_image_id"
     }
 }
@@ -15,25 +13,21 @@ public final class ImageCollectionDiskModel: Entity, Timestampable {
     
     public let storage = Storage()
 
-    public var productId: Identifier
     public var imageIdentifiers: [Identifier] = []
     public var mainImageId: Identifier
     
-    public init(productId: Identifier, imageIdentifiers: [Identifier], mainImageId: Identifier) {
-        self.productId = productId
+    public init(imageIdentifiers: [Identifier], mainImageId: Identifier) {
         self.imageIdentifiers = imageIdentifiers
         self.mainImageId = mainImageId
     }
     
     public init(row: Row) throws {
-        productId = try row.get(Field.productId)
         mainImageId = try row.get(Field.mainImageId)
         id = try row.get(idKey)
     }
     
     public func makeRow() throws -> Row {
         var row = Row()
-        try row.set(Field.productId, productId)
         try row.set(Field.mainImageId, mainImageId)
         try row.set(idKey, id)
         return row
@@ -58,7 +52,6 @@ extension ImageCollectionDiskModel: Preparation {
     public static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
-            creator.parent(ProductDiskModel.self, idKey: Field.productId, optional: false, unique: false)
             creator.parent(ImageDiskModel.self, idKey: Field.mainImageId, optional: false, unique: false)
         }
     }
