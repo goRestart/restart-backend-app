@@ -22,6 +22,7 @@ struct ApplicationConfig: ConfigProvider {
     
     private func prepareStorage(_ config: Config) throws {
         config.preparations += FluentStorage.preparations
+        config.preparations += FluentStorage.seeders
     }
     
     // MARK: - Middleware
