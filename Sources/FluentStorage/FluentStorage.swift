@@ -31,8 +31,8 @@ public struct FluentStorage {
     ]
     
     public static let seeders: [Preparation.Type] = [
-        // Seeders
         PlatformSeeder.self,
-        GameGenreSeeder.self
+        GameGenreSeeder.self,
+        GameSeeder.self
     ]
 }
