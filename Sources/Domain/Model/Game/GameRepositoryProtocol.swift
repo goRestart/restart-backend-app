@@ -1,5 +1,5 @@
 import Foundation
 
-protocol GameRepositoryProtocol {
+public protocol GameRepositoryProtocol {
     func getAllPlatforms() throws -> [Platform]
 }
