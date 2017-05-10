@@ -9,7 +9,7 @@ public struct GetPlatforms {
         self.gameRepository = gameRepository
     }
     
-    func getAll() throws -> [Platform] {
+    public func getAll() throws -> [Platform] {
         return try gameRepository.getAllPlatforms()
     }
 }
