@@ -7,7 +7,6 @@ extension GameDiskModel {
     public struct Field {
         public static let title = "title"
         public static let description = "description"
-        public static let platformId = "platform_id"
     }
 }
 
@@ -17,21 +16,17 @@ public final class GameDiskModel: Entity, Timestampable {
     
     public var title: String
     public var description: String
-    public var platformId: Identifier?
     
     public init(title: String,
-                description: String,
-                platformId: Identifier?)
+                description: String)
     {
         self.title = title
         self.description = description
-        self.platformId = platformId
     }
     
     public init(row: Row) throws {
         title = try row.get(Field.title)
         description = try row.get(Field.description)
-        platformId = try row.get(Field.platformId)
         id = try row.get(idKey)
     }
     
@@ -39,7 +34,6 @@ public final class GameDiskModel: Entity, Timestampable {
         var row = Row()
         try row.set(Field.title, title)
         try row.set(Field.description, description)
-        try row.set(Field.platformId, platformId)
         try row.set(idKey, id)
         return row
     }
@@ -49,10 +43,10 @@ public final class GameDiskModel: Entity, Timestampable {
 
 extension GameDiskModel {
     
-    func platform() throws -> PlatformDiskModel? {
-        return try parent(id: platformId).get()
+    func platforms() throws -> Siblings<GameDiskModel, PlatformDiskModel, Pivot<GameDiskModel, PlatformDiskModel>> {
+        return siblings()
     }
-    
+
     func genres() throws -> Siblings<GameDiskModel, GameGenreDiskModel, Pivot<GameDiskModel, GameGenreDiskModel>> {
         return siblings()
     }
@@ -67,7 +61,6 @@ extension GameDiskModel: Preparation {
             creator.id()
             creator.string(Field.title)
             creator.string(Field.description, length: 2000)
-            creator.parent(PlatformDiskModel.self, idKey: Field.platformId, optional: false, unique: false)
         }
     }
     
