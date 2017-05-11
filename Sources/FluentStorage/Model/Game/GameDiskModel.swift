@@ -21,7 +21,6 @@ public final class GameDiskModel: Entity, Timestampable {
     public var companyId: Identifier?
     public var released: Date
 
-    
     public init(title: String,
                 description: String,
                 companyId: Identifier?,
@@ -55,6 +54,10 @@ public final class GameDiskModel: Entity, Timestampable {
 // MARK: - Relation
 
 extension GameDiskModel {
+    
+    func images() throws -> Siblings<GameDiskModel, ImageDiskModel, Pivot<GameDiskModel, ImageDiskModel>> {
+        return siblings()
+    }
     
     func company() throws -> GameCompanyDiskModel? {
         return try parent(id: companyId).get()
