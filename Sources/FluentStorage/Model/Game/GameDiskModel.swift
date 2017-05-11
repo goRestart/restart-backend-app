@@ -7,6 +7,7 @@ extension GameDiskModel {
     public struct Field {
         public static let title = "title"
         public static let description = "description"
+        public static let released = "released"
     }
 }
 
@@ -16,17 +17,21 @@ public final class GameDiskModel: Entity, Timestampable {
     
     public var title: String
     public var description: String
+    public var released: Date
     
     public init(title: String,
-                description: String)
+                description: String,
+                released: Date)
     {
         self.title = title
         self.description = description
+        self.released = released
     }
     
     public init(row: Row) throws {
         title = try row.get(Field.title)
         description = try row.get(Field.description)
+        released = try row.get(Field.released)
         id = try row.get(idKey)
     }
     
@@ -34,6 +39,7 @@ public final class GameDiskModel: Entity, Timestampable {
         var row = Row()
         try row.set(Field.title, title)
         try row.set(Field.description, description)
+        try row.set(Field.released, released)
         try row.set(idKey, id)
         return row
     }
@@ -61,6 +67,7 @@ extension GameDiskModel: Preparation {
             creator.id()
             creator.string(Field.title)
             creator.string(Field.description, length: 2000)
+            creator.date(Field.released)
         }
     }
     
