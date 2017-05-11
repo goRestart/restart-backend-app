@@ -27,12 +27,13 @@ public struct FluentStorage {
         // Game
         GameGenreDiskModel.self,
         GameDiskModel.self,
+        Pivot<GameDiskModel, GameGenreDiskModel>.self,
         TranslationDiskModel<GameGenreDiskModel>.self
     ]
     
     public static let seeders: [Preparation.Type] = [
-        // Seeders
         PlatformSeeder.self,
-        GameGenreSeeder.self
+        GameGenreSeeder.self,
+        GameSeeder.self
     ]
 }
