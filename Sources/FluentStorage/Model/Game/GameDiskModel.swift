@@ -56,6 +56,10 @@ extension GameDiskModel {
     func genres() throws -> Siblings<GameDiskModel, GameGenreDiskModel, Pivot<GameDiskModel, GameGenreDiskModel>> {
         return siblings()
     }
+    
+    func alternativeNames() throws -> Siblings<GameDiskModel, GameAlternativeNameDiskModel, Pivot<GameDiskModel, GameAlternativeNameDiskModel>> {
+        return siblings()
+    }
 }
 
 // MARK: - Preparations

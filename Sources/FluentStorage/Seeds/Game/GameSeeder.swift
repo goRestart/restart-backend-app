@@ -22,6 +22,14 @@ final class GameSeeder: Seeder {
         try GameGenreDiskModel.all().forEach { element in
             try game.genres().add(element)
         }
+        
+        let alternativeName1 = GameAlternativeNameDiskModel(name: "MGS")
+        let alternativeName2 = GameAlternativeNameDiskModel(name: "Metal Gear: Ghost Babel")
+        
+        try [alternativeName1, alternativeName2].forEach { element in
+            try element.save()
+            try game.alternativeNames().add(element)
+        }
     }
     
     static func revert(_ database: Database) throws {
