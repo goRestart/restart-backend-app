@@ -18,17 +18,14 @@ public final class GameDiskModel: Entity, Timestampable {
     public var title: String
     public var description: String
     public var platformId: Identifier?
-    public var gameGenres: [Identifier?] = []
     
     public init(title: String,
                 description: String,
-                platformId: Identifier?,
-                gameGenres: [Identifier?])
+                platformId: Identifier?)
     {
         self.title = title
         self.description = description
         self.platformId = platformId
-        self.gameGenres = gameGenres
     }
     
     public init(row: Row) throws {
@@ -56,13 +53,8 @@ extension GameDiskModel {
         return try parent(id: platformId).get()
     }
     
-    func genres() throws -> [GameGenreDiskModel] {
-        let genreIds = gameGenres.map {
-            $0!.string!.makeNode(in: nil)
-        }
-        return try GameGenreDiskModel.makeQuery()
-            .filter(.subset(GameGenreDiskModel.idKey, .in, genreIds))
-            .all()
+    func genres() throws -> Siblings<GameDiskModel, GameGenreDiskModel, Pivot<GameDiskModel, GameGenreDiskModel>> {
+        return siblings()
     }
 }
 
