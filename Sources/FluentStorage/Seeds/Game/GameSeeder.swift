@@ -10,9 +10,16 @@ final class GameSeeder: Seeder {
         )
         try platform.save()
  
+        let company = GameCompanyDiskModel(
+            name: "Konami of America, Inc.",
+            description: "Konami Digital Entertainment Inc. is the North American sales, marketing, and operations subsidiary division of Konami Digital Entertainment Co., Ltd."
+        )
+        try company.save()
+        
         let game = GameDiskModel(
             title: "Metal Gear Solid",
             description: "Metal Gear Solid (original Japanese name: Metal Gear: Ghost Babel) for GameBoy Color is not the same game as the popular Playstation/PC installment of the series. It is not set within the storyline of Metal Gear series, but instead tells an unrelated episode featuring the same hero - special agent Solid Snake. A secret government project, codenamed \"Babel\", attempts to revive the Metal Gear project - development of a highly destructive mech weapon.",
+            companyId: company.id,
             released: Date()
         )
         try game.save()
