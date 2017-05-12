@@ -64,6 +64,10 @@ public final class ProductDiskModel: Entity, Timestampable {
 
 public extension ProductDiskModel {
     
+    public func images() throws -> Siblings<ProductDiskModel, ImageDiskModel, Pivot<ProductDiskModel, ImageDiskModel>> {
+        return siblings()
+    }
+    
     public func price() throws -> PriceDiskModel? {
         return try parent(id: priceId).get()
     }

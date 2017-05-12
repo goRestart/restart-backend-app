@@ -22,6 +22,7 @@ public struct FluentStorage {
         // Product
         ProductDiskModel.self,
         ViewCountDiskModel.self,
+        Pivot<ProductDiskModel, ImageDiskModel>.self,
         
         // Game
         GameGenreDiskModel.self,
