@@ -1,6 +1,7 @@
 import Foundation
 
 public struct AddProductRequest {
+    
     public let title: String
     public let description: String
     public let price: Price

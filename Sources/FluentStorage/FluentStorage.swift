@@ -18,11 +18,6 @@ public struct FluentStorage {
         // User
         GenderDiskModel.self,
         UserDiskModel.self,
-                
-        // Product
-        ProductDiskModel.self,
-        ViewCountDiskModel.self,
-        Pivot<ProductDiskModel, ImageDiskModel>.self,
         
         // Game
         GameGenreDiskModel.self,
@@ -33,7 +28,14 @@ public struct FluentStorage {
         Pivot<GameDiskModel, GameAlternativeNameDiskModel>.self,
         Pivot<GameDiskModel, PlatformDiskModel>.self,
         Pivot<GameDiskModel, GameGenreDiskModel>.self,
-        TranslationDiskModel<GameGenreDiskModel>.self
+        TranslationDiskModel<GameGenreDiskModel>.self,
+
+        // Product
+        ProductExtraDiskModel.self,
+        ProductDiskModel.self,
+        ViewCountDiskModel.self,
+        Pivot<ProductDiskModel, ImageDiskModel>.self,
+        Pivot<ProductDiskModel, ProductExtraDiskModel>.self
     ]
     
     public static let seeders: [Preparation.Type] = [

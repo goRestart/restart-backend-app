@@ -73,6 +73,10 @@ public extension ProductDiskModel {
         return try parent(id: priceId).get()
     }
     
+    public func extras() throws -> Siblings<ProductDiskModel, ProductExtraDiskModel, Pivot<ProductDiskModel, ProductExtraDiskModel>> {
+        return siblings()
+    }
+    
     public func viewCount() throws -> Int {
         return try ViewCountDiskModel.makeQuery()
             .filter(ViewCountDiskModel.Field.productId, id)
