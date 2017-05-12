@@ -20,7 +20,6 @@ public struct FluentStorage {
         UserDiskModel.self,
                 
         // Product
-        ImageCollectionDiskModel.self,
         ProductDiskModel.self,
         ViewCountDiskModel.self,
         

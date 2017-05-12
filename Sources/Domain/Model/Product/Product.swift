@@ -9,7 +9,6 @@ public struct Product {
     public let platform: Platform
     public let location: Location
     public let seller: User
-    public let imageCollection: ImageCollection
     public let views: Int
     
     public init(identifier: String,
@@ -19,7 +18,6 @@ public struct Product {
                 platform: Platform,
                 location: Location,
                 seller: User,
-                imageCollection: ImageCollection,
                 views: Int)
     {
         self.identifier = identifier
@@ -29,7 +27,6 @@ public struct Product {
         self.platform = platform
         self.location = location
         self.seller = seller
-        self.imageCollection = imageCollection
         self.views = views
     }
 }
