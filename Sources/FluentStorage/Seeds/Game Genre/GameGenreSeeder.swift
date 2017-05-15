@@ -18,9 +18,7 @@ final class GameGenreSeeder: Seeder {
         try spanishLocale.save()
         
         let testGenres = [
-            (en: "Fighting", es: "Pelea"),
-            (en: "Platform", es: "Plataforma"),
-            (en: "Shooter", es: "Disparos")
+            (en: "Fighting", es: "Pelea")
         ]
         
         try testGenres.forEach { gameGenreName in
@@ -28,16 +26,18 @@ final class GameGenreSeeder: Seeder {
             let gameGenre = GameGenreDiskModel()
             try gameGenre.save()
             
-            let englishTranslation = TranslationDiskModel<GameGenreDiskModel>(
+            
+            let englishTranslation = Localizable<GameGenreDiskModel>(
                 value: gameGenreName.en,
-                parentId: gameGenre.id,
+                key: "game_genre_name",
                 localeId: englishLocale.id
             )
+ 
             try englishTranslation.save()
-            
-            let spanishTranslation = TranslationDiskModel<GameGenreDiskModel>(
+
+            let spanishTranslation = Localizable<GameGenreDiskModel>(
                 value: gameGenreName.es,
-                parentId: gameGenre.id,
+                key: "game_genre_name",
                 localeId: spanishLocale.id
             )
             try spanishTranslation.save()

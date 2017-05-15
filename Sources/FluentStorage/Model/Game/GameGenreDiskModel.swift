@@ -26,18 +26,6 @@ public final class GameGenreDiskModel: Entity {
     }
 }
 
-// MARK: - Relation 
-
-extension GameGenreDiskModel {
-
-    func name(`for` locale: LocaleDiskModel) throws -> TranslationDiskModel<GameGenreDiskModel>? {
-        return try children().all()
-            .filter { element in
-            return element.localeId == locale.id
-        }.first
-    }
-}
-
 // MARK: - Preparations
 
 extension GameGenreDiskModel: Preparation {
