@@ -85,7 +85,7 @@ extension GameDiskModel: Preparation {
             creator.id()
             creator.string(Field.title)
             creator.string(Field.description, length: 2000)
-            creator.parent(GameCompanyDiskModel.self, idKey: Field.companyId, optional: false, unique: false)
+            creator.parent(GameCompanyDiskModel.self, optional: false, unique: false, foreignIdKey: Field.companyId)
             creator.date(Field.released)
         }
     }

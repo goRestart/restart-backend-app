@@ -54,7 +54,7 @@ extension PriceDiskModel: Preparation {
         try database.create(self) { creator in
             creator.id()
             creator.double(Field.amount)
-            creator.parent(LocaleDiskModel.self, idKey: Field.localeId, optional: false, unique: false)
+            creator.parent(LocaleDiskModel.self, optional: false, unique: false, foreignIdKey: Field.localeId)
         }
     }
     

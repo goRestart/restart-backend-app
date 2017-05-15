@@ -92,11 +92,11 @@ extension ProductDiskModel: Preparation {
         try database.create(self) { creator in
             creator.id()
             creator.string(Field.description)
-            creator.parent(PriceDiskModel.self, idKey: Field.priceId, optional: false, unique: false)
-            creator.parent(PlatformDiskModel.self, idKey: Field.platformId, optional: false, unique: false)
-            creator.parent(LocationDiskModel.self, idKey: Field.locationId, optional: true, unique: false) // TODO: Remove optional
-            creator.parent(UserDiskModel.self, idKey: Field.sellerId, optional: true, unique: false) // TODO: Remove optional
-            creator.parent(GameDiskModel.self, idKey: Field.gameId, optional: true, unique: false) // TODO: Remove optional
+            creator.parent(PriceDiskModel.self, optional: false, unique: false, foreignIdKey: Field.priceId)
+            creator.parent(PlatformDiskModel.self, optional: false, unique: false, foreignIdKey: Field.platformId)
+            creator.parent(LocationDiskModel.self, optional: true, unique: false, foreignIdKey: Field.locationId) // TODO: Remove optional
+            creator.parent(UserDiskModel.self, optional: true, unique: false, foreignIdKey: Field.sellerId) // TODO: Remove optional
+            creator.parent(GameDiskModel.self, optional: true, unique: false, foreignIdKey: Field.gameId) // TODO: Remove optional
         }
     }
     

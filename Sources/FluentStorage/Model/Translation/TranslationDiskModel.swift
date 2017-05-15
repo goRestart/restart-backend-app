@@ -58,8 +58,8 @@ extension TranslationDiskModel: Preparation {
         try database.create(self) { creator in
             creator.id()
             creator.string(Field.value)
-            creator.parent(T.self, idKey: T.foreignIdKey, optional: false, unique: false)
-            creator.parent(LocaleDiskModel.self, idKey: Field.localeId, optional: false, unique: false)
+            creator.parent(T.self, optional: false, unique: false, foreignIdKey: T.foreignIdKey)
+            creator.parent(LocaleDiskModel.self, optional: false, unique: false, foreignIdKey: Field.localeId)
         }
     }
     

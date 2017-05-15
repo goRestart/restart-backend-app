@@ -40,7 +40,7 @@ extension ViewCountDiskModel: Preparation {
     static func prepare(_ database: Fluent.Database) throws {
         try database.create(self) { creator in
             creator.id()
-            creator.parent(ProductDiskModel.self, idKey: Field.productId, optional: false, unique: false)
+            creator.parent(ProductDiskModel.self, optional: false, unique: false, foreignIdKey: Field.productId)
         }
     }
     
