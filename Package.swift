@@ -29,7 +29,7 @@ let package = Package(
         .Package(url: "https://github.com/vapor/vapor.git", beta),
         .Package(url: "https://github.com/vapor/redis-provider.git", beta),
         .Package(url: "https://github.com/vapor/fluent-provider.git", Version(1, 0, 0, prereleaseIdentifiers: ["beta"])),
-        .Package(url: "https://github.com/vapor/mysql-provider.git", beta),
+        .Package(url: "https://github.com/vapor-community/postgresql-provider.git", beta),
         .Package(url: "https://github.com/goRestart/restart-service-locator.git", majorVersion: 0)
     ],
     exclude: [
