@@ -4,7 +4,7 @@ import Fluent
 public struct FluentStorage {
     
     public static let preparations: [Preparation.Type] = [
-        // Developer
+        /*// Developer
         ApiKeyDiskModel.self,
         UserSessionDiskModel.self,
         
@@ -35,11 +35,11 @@ public struct FluentStorage {
         ProductDiskModel.self,
         ViewCountDiskModel.self,
         Pivot<ProductDiskModel, ImageDiskModel>.self,
-        Pivot<ProductDiskModel, ProductExtraDiskModel>.self
+        Pivot<ProductDiskModel, ProductExtraDiskModel>.self*/
     ]
     
     public static let seeders: [Preparation.Type] = [
-        PlatformSeeder.self,
+        //PlatformSeeder.self,
         //GameGenreSeeder.self,
         //GameSeeder.self
     ]
