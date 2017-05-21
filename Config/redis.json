@@ -1,5 +1,3 @@
 {
-    "hostname": "$REDIS_ADDRESS",
-    "password": "$REDIS_PASSWORD",
-    "port": "$REDIS_PORT"
+    "url": "$REDIS_URL"
 }

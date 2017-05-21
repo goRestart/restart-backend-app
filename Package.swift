@@ -1,7 +1,5 @@
 import PackageDescription
 
-let beta = Version(2,0,0, prereleaseIdentifiers: ["beta"])
-
 let package = Package(
     name: "restart-backend-app",
     targets: [
@@ -26,10 +24,10 @@ let package = Package(
         Target(name: "Storage", dependencies: ["Shared", "Domain", "FluentStorage"])
     ],
     dependencies: [
-        .Package(url: "https://github.com/vapor/vapor.git", beta),
-        .Package(url: "https://github.com/vapor/redis-provider.git", beta),
-        .Package(url: "https://github.com/vapor/fluent-provider.git", Version(1, 0, 0, prereleaseIdentifiers: ["beta"])),
-        .Package(url: "https://github.com/vapor-community/postgresql-provider.git", beta),
+        .Package(url: "https://github.com/vapor/vapor.git", Version(2,0,0)),
+        .Package(url: "https://github.com/vapor/redis-provider.git", Version(2,0,0)),
+        .Package(url: "https://github.com/vapor/fluent-provider.git", Version(1, 0, 0)),
+        .Package(url: "https://github.com/vapor-community/postgresql-provider.git", Version(2,0,0)),
         .Package(url: "https://github.com/goRestart/restart-service-locator.git", majorVersion: 0)
     ],
     exclude: [
