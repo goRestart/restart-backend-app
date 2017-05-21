@@ -1,10 +1,10 @@
 machine:
-  services:
-    - mysql
+  postgres:
+    version: 9.6
 dependencies:
   override:
     - eval "$(curl -sL https://apt.vapor.sh)"
-    - sudo apt-get install vapor cmysql
+    - sudo apt-get install vapor
     - sudo chmod -R a+rx /usr/
 test:
   override:

@@ -1,7 +1,7 @@
 import Foundation
 import Vapor
 import RedisProvider
-import MySQLProvider
+import PostgreSQLProvider
 import FluentStorage
 
 struct ApplicationConfig: ConfigProvider {
@@ -35,6 +35,6 @@ struct ApplicationConfig: ConfigProvider {
     
     private func prepareProviders(_ config: Config) throws {
         try config.addProvider(RedisProvider.Provider)
-        try config.addProvider(MySQLProvider.Provider)
+        try config.addProvider(PostgreSQLProvider.Provider)
     }
 }
