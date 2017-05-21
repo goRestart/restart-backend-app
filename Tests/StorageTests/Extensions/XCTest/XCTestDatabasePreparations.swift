@@ -1,6 +1,5 @@
 import XCTest
 import Fluent
-import MySQLDriver
 import FluentStorage
 
 public protocol Model: Entity {}
@@ -22,7 +21,7 @@ class XCTestDatabasePreparations: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        try! database.revertAll(FluentStorage.preparations.reversed())
+        try! database.revertAll(FluentStorage.preparations)
     }
     
     private func initializeDatabase() {
