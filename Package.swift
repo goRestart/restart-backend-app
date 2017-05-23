@@ -24,10 +24,9 @@ let package = Package(
         Target(name: "Storage", dependencies: ["Shared", "Domain", "FluentStorage"])
     ],
     dependencies: [
-        .Package(url: "https://github.com/vapor/vapor.git", Version(2,0,0)),
-        .Package(url: "https://github.com/vapor/redis-provider.git", Version(2,0,0)),
-        .Package(url: "https://github.com/vapor/fluent-provider.git", Version(1, 0, 0)),
-        .Package(url: "https://github.com/vapor-community/postgresql-provider.git", Version(2,0,0)),
+        .Package(url: "https://github.com/vapor/vapor.git", majorVersion: 2),
+        .Package(url: "https://github.com/vapor/fluent.git", majorVersion: 2),
+        .Package(url: "https://github.com/vapor/fluent-provider.git", majorVersion: 1),
         .Package(url: "https://github.com/goRestart/restart-service-locator.git", majorVersion: 0)
     ],
     exclude: [

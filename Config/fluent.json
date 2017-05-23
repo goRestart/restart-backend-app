@@ -1,3 +1,3 @@
 {
-	"driver": "postgresql"
+	"driver": "memory"
 }
